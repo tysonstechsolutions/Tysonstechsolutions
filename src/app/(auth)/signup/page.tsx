@@ -68,7 +68,7 @@ export default function SignupPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="text-2xl font-bold text-blue-600">
+          <Link href="/" className="text-2xl font-bold text-orange-500">
             TysonsTechSolutions
           </Link>
           <h1 className="mt-6 text-3xl font-bold text-slate-900">Start your free trial</h1>
@@ -94,7 +94,7 @@ export default function SignupPage() {
                 value={formData.companyName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="Your Company LLC"
               />
             </div>
@@ -110,7 +110,7 @@ export default function SignupPage() {
                 value={formData.contactName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="John Smith"
               />
             </div>
@@ -126,7 +126,7 @@ export default function SignupPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="you@example.com"
               />
             </div>
@@ -141,7 +141,7 @@ export default function SignupPage() {
                 type="tel"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="(555) 123-4567"
               />
             </div>
@@ -157,7 +157,7 @@ export default function SignupPage() {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="At least 8 characters"
               />
             </div>
@@ -173,7 +173,7 @@ export default function SignupPage() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition"
                 placeholder="Confirm your password"
               />
             </div>
@@ -181,23 +181,23 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Creating account..." : "Start free trial"}
             </button>
 
             <p className="text-xs text-slate-500 text-center">
               By signing up, you agree to our{" "}
-              <Link href="/terms" className="text-blue-600 hover:underline">Terms of Service</Link>
+              <Link href="/terms" className="text-orange-500 hover:underline">Terms of Service</Link>
               {" "}and{" "}
-              <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>
+              <Link href="/privacy" className="text-orange-500 hover:underline">Privacy Policy</Link>
             </p>
           </form>
         </div>
 
         <p className="mt-6 text-center text-slate-600">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+          <Link href="/login" className="text-orange-500 hover:text-orange-600 font-medium">
             Sign in
           </Link>
         </p>

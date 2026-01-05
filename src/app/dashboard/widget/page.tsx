@@ -73,7 +73,7 @@ export default async function WidgetPage() {
         </div>
 
         <div className="mt-6">
-          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+          <button className="px-6 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors">
             Save Settings
           </button>
         </div>

@@ -54,7 +54,7 @@ export default function ThumbtackAlternativePage() {
           </p>
           <Link
             href="/signup"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg"
+            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
           >
             Start 14-Day Free Trial
           </Link>
@@ -72,7 +72,7 @@ export default function ThumbtackAlternativePage() {
               <thead>
                 <tr className="border-b-2 border-slate-200">
                   <th className="py-4 px-4 text-left text-slate-600">Feature</th>
-                  <th className="py-4 px-4 text-left text-blue-600">TysonsTechSolutions</th>
+                  <th className="py-4 px-4 text-left text-orange-500">TysonsTechSolutions</th>
                   <th className="py-4 px-4 text-left text-slate-500">Thumbtack</th>
                 </tr>
               </thead>
@@ -137,7 +137,7 @@ export default function ThumbtackAlternativePage() {
                 description: "One monthly fee. No per-lead charges. No surprises.",
               },
             ].map((item, i) => (
-              <div key={i} className="bg-blue-50 p-6 rounded-xl">
+              <div key={i} className="bg-orange-50 p-6 rounded-xl">
                 <h3 className="text-lg font-semibold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-slate-600">{item.description}</p>
               </div>
@@ -147,17 +147,17 @@ export default function ThumbtackAlternativePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-blue-600">
+      <section className="py-20 px-6 bg-orange-500">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
             Ready to Stop Competing for Leads?
           </h2>
-          <p className="text-blue-100 text-lg mb-8">
+          <p className="text-orange-100 text-lg mb-8">
             Get exclusive leads from your own website. No more bidding wars.
           </p>
           <Link
             href="/signup"
-            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-medium text-lg hover:bg-blue-50"
+            className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
           >
             Start Your Free Trial
           </Link>

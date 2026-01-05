@@ -60,16 +60,16 @@ export default function BlogPage() {
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="block bg-white rounded-xl border border-slate-200 p-8 hover:border-blue-300 hover:shadow-lg transition-all"
+              className="block bg-white rounded-xl border border-slate-200 p-8 hover:border-orange-300 hover:shadow-lg transition-all"
             >
               <div className="flex items-center gap-4 mb-3">
-                <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+                <span className="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">
                   {post.category}
                 </span>
                 <span className="text-sm text-slate-500">{post.date}</span>
                 <span className="text-sm text-slate-500">{post.readTime}</span>
               </div>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-3 hover:text-blue-600">
+              <h2 className="text-2xl font-semibold text-slate-900 mb-3 hover:text-orange-500">
                 {post.title}
               </h2>
               <p className="text-slate-600">{post.excerpt}</p>

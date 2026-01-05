@@ -31,7 +31,7 @@ export default function DashboardSidebar() {
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-white border-r border-slate-200">
           <div className="flex items-center h-16 px-6 border-b border-slate-200">
-            <Link href="/" className="text-xl font-bold text-blue-600">
+            <Link href="/" className="text-xl font-bold text-orange-500">
               TysonsTech
             </Link>
           </div>
@@ -43,7 +43,7 @@ export default function DashboardSidebar() {
                 className={cn(
                   "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                   pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href))
-                    ? "bg-blue-50 text-blue-700"
+                    ? "bg-orange-50 text-orange-600"
                     : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 )}
               >
@@ -75,7 +75,7 @@ export default function DashboardSidebar() {
 
       {/* Mobile header */}
       <div className="lg:hidden sticky top-0 z-40 flex items-center h-16 bg-white border-b border-slate-200 px-4">
-        <Link href="/" className="text-xl font-bold text-blue-600">
+        <Link href="/" className="text-xl font-bold text-orange-500">
           TysonsTech
         </Link>
       </div>

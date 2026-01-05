@@ -16,7 +16,7 @@ export default async function LeadDetailPage({
   if (!lead) {
     return (
       <div>
-        <Link href="/dashboard/leads" className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
+        <Link href="/dashboard/leads" className="text-orange-500 hover:text-orange-600 mb-4 inline-block">
           &larr; Back to Leads
         </Link>
         <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">
@@ -29,7 +29,7 @@ export default async function LeadDetailPage({
 
   return (
     <div>
-      <Link href="/dashboard/leads" className="text-blue-600 hover:text-blue-700 mb-4 inline-block">
+      <Link href="/dashboard/leads" className="text-orange-500 hover:text-orange-600 mb-4 inline-block">
         &larr; Back to Leads
       </Link>
 
@@ -95,7 +95,7 @@ export default async function LeadDetailPage({
               placeholder="Add notes about this lead..."
               className="w-full px-4 py-2 rounded-lg border border-slate-300"
             />
-            <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700">
+            <button className="mt-3 px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-medium hover:bg-orange-600">
               Save Notes
             </button>
           </div>

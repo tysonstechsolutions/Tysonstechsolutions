@@ -27,7 +27,7 @@ export default function LawnCarePage() {
           </p>
           <Link
             href="/signup"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium"
+            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium"
           >
             Join the Waitlist
           </Link>

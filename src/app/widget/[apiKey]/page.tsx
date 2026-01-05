@@ -66,14 +66,14 @@ export default function WidgetPage() {
   return (
     <div className="h-screen flex flex-col bg-white">
       {/* Header */}
-      <div className="bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
+      <div className="bg-orange-500 text-white px-4 py-3 flex items-center justify-between">
         <div>
           <div className="font-semibold">Get a Quote</div>
-          <div className="text-xs text-blue-200">Powered by AI</div>
+          <div className="text-xs text-orange-200">Powered by AI</div>
         </div>
         <button 
           onClick={handleClose}
-          className="p-1 hover:bg-blue-700 rounded transition-colors"
+          className="p-1 hover:bg-orange-600 rounded transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -91,7 +91,7 @@ export default function WidgetPage() {
             <div
               className={`max-w-[80%] px-4 py-2 rounded-2xl ${
                 message.role === "user"
-                  ? "bg-blue-600 text-white rounded-br-md"
+                  ? "bg-orange-500 text-white rounded-br-md"
                   : "bg-slate-100 text-slate-900 rounded-bl-md"
               }`}
             >
@@ -121,13 +121,13 @@ export default function WidgetPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
-            className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="flex-1 px-4 py-2 border border-slate-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
             disabled={loading}
           />
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

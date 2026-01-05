@@ -40,7 +40,7 @@ export default function AsphaltContractorsPage() {
       <section className="py-20 px-6 bg-gradient-to-b from-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
-            <div className="inline-block px-4 py-2 bg-blue-600/20 text-blue-300 rounded-full text-sm font-medium mb-6">
+            <div className="inline-block px-4 py-2 bg-orange-500/20 text-orange-300 rounded-full text-sm font-medium mb-6">
               For Asphalt & Paving Contractors
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -53,7 +53,7 @@ export default function AsphaltContractorsPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/signup"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
               >
                 Start 14-Day Free Trial
               </Link>
@@ -108,17 +108,17 @@ export default function AsphaltContractorsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-6 bg-blue-600">
+      <section className="py-20 px-6 bg-orange-500">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
             Ready to 3x Your Lead Response Rate?
           </h2>
-          <p className="text-blue-100 text-lg mb-8">
+          <p className="text-orange-100 text-lg mb-8">
             Join hundreds of asphalt contractors using AI to capture more leads.
           </p>
           <Link
             href="/signup"
-            className="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-medium text-lg hover:bg-blue-50"
+            className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
           >
             Start Your Free Trial
           </Link>

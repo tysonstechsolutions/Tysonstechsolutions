@@ -118,12 +118,12 @@ export default function PricingPage() {
                 key={plan.name}
                 className={`rounded-2xl p-8 ${
                   plan.highlighted
-                    ? "bg-blue-600 text-white ring-4 ring-blue-600 ring-offset-2"
+                    ? "bg-orange-500 text-white ring-4 ring-orange-500 ring-offset-2"
                     : "bg-white border border-slate-200"
                 }`}
               >
                 {plan.highlighted && (
-                  <div className="text-sm text-blue-200 font-medium mb-2">
+                  <div className="text-sm text-orange-200 font-medium mb-2">
                     MOST POPULAR
                   </div>
                 )}
@@ -131,7 +131,7 @@ export default function PricingPage() {
                 <div className="mb-4">
                   {showPromo && discountedPrice ? (
                     <>
-                      <span className={`text-2xl line-through ${plan.highlighted ? "text-blue-300" : "text-slate-400"}`}>
+                      <span className={`text-2xl line-through ${plan.highlighted ? "text-orange-300" : "text-slate-400"}`}>
                         ${plan.price}
                       </span>
                       <span className="text-4xl font-bold ml-2">${discountedPrice}</span>
@@ -139,30 +139,30 @@ export default function PricingPage() {
                   ) : (
                     <span className="text-4xl font-bold">${plan.price}</span>
                   )}
-                  <span className={`${plan.highlighted ? "text-blue-200" : "text-slate-500"}`}>
+                  <span className={`${plan.highlighted ? "text-orange-200" : "text-slate-500"}`}>
                     /month
                   </span>
                   {showPromo && (
-                    <div className={`text-sm mt-1 ${plan.highlighted ? "text-blue-200" : "text-green-600"}`}>
+                    <div className={`text-sm mt-1 ${plan.highlighted ? "text-orange-200" : "text-green-600"}`}>
                       Founding price locked forever
                     </div>
                   )}
                 </div>
-                <p className={`mb-6 ${plan.highlighted ? "text-blue-100" : "text-slate-600"}`}>
+                <p className={`mb-6 ${plan.highlighted ? "text-orange-100" : "text-slate-600"}`}>
                   {plan.description}
                 </p>
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
                       <svg
-                        className={`w-5 h-5 mt-0.5 ${plan.highlighted ? "text-blue-200" : "text-green-500"}`}
+                        className={`w-5 h-5 mt-0.5 ${plan.highlighted ? "text-orange-200" : "text-green-500"}`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
-                      <span className={`${plan.highlighted ? "text-blue-100" : "text-slate-600"}`}>
+                      <span className={`${plan.highlighted ? "text-orange-100" : "text-slate-600"}`}>
                         {feature}
                       </span>
                     </li>
@@ -172,8 +172,8 @@ export default function PricingPage() {
                   href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
                   className={`block w-full py-3 rounded-lg font-medium text-center ${
                     plan.highlighted
-                      ? "bg-white text-blue-600 hover:bg-blue-50"
-                      : "bg-blue-600 text-white hover:bg-blue-700"
+                      ? "bg-white text-orange-500 hover:bg-orange-50"
+                      : "bg-orange-500 text-white hover:bg-orange-600"
                   }`}
                 >
                   {plan.cta}

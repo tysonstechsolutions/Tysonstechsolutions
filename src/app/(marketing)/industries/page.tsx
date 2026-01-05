@@ -70,11 +70,11 @@ export default function IndustriesPage() {
             <Link
               key={industry.slug}
               href={`/industries/${industry.slug}`}
-              className="group bg-white rounded-xl border border-slate-200 p-8 hover:border-blue-300 hover:shadow-lg transition-all"
+              className="group bg-white rounded-xl border border-slate-200 p-8 hover:border-orange-300 hover:shadow-lg transition-all"
             >
               <div className="text-4xl mb-4">{industry.icon}</div>
               <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-xl font-semibold text-slate-900 group-hover:text-blue-600">
+                <h2 className="text-xl font-semibold text-slate-900 group-hover:text-orange-500">
                   {industry.name}
                 </h2>
                 {industry.status === "coming" && (

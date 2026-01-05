@@ -267,7 +267,7 @@ export default async function BlogPostPage({
       <article className="max-w-3xl mx-auto">
         <Link
           href="/blog"
-          className="text-blue-600 hover:text-blue-700 mb-8 inline-flex items-center gap-2"
+          className="text-orange-500 hover:text-orange-600 mb-8 inline-flex items-center gap-2"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -277,7 +277,7 @@ export default async function BlogPostPage({
 
         <header className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <span className="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+            <span className="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">
               {post.category}
             </span>
             <span className="text-sm text-slate-500">{post.date}</span>
@@ -312,7 +312,7 @@ export default async function BlogPostPage({
           })}
         </div>
 
-        <div className="mt-12 p-8 bg-blue-50 rounded-xl">
+        <div className="mt-12 p-8 bg-orange-50 rounded-xl">
           <h3 className="text-xl font-semibold text-slate-900 mb-3">
             Ready to capture more leads?
           </h3>
@@ -321,7 +321,7 @@ export default async function BlogPostPage({
           </p>
           <Link
             href="/signup"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium"
+            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium"
           >
             Start Your Free Trial
           </Link>

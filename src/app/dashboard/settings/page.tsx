@@ -38,7 +38,7 @@ export default function SettingsPage() {
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="Your Company LLC"
             />
           </div>
@@ -49,7 +49,7 @@ export default function SettingsPage() {
               name="contactName"
               value={formData.contactName}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="John Smith"
             />
           </div>
@@ -60,7 +60,7 @@ export default function SettingsPage() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="you@example.com"
             />
           </div>
@@ -71,7 +71,7 @@ export default function SettingsPage() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="(555) 123-4567"
             />
           </div>
@@ -82,7 +82,7 @@ export default function SettingsPage() {
               name="website"
               value={formData.website}
               onChange={handleChange}
-              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
               placeholder="https://yourcompany.com"
             />
           </div>
@@ -91,7 +91,7 @@ export default function SettingsPage() {
         <div className="mt-6">
           <button
             onClick={handleSave}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors"
           >
             Save Changes
           </button>
@@ -108,14 +108,14 @@ export default function SettingsPage() {
               <div className="font-medium text-slate-900">Email Notifications</div>
               <div className="text-sm text-slate-500">Receive email alerts for new leads</div>
             </div>
-            <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-blue-600" />
+            <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-orange-500" />
           </label>
           <label className="flex items-center justify-between">
             <div>
               <div className="font-medium text-slate-900">SMS Notifications</div>
               <div className="text-sm text-slate-500">Receive text alerts for new leads</div>
             </div>
-            <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-blue-600" />
+            <input type="checkbox" defaultChecked className="w-5 h-5 rounded border-slate-300 text-orange-500" />
           </label>
         </div>
       </div>

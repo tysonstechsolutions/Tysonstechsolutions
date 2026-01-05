@@ -20,7 +20,7 @@ export default async function LeadsPage() {
       {/* Filters */}
       <div className="bg-white rounded-xl border border-slate-200 p-4 mb-6">
         <div className="flex flex-wrap gap-4">
-          <select className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <select className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400">
             <option value="all">All Status</option>
             <option value="new">New</option>
             <option value="contacted">Contacted</option>
@@ -28,7 +28,7 @@ export default async function LeadsPage() {
             <option value="won">Won</option>
             <option value="lost">Lost</option>
           </select>
-          <select className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <select className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400">
             <option value="all">All Services</option>
             <option value="sealcoating">Sealcoating</option>
             <option value="lawn">Lawn Care</option>
@@ -37,7 +37,7 @@ export default async function LeadsPage() {
           <input
             type="text"
             placeholder="Search leads..."
-            className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-[200px]"
+            className="px-4 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-orange-400 focus:border-orange-400 flex-1 min-w-[200px]"
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ export default async function LeadsPage() {
             <p className="text-slate-500 mb-6">Install the chat widget on your website to start capturing leads</p>
             <Link
               href="/dashboard/widget"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600 transition-colors"
             >
               Get Widget Code
             </Link>

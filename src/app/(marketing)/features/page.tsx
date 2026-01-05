@@ -51,10 +51,10 @@ export default function FeaturesPage() {
             <Link
               key={feature.title}
               href={feature.href}
-              className="group bg-white rounded-xl border border-slate-200 p-8 hover:border-blue-300 hover:shadow-lg transition-all"
+              className="group bg-white rounded-xl border border-slate-200 p-8 hover:border-orange-300 hover:shadow-lg transition-all"
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
-              <h2 className="text-2xl font-semibold text-slate-900 group-hover:text-blue-600 mb-3">
+              <h2 className="text-2xl font-semibold text-slate-900 group-hover:text-orange-500 mb-3">
                 {feature.title}
               </h2>
               <p className="text-slate-600 text-lg">{feature.description}</p>
@@ -65,7 +65,7 @@ export default function FeaturesPage() {
         <div className="mt-16 text-center">
           <Link
             href="/signup"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-medium text-lg"
+            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
           >
             Start Your Free Trial
           </Link>
