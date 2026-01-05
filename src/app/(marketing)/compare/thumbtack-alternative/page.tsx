@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Thumbtack Alternative for Contractors | TysonsTechSolutions",
-  description: "Stop bidding against other pros for every job. Get exclusive leads from your own website with AI-powered instant quotes.",
+  title: "Best Thumbtack Alternative 2024 - No More Bidding for Leads",
+  description: "Stop competing for Thumbtack leads. Get exclusive leads from your website. AI sends instant quotes automatically. No per-lead fees.",
+  keywords: ["Thumbtack alternative", "stop bidding for leads", "exclusive contractor leads", "no lead fees"],
 };
 
 const comparisons = [

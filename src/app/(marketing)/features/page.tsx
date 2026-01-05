@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Features | TysonsTechSolutions",
-  description: "AI chatbot, instant quotes, satellite measurement, and SMS alerts. Everything you need to capture more leads.",
+  title: "AI Chatbot Features for Contractors - Instant Quotes & Lead Capture",
+  description: "24/7 AI chatbot captures leads, measures properties via satellite, and sends instant quotes. SMS alerts, CRM integration. Free 14-day trial.",
+  keywords: ["contractor chatbot", "AI lead generation", "instant quote software", "satellite measurement"],
 };
 
 const features = [

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Angi Alternative for Contractors | TysonsTechSolutions",
-  description: "Stop paying for shared leads. Get exclusive leads from your own website with AI-powered chat. Compare us to Angi (formerly Angie's List).",
+  title: "Best Angi Alternative 2024 - Exclusive Leads for Contractors",
+  description: "Stop paying for shared Angi leads. Get exclusive leads from your website with AI chatbot. No bidding, no competition. 50%+ cheaper than Angi.",
+  keywords: ["Angi alternative", "Angies List alternative", "exclusive contractor leads", "no shared leads"],
 };
 
 const comparisons = [

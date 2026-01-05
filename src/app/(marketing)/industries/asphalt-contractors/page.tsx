@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI Lead Generation for Asphalt Contractors | TysonsTechSolutions",
-  description: "Get more sealcoating and paving leads with our AI chatbot. Instant quotes, satellite measurements, and SMS alerts. Start your free trial.",
+  title: "Sealcoating & Asphalt Contractor Leads - AI Quote Generator",
+  description: "Get 3x more sealcoating leads with AI chatbot. Instant driveway quotes, satellite measurement, 24/7 lead capture. Used by 500+ asphalt contractors.",
+  keywords: ["sealcoating leads", "asphalt contractor leads", "paving leads", "driveway quote software", "asphalt CRM"],
 };
 
 const services = [

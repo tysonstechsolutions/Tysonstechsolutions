@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Industries We Serve | TysonsTechSolutions",
-  description: "AI-powered lead generation for service contractors. Get instant quotes and capture more leads from your website.",
+  title: "AI Lead Generation for Service Contractors | Asphalt, Lawn Care, Roofing",
+  description: "AI chatbots for asphalt, lawn care, painting, roofing contractors. Capture leads 24/7, instant quotes, satellite measurements. Start free trial.",
+  keywords: ["contractor lead generation", "asphalt contractor software", "lawn care leads", "roofing contractor CRM"],
 };
 
 const industries = [

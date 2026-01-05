@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog | TysonsTechSolutions",
-  description: "Tips, guides, and insights for service contractors on lead generation, marketing, and growing your business.",
+  title: "Contractor Marketing Blog - Lead Generation Tips & Strategies",
+  description: "Expert tips for contractors: pricing strategies, lead generation, SEO, AI chatbots. Grow your contracting business with proven marketing strategies.",
+  keywords: ["contractor marketing", "lead generation tips", "contractor SEO", "grow contracting business"],
 };
 
 // Static blog posts - can be replaced with database queries later
