@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Tyson's Tech Solutions | Professional IT Services",
   description: "Expert technology solutions for businesses. Web development, IT consulting, cloud services, and more.",
+  verification: {
+    google: "NwNGXMqNohlaCz3_ADjb17Hyk5Z0bquaG0lTeygWSP8",
+  },
 };
 
 export default function RootLayout({
