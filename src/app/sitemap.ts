@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { cities } from "@/data/cities";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
@@ -62,6 +63,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${siteUrl}/locations`,
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
       url: `${siteUrl}/signup`,
       lastModified: currentDate,
       changeFrequency: "monthly" as const,
@@ -88,5 +95,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogPosts];
+  // Location pages (200 cities)
+  const locationPages = cities.map((city) => ({
+    url: `${siteUrl}/locations/${city.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticPages, ...blogPosts, ...locationPages];
 }
