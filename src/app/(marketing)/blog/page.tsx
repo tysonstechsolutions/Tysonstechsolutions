@@ -1,81 +1,117 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import { blogPosts } from "@/data/blog-posts";
 
 export const metadata: Metadata = {
-  title: "Contractor Marketing Blog - Lead Generation Tips & Strategies",
-  description: "Expert tips for contractors: pricing strategies, lead generation, SEO, AI chatbots. Grow your contracting business with proven marketing strategies.",
-  keywords: ["contractor marketing", "lead generation tips", "contractor SEO", "grow contracting business"],
+  title: "Blog - Web Development, AI, SEO & Digital Marketing Tips",
+  description: "Expert insights on web development, AI chatbots, SEO, digital marketing, and business technology. Learn from industry professionals.",
+  keywords: ["web development blog", "AI chatbot tips", "SEO guide", "digital marketing blog", "business technology"],
 };
 
-// Static blog posts - can be replaced with database queries later
-const posts = [
-  {
-    slug: "how-to-price-sealcoating-jobs",
-    title: "How to Price Sealcoating Jobs in 2024",
-    excerpt: "Learn the formula successful contractors use to price sealcoating jobs profitably while staying competitive.",
-    category: "Pricing",
-    date: "2024-01-15",
-    readTime: "5 min read",
-  },
-  {
-    slug: "respond-to-leads-faster",
-    title: "Why Response Time is Everything in Home Services",
-    excerpt: "Studies show the first contractor to respond wins 78% of jobs. Here is how to always be first.",
-    category: "Lead Generation",
-    date: "2024-01-10",
-    readTime: "4 min read",
-  },
-  {
-    slug: "seo-for-contractors",
-    title: "SEO Basics for Service Contractors",
-    excerpt: "A beginners guide to getting your contracting business found on Google.",
-    category: "Marketing",
-    date: "2024-01-05",
-    readTime: "7 min read",
-  },
-  {
-    slug: "ai-chatbots-for-contractors",
-    title: "How AI Chatbots Are Changing Lead Generation",
-    excerpt: "Discover how contractors are using AI to capture leads 24/7 and respond instantly to website visitors.",
-    category: "Technology",
-    date: "2024-01-01",
-    readTime: "6 min read",
-  },
-];
-
 export default function BlogPage() {
+  const categories = [...new Set(blogPosts.map((p) => p.category))];
+  const featuredPosts = blogPosts.slice(0, 3);
+  const recentPosts = blogPosts.slice(3);
+
   return (
     <div className="py-20 px-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Blog
           </h1>
-          <p className="text-xl text-slate-600">
-            Tips and insights for service contractors
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            Insights, guides, and tips on web development, AI, SEO, and growing your business with technology.
           </p>
         </div>
 
-        <div className="space-y-8">
-          {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="block bg-white rounded-xl border border-slate-200 p-8 hover:border-orange-300 hover:shadow-lg transition-all"
+        {/* Category Filter */}
+        <div className="flex flex-wrap gap-2 justify-center mb-12">
+          <span className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+            All Posts
+          </span>
+          {categories.map((category) => (
+            <span
+              key={category}
+              className="bg-slate-100 text-slate-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-200 cursor-pointer"
             >
-              <div className="flex items-center gap-4 mb-3">
-                <span className="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full">
-                  {post.category}
-                </span>
-                <span className="text-sm text-slate-500">{post.date}</span>
-                <span className="text-sm text-slate-500">{post.readTime}</span>
-              </div>
-              <h2 className="text-2xl font-semibold text-slate-900 mb-3 hover:text-orange-500">
-                {post.title}
-              </h2>
-              <p className="text-slate-600">{post.excerpt}</p>
-            </Link>
+              {category}
+            </span>
           ))}
+        </div>
+
+        {/* Featured Posts */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Featured Articles</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {featuredPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:border-orange-300 hover:shadow-lg transition-all"
+              >
+                <div className="h-40 bg-gradient-to-br from-orange-400 to-orange-600" />
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">
+                      {post.category}
+                    </span>
+                    <span className="text-xs text-slate-500">{post.readTime}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm line-clamp-2">{post.excerpt}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* All Posts */}
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">All Articles</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recentPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group bg-white rounded-xl border border-slate-200 p-6 hover:border-orange-300 hover:shadow-lg transition-all"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full">
+                    {post.category}
+                  </span>
+                  <span className="text-xs text-slate-500">{post.date}</span>
+                  <span className="text-xs text-slate-500">{post.readTime}</span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
+                  {post.title}
+                </h3>
+                <p className="text-slate-600 text-sm line-clamp-2">{post.excerpt}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Newsletter CTA */}
+        <div className="mt-16 bg-slate-900 rounded-2xl p-12 text-center">
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Stay Updated
+          </h2>
+          <p className="text-slate-300 mb-6 max-w-xl mx-auto">
+            Get the latest articles on web development, AI, and business technology delivered to your inbox.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-orange-500"
+            />
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium">
+              Subscribe
+            </button>
+          </div>
         </div>
       </div>
     </div>

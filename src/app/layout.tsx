@@ -17,21 +17,25 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "AI Lead Generation for Contractors | TysonsTechSolutions",
+    default: "Web Development, AI Chatbots & Custom Software | TysonsTechSolutions",
     template: "%s | TysonsTechSolutions",
   },
-  description: "Get more leads with AI-powered chatbots for contractors. Instant quotes, satellite measurement, 24/7 response. Start your free trial today.",
+  description: "Custom web development, AI chatbots, and software solutions for businesses. We build technology that grows your business. Get a free consultation today.",
   keywords: [
-    "contractor lead generation",
-    "AI chatbot for contractors",
-    "sealcoating leads",
-    "asphalt contractor software",
-    "instant quote software",
-    "contractor CRM",
-    "lead capture chatbot",
-    "home service leads",
-    "paving contractor leads",
-    "contractor marketing",
+    "web development company",
+    "custom website design",
+    "AI chatbot development",
+    "custom software development",
+    "business technology solutions",
+    "web application development",
+    "mobile app development",
+    "SEO services",
+    "digital marketing agency",
+    "ecommerce development",
+    "UI UX design",
+    "cloud solutions",
+    "API development",
+    "IT consulting",
   ],
   authors: [{ name: "TysonsTechSolutions" }],
   creator: "TysonsTechSolutions",
@@ -49,21 +53,21 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "TysonsTechSolutions",
-    title: "AI Lead Generation for Contractors | TysonsTechSolutions",
-    description: "Get more leads with AI-powered chatbots. Instant quotes, satellite measurement, 24/7 response. The #1 lead generation tool for service contractors.",
+    title: "Web Development, AI Chatbots & Custom Software | TysonsTechSolutions",
+    description: "Custom web development, AI chatbots, and software solutions for businesses. We build technology that grows your business.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "TysonsTechSolutions - AI Lead Generation for Contractors",
+        alt: "TysonsTechSolutions - Technology Solutions for Business",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Lead Generation for Contractors | TysonsTechSolutions",
-    description: "Get more leads with AI-powered chatbots. Instant quotes, satellite measurement, 24/7 response.",
+    title: "Web Development, AI Chatbots & Custom Software | TysonsTechSolutions",
+    description: "Custom web development, AI chatbots, and software solutions for businesses.",
     images: ["/og-image.png"],
     creator: "@tysonstech",
   },
@@ -86,25 +90,67 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Organization",
   name: "TysonsTechSolutions",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  description: "AI-powered lead generation chatbot for service contractors.",
+  url: "https://tysonstechsolutions.com",
+  logo: "https://tysonstechsolutions.com/logo.png",
+  description: "Custom web development, AI chatbots, and software solutions for businesses across 40+ industries.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    availableLanguage: ["English"],
+  },
+  sameAs: [
+    "https://twitter.com/tysonstech",
+    "https://linkedin.com/company/tysonstechsolutions",
+  ],
   offers: {
-    "@type": "Offer",
-    price: "99",
+    "@type": "AggregateOffer",
+    lowPrice: "99",
+    highPrice: "499",
     priceCurrency: "USD",
+    offerCount: "3",
   },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
     ratingCount: "127",
+    bestRating: "5",
+    worstRating: "1",
   },
-  provider: {
-    "@type": "Organization",
-    name: "TysonsTechSolutions",
-    url: "https://tysonstechsolutions.com",
+  areaServed: {
+    "@type": "Country",
+    name: "United States",
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Technology Services",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Web Development",
+          description: "Custom websites and web applications",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI Chatbots",
+          description: "Intelligent chatbots for customer engagement",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Custom Software",
+          description: "Tailored software solutions for business",
+        },
+      },
+    ],
   },
 };
 
@@ -122,7 +168,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`$\{geistSans.variable\} $\{geistMono.variable\} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>

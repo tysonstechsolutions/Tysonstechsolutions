@@ -1,58 +1,16 @@
 import Link from "next/link";
 import { Metadata } from "next";
+import { industries, industriesByCategory } from "@/data/industries";
 
 export const metadata: Metadata = {
-  title: "AI Lead Generation for Service Contractors | Asphalt, Lawn Care, Roofing",
-  description: "AI chatbots for asphalt, lawn care, painting, roofing contractors. Capture leads 24/7, instant quotes, satellite measurements. Start free trial.",
-  keywords: ["contractor lead generation", "asphalt contractor software", "lawn care leads", "roofing contractor CRM"],
+  title: "Industries We Serve - Tech Solutions for Every Business",
+  description: "Custom web development, AI chatbots, and software solutions for law firms, healthcare, restaurants, contractors, and 40+ industries. Get a free consultation.",
+  keywords: ["business technology solutions", "industry software", "custom web development", "AI chatbots for business"],
 };
 
-const industries = [
-  {
-    name: "Asphalt & Paving",
-    slug: "asphalt-contractors",
-    description: "Sealcoating, crack filling, paving, and line striping contractors",
-    status: "live",
-    icon: "🛣️",
-  },
-  {
-    name: "Lawn Care",
-    slug: "lawn-care",
-    description: "Lawn mowing, fertilizing, and landscaping services",
-    status: "coming",
-    icon: "🌿",
-  },
-  {
-    name: "Painting",
-    slug: "painting-contractors",
-    description: "Interior and exterior painting contractors",
-    status: "coming",
-    icon: "🎨",
-  },
-  {
-    name: "Dumpster Rental",
-    slug: "dumpster-rental",
-    description: "Roll-off dumpster and waste management services",
-    status: "coming",
-    icon: "🗑️",
-  },
-  {
-    name: "Roofing",
-    slug: "roofing-contractors",
-    description: "Roof repair, replacement, and installation",
-    status: "coming",
-    icon: "🏠",
-  },
-  {
-    name: "Fencing",
-    slug: "fencing-contractors",
-    description: "Fence installation and repair services",
-    status: "coming",
-    icon: "🏗️",
-  },
-];
-
 export default function IndustriesPage() {
+  const categories = Object.keys(industriesByCategory);
+
   return (
     <div className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
@@ -61,32 +19,47 @@ export default function IndustriesPage() {
             Industries We Serve
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Our AI-powered chat widget helps service contractors capture more leads
-            and provide instant quotes to their customers.
+            We build custom technology solutions for businesses across 40+ industries.
+            From websites to AI chatbots to custom software, we help businesses grow.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {industries.map((industry) => (
-            <Link
-              key={industry.slug}
-              href={`/industries/${industry.slug}`}
-              className="group bg-white rounded-xl border border-slate-200 p-8 hover:border-orange-300 hover:shadow-lg transition-all"
-            >
-              <div className="text-4xl mb-4">{industry.icon}</div>
-              <div className="flex items-center gap-2 mb-2">
-                <h2 className="text-xl font-semibold text-slate-900 group-hover:text-orange-500">
-                  {industry.name}
-                </h2>
-                {industry.status === "coming" && (
-                  <span className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full">
-                    Coming Soon
-                  </span>
-                )}
-              </div>
-              <p className="text-slate-600">{industry.description}</p>
-            </Link>
-          ))}
+        {categories.map((category) => (
+          <div key={category} className="mb-16">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 border-b border-slate-200 pb-2">
+              {category}
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {industriesByCategory[category].map((industry) => (
+                <Link
+                  key={industry.slug}
+                  href={`/industries/${industry.slug}`}
+                  className="group bg-white rounded-xl border border-slate-200 p-6 hover:border-orange-300 hover:shadow-lg transition-all"
+                >
+                  <div className="text-3xl mb-3">{industry.icon}</div>
+                  <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
+                    {industry.name}
+                  </h3>
+                  <p className="text-slate-600 text-sm">{industry.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div className="mt-16 text-center bg-slate-50 rounded-2xl p-12">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">
+            Do Not See Your Industry?
+          </h2>
+          <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
+            We work with businesses of all types. Contact us and we will create a custom solution tailored to your specific needs.
+          </p>
+          <Link
+            href="/signup"
+            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
+          >
+            Get Free Consultation
+          </Link>
         </div>
       </div>
     </div>

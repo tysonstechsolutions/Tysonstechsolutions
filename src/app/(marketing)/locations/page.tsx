@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import { cities } from "@/data/cities";
 
 export const metadata: Metadata = {
-  title: "Contractor Lead Generation by City | Service Areas",
-  description: "AI-powered lead generation for contractors across the United States. Find your city and start capturing more leads with our AI chatbot.",
-  keywords: ["contractor leads by city", "local contractor marketing", "contractor lead generation USA"],
+  title: "Technology Solutions by City | Service Areas",
+  description: "Web development, AI chatbots, and software solutions for businesses across the United States. Find your city and get a free consultation.",
+  keywords: ["web development by city", "local tech company", "business technology USA", "software development near me"],
 };
 
 // Group cities by state
@@ -25,11 +25,11 @@ export default function LocationsPage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Contractor Lead Generation Across America
+            Technology Solutions Across America
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            We help contractors in {cities.length}+ cities capture more leads with AI-powered chatbots.
-            Find your city below.
+            We help businesses in {cities.length}+ cities with custom web development,
+            AI chatbots, and software solutions. Find your city below.
           </p>
         </div>
 
@@ -56,13 +56,13 @@ export default function LocationsPage() {
 
         <div className="mt-16 text-center">
           <p className="text-slate-600 mb-6">
-            Do not see your city? We serve contractors nationwide.
+            Do not see your city? We serve businesses nationwide.
           </p>
           <Link
             href="/signup"
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
           >
-            Start Your Free Trial
+            Get Free Consultation
           </Link>
         </div>
       </div>

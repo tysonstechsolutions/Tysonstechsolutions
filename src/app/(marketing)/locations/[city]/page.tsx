@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cities } from "@/data/cities";
+import { services } from "@/data/services";
 
 export async function generateStaticParams() {
   return cities.map((city) => ({ city: city.slug }));
@@ -20,18 +21,18 @@ export async function generateMetadata({
   }
 
   return {
-    title: `Contractor Lead Generation in ${city.name}, ${city.state} | AI Chatbot`,
-    description: `Get more contractor leads in ${city.name}, ${city.stateFullName}. AI chatbot captures leads 24/7, instant quotes, satellite measurement. Join ${city.name} contractors using TysonsTechSolutions.`,
+    title: `Web Development & Tech Solutions in ${city.name}, ${city.state}`,
+    description: `Custom web development, AI chatbots, and software solutions for businesses in ${city.name}, ${city.stateFullName}. Get a free consultation with TysonsTechSolutions.`,
     keywords: [
-      `${city.name} contractor leads`,
-      `${city.name} sealcoating`,
-      `${city.name} asphalt contractor`,
-      `contractor marketing ${city.name}`,
-      `lead generation ${city.state}`,
+      `web development ${city.name}`,
+      `software development ${city.name}`,
+      `AI chatbot ${city.name}`,
+      `website design ${city.state}`,
+      `tech company ${city.name}`,
     ],
     openGraph: {
-      title: `Contractor Lead Generation in ${city.name}, ${city.state}`,
-      description: `AI-powered lead capture for contractors in ${city.name}. Instant quotes, 24/7 chatbot, satellite measurements.`,
+      title: `Web Development & Tech Solutions in ${city.name}, ${city.state}`,
+      description: `Custom web development, AI chatbots, and software solutions for businesses in ${city.name}.`,
     },
   };
 }
@@ -48,12 +49,12 @@ export default async function CityPage({
     notFound();
   }
 
-  // Generate some dynamic content based on city
-  const nearbyText = cities
+  const topServices = services.slice(0, 6);
+
+  // Get nearby cities in the same state
+  const nearbyCities = cities
     .filter((c) => c.state === city.state && c.slug !== city.slug)
-    .slice(0, 5)
-    .map((c) => c.name)
-    .join(", ");
+    .slice(0, 5);
 
   return (
     <div>
@@ -65,137 +66,167 @@ export default async function CityPage({
               Serving {city.name}, {city.state}
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              AI Lead Generation for {city.name} Contractors
+              Technology Solutions for {city.name} Businesses
             </h1>
             <p className="text-xl text-slate-300 mb-8">
-              Capture more leads from your {city.name} website with our AI chatbot.
-              Instant quotes, satellite property measurement, and 24/7 lead response.
-              Join contractors across {city.stateFullName} growing their business.
+              Custom web development, AI chatbots, and software solutions for businesses
+              in {city.name}, {city.stateFullName}. We help local businesses grow with
+              modern technology.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/signup"
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
               >
-                Start 14-Day Free Trial
+                Get Free Consultation
               </Link>
               <Link
-                href="/pricing"
+                href="/services"
                 className="border-2 border-slate-600 hover:border-slate-500 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
               >
-                View Pricing
+                View Services
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Local Stats */}
-      <section className="py-16 px-6 bg-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
-            Why {city.name} Contractors Choose Us
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-xl border border-slate-200 text-center">
-              <div className="text-4xl font-bold text-orange-500 mb-2">78%</div>
-              <div className="text-slate-600">of customers choose the first contractor to respond</div>
-            </div>
-            <div className="bg-white p-8 rounded-xl border border-slate-200 text-center">
-              <div className="text-4xl font-bold text-orange-500 mb-2">2 sec</div>
-              <div className="text-slate-600">average response time with our AI chatbot</div>
-            </div>
-            <div className="bg-white p-8 rounded-xl border border-slate-200 text-center">
-              <div className="text-4xl font-bold text-orange-500 mb-2">3x</div>
-              <div className="text-slate-600">more leads than traditional contact forms</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
+      {/* Services Available */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">
-            Perfect for {city.name} Service Contractors
+            Services in {city.name}
           </h2>
           <p className="text-slate-600 text-center max-w-2xl mx-auto mb-12">
-            Our AI chatbot works for all types of service contractors in {city.stateFullName}
+            Comprehensive technology solutions for {city.name} businesses
           </p>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[
-              { name: "Sealcoating", icon: "🛡️" },
-              { name: "Asphalt Paving", icon: "🛣️" },
-              { name: "Lawn Care", icon: "🌿" },
-              { name: "Landscaping", icon: "🌳" },
-              { name: "Roofing", icon: "🏠" },
-              { name: "Painting", icon: "🎨" },
-              { name: "Fencing", icon: "🏗️" },
-              { name: "Concrete", icon: "🧱" },
-            ].map((service) => (
-              <div
-                key={service.name}
-                className="bg-white px-6 py-4 rounded-xl border border-slate-200 flex items-center gap-3"
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topServices.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/services/${service.slug}`}
+                className="group bg-white rounded-xl border border-slate-200 p-6 hover:border-orange-300 hover:shadow-lg transition-all"
               >
-                <span className="text-2xl">{service.icon}</span>
-                <span className="font-medium text-slate-700">{service.name}</span>
-              </div>
+                <div className="text-3xl mb-3">{service.icon}</div>
+                <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
+                  {service.name}
+                </h3>
+                <p className="text-slate-600 text-sm">{service.description}</p>
+              </Link>
             ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/services"
+              className="text-orange-500 hover:text-orange-600 font-medium"
+            >
+              View All Services →
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Why Local */}
       <section className="py-20 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
-            How It Works for {city.name} Contractors
-          </h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                step: "1",
-                title: "Install Widget",
-                description: `Add our chat widget to your ${city.name} contractor website in minutes`,
-              },
-              {
-                step: "2",
-                title: "AI Engages Visitors",
-                description: "Our AI chatbot greets visitors and qualifies leads 24/7",
-              },
-              {
-                step: "3",
-                title: "Instant Quotes",
-                description: "AI measures properties via satellite and generates quotes automatically",
-              },
-              {
-                step: "4",
-                title: "Get Notified",
-                description: `Receive SMS alerts for new ${city.name} leads instantly`,
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  {item.step}
-                </div>
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">{item.title}</h3>
-                <p className="text-slate-600">{item.description}</p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-6">
+                Why {city.name} Businesses Choose Us
+              </h2>
+              <p className="text-slate-600 mb-6">
+                We understand the unique needs of businesses in {city.stateFullName}.
+                Our team delivers technology solutions that help you compete and grow
+                in your local market.
+              </p>
+              <ul className="space-y-4">
+                {[
+                  `Custom solutions for ${city.name} businesses`,
+                  "Competitive pricing for local companies",
+                  "Ongoing support and maintenance",
+                  "Modern technology and best practices",
+                  "Fast turnaround times",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <svg
+                      className="w-6 h-6 text-orange-500 flex-shrink-0 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span className="text-slate-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200 p-8">
+              <h3 className="text-xl font-bold text-slate-900 mb-4">
+                Get Started Today
+              </h3>
+              <p className="text-slate-600 mb-6">
+                Schedule a free consultation to discuss your {city.name} business
+                technology needs.
+              </p>
+              <Link
+                href="/signup"
+                className="block w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-medium text-center"
+              >
+                Free Consultation
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="py-16 px-6 bg-slate-900 text-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-3xl font-bold text-orange-400">500+</div>
+              <div className="text-slate-400">Projects Delivered</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-400">40+</div>
+              <div className="text-slate-400">Industries Served</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-400">98%</div>
+              <div className="text-slate-400">Client Satisfaction</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-400">24/7</div>
+              <div className="text-slate-400">Support Available</div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Nearby Areas */}
-      {nearbyText && (
+      {nearbyCities.length > 0 && (
         <section className="py-16 px-6">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">
-              Also Serving Contractors Near {city.name}
+              Also Serving Businesses Near {city.name}
             </h2>
-            <p className="text-slate-600 text-center">
-              We help contractors throughout {city.stateFullName} including {nearbyText}, and more.
-            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              {nearbyCities.map((nearbyCity) => (
+                <Link
+                  key={nearbyCity.slug}
+                  href={`/locations/${nearbyCity.slug}`}
+                  className="bg-slate-100 hover:bg-orange-100 text-slate-700 hover:text-orange-600 px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                >
+                  {nearbyCity.name}, {nearbyCity.state}
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}
@@ -204,29 +235,29 @@ export default async function CityPage({
       <section className="py-20 px-6 bg-orange-500">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Grow Your {city.name} Contracting Business?
+            Ready to Grow Your {city.name} Business?
           </h2>
           <p className="text-orange-100 text-lg mb-8">
-            Join contractors in {city.stateFullName} using AI to capture more leads.
+            Get a free consultation and discover how technology can help your business thrive.
           </p>
           <Link
             href="/signup"
             className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
           >
-            Start Your Free Trial
+            Get Free Consultation
           </Link>
         </div>
       </section>
 
-      {/* Schema.org LocalBusiness JSON-LD */}
+      {/* Schema.org JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
-            name: `Contractor Lead Generation - ${city.name}, ${city.state}`,
-            description: `AI-powered lead generation for contractors in ${city.name}, ${city.stateFullName}`,
+            name: `Technology Solutions - ${city.name}, ${city.state}`,
+            description: `Web development, AI chatbots, and software solutions for businesses in ${city.name}, ${city.stateFullName}`,
             areaServed: {
               "@type": "City",
               name: city.name,
