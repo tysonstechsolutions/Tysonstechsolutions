@@ -190,20 +190,20 @@ export default async function CityPage({
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-orange-400">500+</div>
-              <div className="text-slate-400">Projects Delivered</div>
+              <div className="text-3xl font-bold text-orange-400">$4,200+</div>
+              <div className="text-slate-400">Avg. Yearly Savings</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-orange-400">40+</div>
-              <div className="text-slate-400">Industries Served</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-orange-400">98%</div>
-              <div className="text-slate-400">Client Satisfaction</div>
+              <div className="text-3xl font-bold text-orange-400">16+</div>
+              <div className="text-slate-400">Industries Supported</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-orange-400">24/7</div>
-              <div className="text-slate-400">Support Available</div>
+              <div className="text-slate-400">Lead Capture</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-orange-400">3 min</div>
+              <div className="text-slate-400">Avg. Quote Time</div>
             </div>
           </div>
         </div>

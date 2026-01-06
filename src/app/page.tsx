@@ -27,6 +27,9 @@ export default function Home() {
             <Link href="/blog" className="text-slate-600 hover:text-orange-500">
               Blog
             </Link>
+            <Link href="/demo" className="text-orange-500 font-medium">
+              Demos
+            </Link>
             <Link href="/login" className="text-slate-600 hover:text-orange-500">
               Log In
             </Link>
@@ -80,20 +83,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-white">500+</div>
-              <div className="text-slate-400">Projects Delivered</div>
+              <div className="text-3xl font-bold text-white">$4,200+</div>
+              <div className="text-slate-400">Avg. Yearly Savings</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">40+</div>
-              <div className="text-slate-400">Industries Served</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-white">98%</div>
-              <div className="text-slate-400">Client Satisfaction</div>
+              <div className="text-3xl font-bold text-white">16+</div>
+              <div className="text-slate-400">Industries Supported</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-white">24/7</div>
-              <div className="text-slate-400">Support Available</div>
+              <div className="text-slate-400">Lead Capture</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-white">3 min</div>
+              <div className="text-slate-400">Avg. Quote Time</div>
             </div>
           </div>
         </div>

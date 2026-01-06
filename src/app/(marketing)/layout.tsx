@@ -1,5 +1,6 @@
 import Navbar from "@/components/marketing/Navbar";
 import Footer from "@/components/marketing/Footer";
+import PromoBanner from "@/components/marketing/PromoBanner";
 
 export default function MarketingLayout({
   children,
@@ -8,6 +9,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <PromoBanner />
       <Navbar />
       <main className="pt-16">{children}</main>
       <Footer />

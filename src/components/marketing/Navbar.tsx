@@ -1,17 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const navigation = [
+  { name: "Demo", href: "/demo", highlight: true },
   { name: "Industries", href: "/industries" },
   { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Blog", href: "/blog" },
 ];
 
+interface PromoStatus {
+  active: boolean;
+  spotsRemaining: number;
+}
+
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [promo, setPromo] = useState<PromoStatus | null>(null);
+
+  useEffect(() => {
+    fetch("/api/promo/founding")
+      .then((res) => res.json())
+      .then((data) => setPromo(data))
+      .catch(() => setPromo({ active: true, spotsRemaining: 14 }));
+  }, []);
+
+  const showPromo = promo?.active && (promo?.spotsRemaining ?? 0) > 0;
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200 z-50">
@@ -20,15 +36,24 @@ export default function Navbar() {
           <Link href="/" className="text-xl font-bold text-orange-500">
             TysonsTechSolutions
           </Link>
-          
+
           <div className="hidden md:flex items-center gap-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-slate-600 hover:text-orange-500 transition-colors"
+                className={`transition-colors ${
+                  item.highlight
+                    ? "text-orange-500 font-semibold"
+                    : "text-slate-600 hover:text-orange-500"
+                }`}
               >
                 {item.name}
+                {item.highlight && (
+                  <span className="ml-1 text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full">
+                    Try it
+                  </span>
+                )}
               </Link>
             ))}
           </div>
@@ -38,10 +63,19 @@ export default function Navbar() {
               Log In
             </Link>
             <Link
-              href="/signup"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium transition-colors"
+              href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium transition-colors relative group"
             >
-              Start Free Trial
+              {showPromo ? (
+                <>
+                  <span>Get 50% Off</span>
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full animate-pulse">
+                    {promo?.spotsRemaining} left
+                  </span>
+                </>
+              ) : (
+                "Start Free Trial"
+              )}
             </Link>
           </div>
 
@@ -62,16 +96,24 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="block text-slate-600 hover:text-orange-500"
+              className={`block ${item.highlight ? "text-orange-500 font-semibold" : "text-slate-600 hover:text-orange-500"}`}
               onClick={() => setMobileOpen(false)}
             >
               {item.name}
+              {item.highlight && (
+                <span className="ml-2 text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full">
+                  Try it
+                </span>
+              )}
             </Link>
           ))}
           <div className="pt-3 border-t border-slate-200 space-y-3">
             <Link href="/login" className="block text-slate-600">Log In</Link>
-            <Link href="/signup" className="block bg-orange-500 text-white text-center py-2 rounded-lg">
-              Start Free Trial
+            <Link
+              href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
+              className="block bg-orange-500 text-white text-center py-2 rounded-lg font-medium"
+            >
+              {showPromo ? `Get 50% Off (${promo?.spotsRemaining} spots left)` : "Start Free Trial"}
             </Link>
           </div>
         </div>
