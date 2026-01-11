@@ -16,6 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { service: slug } = await params;
   const service = services.find((s) => s.slug === slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
   if (!service) {
     return { title: "Service Not Found" };
@@ -25,6 +26,9 @@ export async function generateMetadata({
     title: `${service.name} Services | TysonsTechSolutions`,
     description: `${service.longDescription} Get a free consultation today.`,
     keywords: service.keywords,
+    alternates: {
+      canonical: `${siteUrl}/services/${slug}`,
+    },
     openGraph: {
       title: `${service.name} Services | TysonsTechSolutions`,
       description: service.longDescription,

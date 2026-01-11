@@ -2,10 +2,15 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { blogPosts } from "@/data/blog-posts";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "Blog - Web Development, AI, SEO & Digital Marketing Tips",
   description: "Expert insights on web development, AI chatbots, SEO, digital marketing, and business technology. Learn from industry professionals.",
   keywords: ["web development blog", "AI chatbot tips", "SEO guide", "digital marketing blog", "business technology"],
+  alternates: {
+    canonical: `${siteUrl}/blog`,
+  },
 };
 
 export default function BlogPage() {

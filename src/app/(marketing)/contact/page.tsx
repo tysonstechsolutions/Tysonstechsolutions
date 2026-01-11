@@ -1,9 +1,14 @@
 import { Metadata } from "next";
 import ContactForm from "@/components/forms/ContactForm";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "Contact Us | TysonsTechSolutions",
   description: "Get in touch with TysonsTechSolutions. We'd love to hear about your project and discuss how we can help your business grow.",
+  alternates: {
+    canonical: `${siteUrl}/contact`,
+  },
 };
 
 export default function ContactPage() {

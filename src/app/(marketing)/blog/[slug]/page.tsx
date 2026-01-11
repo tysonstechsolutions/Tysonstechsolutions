@@ -14,6 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -23,6 +24,9 @@ export async function generateMetadata({
     title: `${post.title} | TysonsTechSolutions Blog`,
     description: post.excerpt,
     keywords: [post.category.toLowerCase(), "tech blog", "business technology"],
+    alternates: {
+      canonical: `${siteUrl}/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,

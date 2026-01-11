@@ -2,10 +2,15 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { cities } from "@/data/cities";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "Technology Solutions by City | Service Areas",
   description: "Web development, AI chatbots, and software solutions for businesses across the United States. Find your city and get a free consultation.",
   keywords: ["web development by city", "local tech company", "business technology USA", "software development near me"],
+  alternates: {
+    canonical: `${siteUrl}/locations`,
+  },
 };
 
 // Group cities by state

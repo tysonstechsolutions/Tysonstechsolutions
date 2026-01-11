@@ -1,0 +1,16 @@
+# robots.txt for tysonstechsolutions.com
+
+User-agent: *
+Allow: /
+
+# Disallow admin and protected areas
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Disallow auth pages from indexing
+Disallow: /login
+Disallow: /forgot-password
+
+# Sitemap location
+Sitemap: https://tysonstechsolutions.com/sitemap.xml

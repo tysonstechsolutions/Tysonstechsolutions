@@ -2,10 +2,15 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { industries, industriesByCategory } from "@/data/industries";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "Industries We Serve - Tech Solutions for Every Business",
   description: "Custom web development, AI chatbots, and software solutions for law firms, healthcare, restaurants, contractors, and 40+ industries. Get a free consultation.",
   keywords: ["business technology solutions", "industry software", "custom web development", "AI chatbots for business"],
+  alternates: {
+    canonical: `${siteUrl}/industries`,
+  },
 };
 
 export default function IndustriesPage() {

@@ -2,10 +2,15 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { services } from "@/data/services";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "Our Services - Web Development, AI Chatbots, Software & More",
   description: "Full-service technology solutions: web development, AI chatbots, custom software, mobile apps, SEO, and digital marketing. Get a free consultation.",
   keywords: ["web development services", "AI chatbot development", "custom software", "digital marketing agency", "tech solutions"],
+  alternates: {
+    canonical: `${siteUrl}/services`,
+  },
 };
 
 export default function ServicesPage() {

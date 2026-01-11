@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { Metadata } from "next";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
+
 export const metadata: Metadata = {
   title: "AI Chatbot Features for Contractors - Instant Quotes & Lead Capture",
   description: "24/7 AI chatbot captures leads, measures properties via satellite, and sends instant quotes. SMS alerts, CRM integration. Free 14-day trial.",
   keywords: ["contractor chatbot", "AI lead generation", "instant quote software", "satellite measurement"],
+  alternates: {
+    canonical: `${siteUrl}/features`,
+  },
 };
 
 const features = [
@@ -12,25 +17,25 @@ const features = [
     title: "AI Chatbot",
     description: "24/7 automated conversations that qualify leads and collect contact info",
     icon: "💬",
-    href: "/features/ai-chatbot",
+    href: "/services/ai-chatbots",
   },
   {
     title: "Instant Quotes",
     description: "Automatically generate accurate estimates based on your pricing",
     icon: "💰",
-    href: "/features/instant-quotes",
+    href: "/demo",
   },
   {
     title: "Satellite Measurement",
     description: "AI measures driveways and parking lots using Google satellite imagery",
     icon: "🛰️",
-    href: "/features/satellite-measurement",
+    href: "/demo",
   },
   {
     title: "SMS Alerts",
     description: "Get instant text notifications when new leads come in",
     icon: "📱",
-    href: "/features/sms-alerts",
+    href: "/contact",
   },
 ];
 

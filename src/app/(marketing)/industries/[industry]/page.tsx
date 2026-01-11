@@ -15,6 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { industry: slug } = await params;
   const industry = industries.find((i) => i.slug === slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
   if (!industry) {
     return { title: "Industry Not Found" };
@@ -24,6 +25,9 @@ export async function generateMetadata({
     title: `${industry.name} Technology Solutions | TysonsTechSolutions`,
     description: `${industry.description}. Custom websites, AI chatbots, and software for ${industry.name.toLowerCase()}. Get a free consultation.`,
     keywords: industry.keywords,
+    alternates: {
+      canonical: `${siteUrl}/industries/${slug}`,
+    },
     openGraph: {
       title: `${industry.name} Technology Solutions | TysonsTechSolutions`,
       description: `${industry.description}. Custom websites, AI chatbots, and software for ${industry.name.toLowerCase()}.`,

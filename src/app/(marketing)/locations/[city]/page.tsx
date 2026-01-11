@@ -15,6 +15,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { city: slug } = await params;
   const city = cities.find((c) => c.slug === slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
   if (!city) {
     return { title: "Location Not Found" };
@@ -30,6 +31,9 @@ export async function generateMetadata({
       `website design ${city.state}`,
       `tech company ${city.name}`,
     ],
+    alternates: {
+      canonical: `${siteUrl}/locations/${slug}`,
+    },
     openGraph: {
       title: `Web Development & Tech Solutions in ${city.name}, ${city.state}`,
       description: `Custom web development, AI chatbots, and software solutions for businesses in ${city.name}.`,
