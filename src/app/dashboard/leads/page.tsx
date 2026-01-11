@@ -1,12 +1,38 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
+interface Lead {
+  id: string;
+  customer_name: string | null;
+  customer_phone: string;
+  customer_email: string | null;
+  property_address: string;
+  service_type: string | null;
+  ai_estimate_low: number | null;
+  ai_estimate_high: number | null;
+  status: string;
+  created_at: string;
+}
+
 export default async function LeadsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Placeholder - will fetch actual leads when DB is connected
-  const leads: any[] = [];
+  // Get contractor ID
+  const { data: contractor } = await supabase
+    .from("contractors")
+    .select("id")
+    .eq("auth_user_id", user?.id)
+    .single();
+
+  // Fetch actual leads from database
+  const { data: leadsData } = await supabase
+    .from("leads")
+    .select("id, customer_name, customer_phone, customer_email, property_address, service_type, ai_estimate_low, ai_estimate_high, status, created_at")
+    .eq("contractor_id", contractor?.id)
+    .order("created_at", { ascending: false });
+
+  const leads: Lead[] = leadsData || [];
 
   return (
     <div>
@@ -71,7 +97,36 @@ export default async function LeadsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
-              {/* Lead rows will go here */}
+              {leads.map((lead) => (
+                <tr key={lead.id} className="hover:bg-slate-50">
+                  <td className="px-6 py-4">
+                    <div className="font-medium text-slate-900">{lead.customer_name || "Unknown"}</div>
+                    <div className="text-sm text-slate-500">{lead.customer_phone}</div>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-600 max-w-xs truncate">{lead.property_address}</td>
+                  <td className="px-6 py-4 text-sm text-slate-600">{lead.service_type || "-"}</td>
+                  <td className="px-6 py-4 text-sm text-slate-900">
+                    {lead.ai_estimate_low && lead.ai_estimate_high
+                      ? `$${lead.ai_estimate_low.toLocaleString()} - $${lead.ai_estimate_high.toLocaleString()}`
+                      : "-"}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                      lead.status === "new" ? "bg-blue-100 text-blue-700" :
+                      lead.status === "contacted" ? "bg-yellow-100 text-yellow-700" :
+                      lead.status === "quoted" ? "bg-purple-100 text-purple-700" :
+                      lead.status === "won" ? "bg-green-100 text-green-700" :
+                      lead.status === "lost" ? "bg-red-100 text-red-700" :
+                      "bg-slate-100 text-slate-700"
+                    }`}>
+                      {lead.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-500">
+                    {new Date(lead.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}

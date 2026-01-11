@@ -8,6 +8,13 @@ function getStripe() {
   return new Stripe(key);
 }
 
+// Type guard to extract customer ID from Stripe customer field
+function getCustomerId(customer: string | Stripe.Customer | Stripe.DeletedCustomer | null): string | null {
+  if (!customer) return null;
+  if (typeof customer === "string") return customer;
+  return customer.id;
+}
+
 // Map Stripe subscription status to our database status
 function mapSubscriptionStatus(stripeStatus: string): string {
   switch (stripeStatus) {
@@ -68,11 +75,12 @@ export async function POST(request: NextRequest) {
         console.log("Checkout completed:", session.id);
 
         // Update contractor with Stripe customer ID if this is their first purchase
-        if (session.customer && session.client_reference_id) {
+        const customerId = getCustomerId(session.customer);
+        if (customerId && session.client_reference_id) {
           const { error } = await supabase
             .from("contractors")
             .update({
-              stripe_customer_id: session.customer as string,
+              stripe_customer_id: customerId,
               updated_at: new Date().toISOString(),
             })
             .eq("id", session.client_reference_id);
@@ -106,7 +114,7 @@ export async function POST(request: NextRequest) {
               : null,
             updated_at: new Date().toISOString(),
           })
-          .eq("stripe_customer_id", subscription.customer as string);
+          .eq("stripe_customer_id", getCustomerId(subscription.customer) || "");
 
         if (error) {
           console.error("Error updating subscription:", error);
@@ -138,14 +146,15 @@ export async function POST(request: NextRequest) {
         console.log("Payment failed:", invoice.id);
 
         // Mark subscription as past_due
-        if (invoice.customer) {
+        const failedCustomerId = getCustomerId(invoice.customer);
+        if (failedCustomerId) {
           const { error } = await supabase
             .from("contractors")
             .update({
               subscription_status: "past_due",
               updated_at: new Date().toISOString(),
             })
-            .eq("stripe_customer_id", invoice.customer as string);
+            .eq("stripe_customer_id", failedCustomerId);
 
           if (error) {
             console.error("Error updating payment failed status:", error);
@@ -159,14 +168,15 @@ export async function POST(request: NextRequest) {
         console.log("Payment succeeded:", invoice.id);
 
         // Ensure subscription is marked as active
-        if (invoice.customer) {
+        const successCustomerId = getCustomerId(invoice.customer);
+        if (successCustomerId) {
           const { error } = await supabase
             .from("contractors")
             .update({
               subscription_status: "active",
               updated_at: new Date().toISOString(),
             })
-            .eq("stripe_customer_id", invoice.customer as string);
+            .eq("stripe_customer_id", successCustomerId);
 
           if (error) {
             console.error("Error updating payment success status:", error);

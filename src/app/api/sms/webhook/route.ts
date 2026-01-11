@@ -1,16 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/admin";
+import twilio from "twilio";
+import { logger } from "@/lib/logger";
+
+// Validate Twilio webhook signature
+function validateTwilioSignature(request: NextRequest, params: Record<string, string>): boolean {
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const twilioSignature = request.headers.get("x-twilio-signature");
+
+  if (!authToken || !twilioSignature) {
+    logger.warn("Missing Twilio auth token or signature");
+    return false;
+  }
+
+  // Get the full URL for signature validation
+  const url = request.url;
+
+  try {
+    return twilio.validateRequest(authToken, twilioSignature, url, params);
+  } catch (error) {
+    logger.error("Twilio signature validation error", error);
+    return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
 
-    const from = formData.get("From")?.toString() || "";
-    const to = formData.get("To")?.toString() || "";
-    const body = formData.get("Body")?.toString() || "";
-    const messageSid = formData.get("MessageSid")?.toString() || "";
+    // Convert formData to object for signature validation
+    const params: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      params[key] = value.toString();
+    });
 
-    console.log("Incoming SMS:", { from, to, body, messageSid });
+    // Validate Twilio signature in production
+    if (process.env.NODE_ENV === "production") {
+      const isValid = validateTwilioSignature(request, params);
+      if (!isValid) {
+        logger.warn("Invalid Twilio signature - rejecting webhook");
+        return new NextResponse("Forbidden", { status: 403 });
+      }
+    }
+
+    const from = params["From"] || "";
+    const to = params["To"] || "";
+    const body = params["Body"] || "";
+    const messageSid = params["MessageSid"] || "";
+
+    logger.debug("Incoming SMS", { from, to, bodyPreview: body.slice(0, 50), messageSid });
 
     if (!from || !body) {
       return new NextResponse(
@@ -73,7 +111,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (logError) {
-      console.error("Error logging SMS:", logError);
+      logger.error("Error logging SMS", logError);
     }
 
     // Update lead status if we found one and it's still "new"
@@ -93,7 +131,7 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("SMS webhook error:", error);
+    logger.error("SMS webhook error", error);
     return new NextResponse(
       '<?xml version="1.0" encoding="UTF-8"?><Response></Response>',
       {

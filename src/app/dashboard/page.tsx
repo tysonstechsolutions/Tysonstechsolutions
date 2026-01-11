@@ -164,7 +164,7 @@ export default async function DashboardPage() {
           </div>
           {recentLeads && recentLeads.length > 0 ? (
             <div className="space-y-3">
-              {(recentLeads as Lead[]).map((lead) => (
+              {recentLeads.map((lead: Lead) => (
                 <div key={lead.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:bg-slate-50">
                   <div className="min-w-0 flex-1">
                     <div className="font-medium text-slate-900 truncate">

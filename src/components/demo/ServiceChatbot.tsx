@@ -292,23 +292,30 @@ export default function ServiceChatbot({ config, inline = false }: Props) {
     }
   }
 
+  // Geographic and unit conversion constants
+  const SQFT_TO_SQM = 0.0929 // 1 square foot = 0.0929 square meters
+  const METERS_PER_DEGREE_LAT = 111320 // Earth's circumference / 360 degrees at equator
+  const HALF_SIDE_MULTIPLIER = 0.5 // To get distance from center to edge (half the side length)
+  const POLYGON_VARIATION = 0.15 // 15% random variation for realistic property shapes
+
   // Generate a polygon for a given area around a center point
   const generatePolygonForArea = (center: {lat: number, lng: number}, areaSqFt: number): {lat: number, lng: number}[] => {
-    // Convert sq ft to sq meters
-    const areaSqM = areaSqFt * 0.0929
+    // Convert sq ft to sq meters using standard conversion factor
+    const areaSqM = areaSqFt * SQFT_TO_SQM
     // Calculate the side length of a square with this area
     const sideLengthM = Math.sqrt(areaSqM)
     // Convert to degrees (approximate at this latitude)
-    const latOffset = (sideLengthM / 111320) * 0.5 // 111320 meters per degree latitude
-    const lngOffset = (sideLengthM / (111320 * Math.cos(center.lat * Math.PI / 180))) * 0.5
+    // Latitude offset: sideLengthM / meters_per_degree * half (to get center-to-edge distance)
+    const latOffset = (sideLengthM / METERS_PER_DEGREE_LAT) * HALF_SIDE_MULTIPLIER
+    // Longitude offset: adjusted for latitude (longitude degrees shrink toward poles)
+    const lngOffset = (sideLengthM / (METERS_PER_DEGREE_LAT * Math.cos(center.lat * Math.PI / 180))) * HALF_SIDE_MULTIPLIER
 
     // Create a roughly square polygon with slight variations for realism
-    const variation = 0.15 // 15% variation
     return [
-      { lat: center.lat + latOffset * (1 + Math.random() * variation), lng: center.lng - lngOffset * (1 + Math.random() * variation) },
-      { lat: center.lat + latOffset * (1 - Math.random() * variation), lng: center.lng + lngOffset * (1 + Math.random() * variation) },
-      { lat: center.lat - latOffset * (1 + Math.random() * variation), lng: center.lng + lngOffset * (1 - Math.random() * variation) },
-      { lat: center.lat - latOffset * (1 - Math.random() * variation), lng: center.lng - lngOffset * (1 - Math.random() * variation) },
+      { lat: center.lat + latOffset * (1 + Math.random() * POLYGON_VARIATION), lng: center.lng - lngOffset * (1 + Math.random() * POLYGON_VARIATION) },
+      { lat: center.lat + latOffset * (1 - Math.random() * POLYGON_VARIATION), lng: center.lng + lngOffset * (1 + Math.random() * POLYGON_VARIATION) },
+      { lat: center.lat - latOffset * (1 + Math.random() * POLYGON_VARIATION), lng: center.lng + lngOffset * (1 - Math.random() * POLYGON_VARIATION) },
+      { lat: center.lat - latOffset * (1 - Math.random() * POLYGON_VARIATION), lng: center.lng - lngOffset * (1 - Math.random() * POLYGON_VARIATION) },
     ]
   }
 

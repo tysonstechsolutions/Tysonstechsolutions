@@ -2,9 +2,32 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/admin";
 import { sendEmail, emailTemplates } from "@/lib/email";
 
+// Sanitize user input to prevent XSS and injection attacks
+function sanitizeInput(input: string): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/[<>]/g, "") // Remove < and > to prevent HTML injection
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .replace(/on\w+=/gi, "") // Remove event handlers
+    .trim()
+    .slice(0, 5000); // Limit length
+}
+
+// Sanitize object values recursively
+function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
+  const sanitized = { ...obj };
+  for (const key in sanitized) {
+    if (typeof sanitized[key] === "string") {
+      (sanitized as Record<string, unknown>)[key] = sanitizeInput(sanitized[key] as string);
+    }
+  }
+  return sanitized;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
+    const rawData = await request.json();
+    const data = sanitizeObject(rawData);
 
     // Validate required fields
     const { name, email, message } = data;

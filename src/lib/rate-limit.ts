@@ -19,7 +19,7 @@ setInterval(() => {
 }, 60000); // Clean every minute
 
 export function getClientIP(request: NextRequest): string {
-  // Try various headers for the real IP
+  // Try various headers for the real IP (in order of reliability)
   const forwardedFor = request.headers.get("x-forwarded-for");
   if (forwardedFor) {
     return forwardedFor.split(",")[0].trim();
@@ -30,8 +30,25 @@ export function getClientIP(request: NextRequest): string {
     return realIP;
   }
 
-  // Fallback (won't work in production but helps in development)
-  return "127.0.0.1";
+  // Cloudflare specific header
+  const cfConnectingIP = request.headers.get("cf-connecting-ip");
+  if (cfConnectingIP) {
+    return cfConnectingIP;
+  }
+
+  // Vercel specific header
+  const vercelForwardedFor = request.headers.get("x-vercel-forwarded-for");
+  if (vercelForwardedFor) {
+    return vercelForwardedFor.split(",")[0].trim();
+  }
+
+  // Fallback - generate unique identifier from request characteristics
+  // This prevents all unknown IPs from sharing the same rate limit
+  const userAgent = request.headers.get("user-agent") || "";
+  const acceptLanguage = request.headers.get("accept-language") || "";
+  const fallbackId = `unknown-${Buffer.from(userAgent + acceptLanguage).toString("base64").slice(0, 16)}`;
+
+  return fallbackId;
 }
 
 export function checkRateLimit(

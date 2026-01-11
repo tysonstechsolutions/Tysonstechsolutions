@@ -17,7 +17,13 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             );
-          } catch {}
+          } catch (error) {
+            // Cookie operations can fail in Server Components when headers are read-only
+            // This is expected behavior and can be safely ignored
+            if (process.env.NODE_ENV === 'development') {
+              console.debug('Cookie set operation skipped (read-only context):', error);
+            }
+          }
         },
       },
     }

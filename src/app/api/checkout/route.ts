@@ -8,12 +8,39 @@ function getStripe() {
   return new Stripe(key);
 }
 
+// Validate priceId against known Stripe price IDs
+function isValidPriceId(priceId: string): boolean {
+  const validPriceIds = [
+    process.env.STRIPE_PRICE_STARTER,
+    process.env.STRIPE_PRICE_GROWTH,
+    process.env.STRIPE_PRICE_PRO,
+  ].filter(Boolean);
+
+  // Also validate format (Stripe price IDs start with "price_")
+  if (!priceId.startsWith("price_")) {
+    return false;
+  }
+
+  // If we have configured price IDs, validate against them
+  if (validPriceIds.length > 0) {
+    return validPriceIds.includes(priceId);
+  }
+
+  // If no configured IDs, just validate the format
+  return true;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { priceId, contractorId } = await request.json();
 
     if (!priceId || !contractorId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    // Validate priceId format and against known prices
+    if (typeof priceId !== "string" || !isValidPriceId(priceId)) {
+      return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
     }
 
     const stripe = getStripe();

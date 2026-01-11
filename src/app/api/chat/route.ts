@@ -14,6 +14,11 @@ interface ContractorPricing {
   line_striping_price_per_stall: number;
 }
 
+interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 function buildSystemPrompt(
   businessName: string,
   pricing: ContractorPricing | null
@@ -131,7 +136,7 @@ export async function POST(request: NextRequest) {
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       system: systemPrompt,
-      messages: messages.map((m: { role: string; content: string }) => ({
+      messages: messages.map((m: ChatMessage) => ({
         role: m.role,
         content: m.content,
       })),
@@ -142,8 +147,8 @@ export async function POST(request: NextRequest) {
         ? response.content[0].text
         : "I'm sorry, I couldn't process that request.";
 
-    // Increment conversation count for this contractor
-    await supabase
+    // Increment conversation count for this contractor (fire-and-forget with error handling)
+    supabase
       .from("contractors")
       .update({
         conversations_this_month: (contractor as { conversations_this_month?: number }).conversations_this_month
@@ -151,7 +156,12 @@ export async function POST(request: NextRequest) {
           : 1,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", contractor.id);
+      .eq("id", contractor.id)
+      .then(({ error }) => {
+        if (error) {
+          console.error("Failed to update conversation count:", error);
+        }
+      });
 
     return NextResponse.json({ message: assistantMessage });
   } catch (error) {
