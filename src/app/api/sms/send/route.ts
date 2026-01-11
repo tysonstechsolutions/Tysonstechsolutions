@@ -1,12 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import twilio from "twilio";
+import { createClient } from "@/lib/supabase/admin";
 
 export async function POST(request: NextRequest) {
   try {
-    const { to, body, contractorId } = await request.json();
+    const { to, body, contractorId, leadId } = await request.json();
 
+    // Validate required fields
     if (!to || !body) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    // Validate phone number format (basic E.164 check)
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+    if (!phoneRegex.test(to.replace(/[\s\-\(\)]/g, ""))) {
+      return NextResponse.json({ error: "Invalid phone number format" }, { status: 400 });
+    }
+
+    // Validate body length
+    if (body.length > 1600) {
+      return NextResponse.json({ error: "Message too long (max 1600 characters)" }, { status: 400 });
     }
 
     const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -24,6 +37,20 @@ export async function POST(request: NextRequest) {
       from: fromNumber,
       to,
     });
+
+    // Log the outbound SMS to the database
+    if (contractorId) {
+      const supabase = createClient();
+      await supabase.from("sms_log").insert({
+        lead_id: leadId || null,
+        contractor_id: contractorId,
+        direction: "outbound",
+        from_number: fromNumber,
+        to_number: to,
+        body: body,
+        twilio_sid: message.sid,
+      });
+    }
 
     return NextResponse.json({
       success: true,

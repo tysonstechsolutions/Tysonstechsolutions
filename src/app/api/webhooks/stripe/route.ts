@@ -1,10 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { createClient } from "@/lib/supabase/admin";
 
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error("STRIPE_SECRET_KEY not configured");
   return new Stripe(key);
+}
+
+// Map Stripe subscription status to our database status
+function mapSubscriptionStatus(stripeStatus: string): string {
+  switch (stripeStatus) {
+    case "active":
+      return "active";
+    case "past_due":
+      return "past_due";
+    case "canceled":
+    case "unpaid":
+      return "canceled";
+    case "trialing":
+      return "trialing";
+    default:
+      return "active";
+  }
+}
+
+// Map Stripe price ID to subscription tier
+function mapPriceToTier(priceId: string): string {
+  const starterPrice = process.env.STRIPE_PRICE_STARTER;
+  const growthPrice = process.env.STRIPE_PRICE_GROWTH;
+  const proPrice = process.env.STRIPE_PRICE_PRO;
+
+  if (priceId === starterPrice) return "starter";
+  if (priceId === growthPrice) return "growth";
+  if (priceId === proPrice) return "pro";
+  return "starter";
 }
 
 export async function POST(request: NextRequest) {
@@ -15,6 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const stripe = getStripe();
+    const supabase = createClient();
     const body = await request.text();
     const signature = request.headers.get("stripe-signature");
 
@@ -35,6 +66,21 @@ export async function POST(request: NextRequest) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         console.log("Checkout completed:", session.id);
+
+        // Update contractor with Stripe customer ID if this is their first purchase
+        if (session.customer && session.client_reference_id) {
+          const { error } = await supabase
+            .from("contractors")
+            .update({
+              stripe_customer_id: session.customer as string,
+              updated_at: new Date().toISOString(),
+            })
+            .eq("id", session.client_reference_id);
+
+          if (error) {
+            console.error("Error updating contractor after checkout:", error);
+          }
+        }
         break;
       }
 
@@ -42,18 +88,90 @@ export async function POST(request: NextRequest) {
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
         console.log("Subscription updated:", subscription.id, subscription.status);
+
+        // Get the price ID from the subscription
+        const priceId = subscription.items.data[0]?.price?.id;
+        const tier = priceId ? mapPriceToTier(priceId) : "starter";
+        const status = mapSubscriptionStatus(subscription.status);
+
+        // Update contractor subscription in database
+        const { error } = await supabase
+          .from("contractors")
+          .update({
+            stripe_subscription_id: subscription.id,
+            subscription_tier: tier,
+            subscription_status: status,
+            trial_ends_at: subscription.trial_end
+              ? new Date(subscription.trial_end * 1000).toISOString()
+              : null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("stripe_customer_id", subscription.customer as string);
+
+        if (error) {
+          console.error("Error updating subscription:", error);
+        }
         break;
       }
 
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
         console.log("Subscription canceled:", subscription.id);
+
+        // Mark subscription as canceled in database
+        const { error } = await supabase
+          .from("contractors")
+          .update({
+            subscription_status: "canceled",
+            updated_at: new Date().toISOString(),
+          })
+          .eq("stripe_subscription_id", subscription.id);
+
+        if (error) {
+          console.error("Error canceling subscription:", error);
+        }
         break;
       }
 
       case "invoice.payment_failed": {
         const invoice = event.data.object as Stripe.Invoice;
         console.log("Payment failed:", invoice.id);
+
+        // Mark subscription as past_due
+        if (invoice.customer) {
+          const { error } = await supabase
+            .from("contractors")
+            .update({
+              subscription_status: "past_due",
+              updated_at: new Date().toISOString(),
+            })
+            .eq("stripe_customer_id", invoice.customer as string);
+
+          if (error) {
+            console.error("Error updating payment failed status:", error);
+          }
+        }
+        break;
+      }
+
+      case "invoice.payment_succeeded": {
+        const invoice = event.data.object as Stripe.Invoice;
+        console.log("Payment succeeded:", invoice.id);
+
+        // Ensure subscription is marked as active
+        if (invoice.customer) {
+          const { error } = await supabase
+            .from("contractors")
+            .update({
+              subscription_status: "active",
+              updated_at: new Date().toISOString(),
+            })
+            .eq("stripe_customer_id", invoice.customer as string);
+
+          if (error) {
+            console.error("Error updating payment success status:", error);
+          }
+        }
         break;
       }
 

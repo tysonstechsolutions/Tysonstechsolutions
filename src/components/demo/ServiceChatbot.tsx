@@ -101,7 +101,7 @@ declare global {
         Polygon: new (options: PolygonOptions) => Polygon
         SymbolPath: { CIRCLE: number }
         event: {
-          addListener: (instance: object, event: string, handler: (...args: unknown[]) => void) => void
+          addListener: (instance: object, event: string, handler: (...args: never[]) => void) => void
         }
         drawing: {
           DrawingManager: new (options: DrawingManagerOptions) => DrawingManager
@@ -172,7 +172,7 @@ interface Polygon {
 }
 
 interface DrawingManagerOptions {
-  drawingMode?: string
+  drawingMode?: string | null
   drawingControl: boolean
   polygonOptions?: PolygonOptions
 }
@@ -486,8 +486,8 @@ export default function ServiceChatbot({ config, inline = false }: Props) {
 
       // Listen for edits on the pre-drawn polygon
       const path = polygon.getPath()
-      google.maps.event.addListener(path, 'set_at', () => updateAreaFromPolygon(polygon))
-      google.maps.event.addListener(path, 'insert_at', () => updateAreaFromPolygon(polygon))
+      google.maps.event.addListener(path as object, 'set_at', () => updateAreaFromPolygon(polygon))
+      google.maps.event.addListener(path as object, 'insert_at', () => updateAreaFromPolygon(polygon))
     }
 
     // Create drawing manager for new polygons (only if no pre-drawn polygon)
@@ -509,7 +509,7 @@ export default function ServiceChatbot({ config, inline = false }: Props) {
     drawingManagerRef.current = drawingManager
 
     // Listen for new polygon completion
-    google.maps.event.addListener(drawingManager, 'polygoncomplete', (polygon: Polygon) => {
+    google.maps.event.addListener(drawingManager as object, 'polygoncomplete', ((polygon: Polygon) => {
       // Remove previous polygon if exists
       if (polygonRef.current) {
         polygonRef.current.setMap(null)
@@ -520,12 +520,12 @@ export default function ServiceChatbot({ config, inline = false }: Props) {
 
       // Listen for edits
       const path = polygon.getPath()
-      google.maps.event.addListener(path, 'set_at', () => updateAreaFromPolygon(polygon))
-      google.maps.event.addListener(path, 'insert_at', () => updateAreaFromPolygon(polygon))
+      google.maps.event.addListener(path as object, 'set_at', () => updateAreaFromPolygon(polygon))
+      google.maps.event.addListener(path as object, 'insert_at', () => updateAreaFromPolygon(polygon))
 
       // Stop drawing mode
       drawingManager.setDrawingMode(null)
-    })
+    }) as (...args: never[]) => void)
 
     setMapLoaded(true)
   }
@@ -1108,7 +1108,7 @@ export default function ServiceChatbot({ config, inline = false }: Props) {
                     Cancel
                   </button>
                   <button
-                    onClick={handleMapConfirm}
+                    onClick={() => handleMapConfirm()}
                     disabled={!drawnArea}
                     style={{
                       flex: 1,

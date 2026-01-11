@@ -9,6 +9,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -18,6 +19,9 @@ export default function LoginPage() {
     setLoading(true);
 
     const supabase = createClient();
+
+    // If remember me is checked, persist session for 30 days
+    // Otherwise, session expires when browser closes
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -27,6 +31,13 @@ export default function LoginPage() {
       setError(error.message);
       setLoading(false);
       return;
+    }
+
+    // Store remember me preference
+    if (rememberMe) {
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberMe");
     }
 
     router.push("/dashboard");
@@ -83,8 +94,13 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-orange-500 focus:ring-orange-400" />
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-slate-300 text-orange-500 focus:ring-orange-400"
+                />
                 <span className="ml-2 text-sm text-slate-600">Remember me</span>
               </label>
               <Link href="/forgot-password" className="text-sm text-orange-500 hover:text-orange-600">

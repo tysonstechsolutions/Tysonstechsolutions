@@ -39,7 +39,8 @@ export default function SignupPage() {
     setLoading(true);
 
     const supabase = createClient();
-    
+
+    // Step 1: Create auth user
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
@@ -58,7 +59,26 @@ export default function SignupPage() {
       return;
     }
 
+    // Step 2: Create contractor record in database
     if (authData.user) {
+      const { error: contractorError } = await supabase
+        .from("contractors")
+        .insert({
+          auth_user_id: authData.user.id,
+          business_name: formData.companyName,
+          contact_name: formData.contactName,
+          email: formData.email,
+          phone: formData.phone || "",
+          subscription_tier: "starter",
+          subscription_status: "trialing",
+          // trial_ends_at defaults to NOW() + 14 days in the database
+        });
+
+      if (contractorError) {
+        console.error("Error creating contractor:", contractorError);
+        // Don't block signup, but log the error
+      }
+
       router.push("/dashboard");
       router.refresh();
     }
