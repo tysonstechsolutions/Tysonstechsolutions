@@ -153,3 +153,125 @@ CREATE POLICY "Service role contractors" ON contractors FOR ALL USING (auth.jwt(
 CREATE POLICY "Service role leads" ON leads FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 CREATE POLICY "Service role conversations" ON conversations FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 CREATE POLICY "Service role messages" ON messages FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+
+-- =====================================================
+-- TYSONSTECHSOLUTIONS AGENCY SERVICES (v2.1)
+-- =====================================================
+
+-- Service inquiry status
+CREATE TYPE inquiry_status AS ENUM ('new', 'contacted', 'proposal_sent', 'negotiating', 'won', 'lost');
+CREATE TYPE project_budget AS ENUM ('under_2500', '2500_5000', '5000_10000', '10000_25000', '25000_50000', 'over_50000');
+CREATE TYPE project_timeline AS ENUM ('asap', '1_month', '1_3_months', '3_6_months', 'flexible');
+
+-- SERVICE INQUIRIES TABLE (Quote Requests)
+CREATE TABLE service_inquiries (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+
+  -- Contact info
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  company_name VARCHAR(255),
+  website_url VARCHAR(500),
+
+  -- Service details
+  service_slug VARCHAR(100) NOT NULL,
+  service_name VARCHAR(255) NOT NULL,
+  package_tier VARCHAR(50), -- 'starter', 'professional', 'enterprise', 'custom'
+
+  -- Project details
+  budget project_budget,
+  timeline project_timeline,
+  project_description TEXT,
+
+  -- Source tracking
+  source_page VARCHAR(255), -- which page they came from
+  utm_source VARCHAR(100),
+  utm_medium VARCHAR(100),
+  utm_campaign VARCHAR(100),
+
+  -- Status
+  status inquiry_status DEFAULT 'new',
+  notes TEXT, -- internal notes
+  assigned_to VARCHAR(255), -- for team assignment
+
+  -- Follow-up
+  last_contacted_at TIMESTAMPTZ,
+  next_followup_at TIMESTAMPTZ,
+  proposal_amount DECIMAL(10,2),
+
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- CONTACT FORM SUBMISSIONS (General inquiries)
+CREATE TABLE contact_submissions (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20),
+  company_name VARCHAR(255),
+  subject VARCHAR(255),
+  message TEXT NOT NULL,
+  source_page VARCHAR(255),
+  status VARCHAR(20) DEFAULT 'new', -- new, replied, closed
+  replied_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- NEWSLETTER SUBSCRIBERS
+CREATE TABLE newsletter_subscribers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255),
+  source VARCHAR(100), -- 'footer', 'blog', 'popup', etc.
+  subscribed_at TIMESTAMPTZ DEFAULT NOW(),
+  unsubscribed_at TIMESTAMPTZ,
+  is_active BOOLEAN DEFAULT true
+);
+
+-- SERVICE PACKAGES (Productized offerings)
+CREATE TABLE service_packages (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  service_slug VARCHAR(100) NOT NULL,
+  tier VARCHAR(50) NOT NULL, -- 'starter', 'professional', 'enterprise'
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  price_type VARCHAR(20) DEFAULT 'one_time', -- 'one_time', 'monthly', 'yearly'
+  description TEXT,
+  features JSONB DEFAULT '[]', -- array of feature strings
+  deliverables JSONB DEFAULT '[]', -- what they get
+  timeline_days INTEGER, -- estimated delivery time
+  is_popular BOOLEAN DEFAULT false,
+  is_active BOOLEAN DEFAULT true,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- INDEXES
+CREATE INDEX idx_inquiries_status ON service_inquiries(status);
+CREATE INDEX idx_inquiries_service ON service_inquiries(service_slug);
+CREATE INDEX idx_inquiries_created ON service_inquiries(created_at DESC);
+CREATE INDEX idx_contact_status ON contact_submissions(status);
+CREATE INDEX idx_newsletter_email ON newsletter_subscribers(email);
+
+-- RLS for new tables
+ALTER TABLE service_inquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE service_packages ENABLE ROW LEVEL SECURITY;
+
+-- Service role has full access to all agency tables
+CREATE POLICY "Service role inquiries" ON service_inquiries FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+CREATE POLICY "Service role contacts" ON contact_submissions FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+CREATE POLICY "Service role newsletter" ON newsletter_subscribers FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+CREATE POLICY "Service role packages" ON service_packages FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+
+-- Public can read active packages
+CREATE POLICY "Public packages" ON service_packages FOR SELECT USING (is_active = true);
+
+-- Public can insert inquiries and contacts (for forms)
+CREATE POLICY "Public insert inquiries" ON service_inquiries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert contacts" ON contact_submissions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert newsletter" ON newsletter_subscribers FOR INSERT WITH CHECK (true);

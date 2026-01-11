@@ -45,12 +45,20 @@ export default function ServicesPage() {
           <p className="text-slate-600 mb-6">
             Schedule a free consultation and we will help you find the right solution.
           </p>
-          <Link
-            href="/signup"
-            className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
-          >
-            Get Free Consultation
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/book"
+              className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
+            >
+              Book Free Consultation
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-block border-2 border-slate-300 hover:border-orange-500 text-slate-700 px-8 py-4 rounded-lg font-medium text-lg"
+            >
+              Send a Message
+            </Link>
+          </div>
         </div>
       </div>
     </div>

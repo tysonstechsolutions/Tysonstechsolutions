@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { services } from "@/data/services";
+import QuoteRequestForm from "@/components/forms/QuoteRequestForm";
+import ServicePackages from "@/components/services/ServicePackages";
 
 export async function generateStaticParams() {
   return services.map((service) => ({ service: service.slug }));
@@ -60,17 +62,17 @@ export default async function ServicePage({
               {service.longDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/signup"
+              <a
+                href="#quote"
                 className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
               >
                 Get Free Quote
-              </Link>
+              </a>
               <Link
-                href="/services"
+                href="/contact"
                 className="border-2 border-slate-600 hover:border-slate-500 text-white px-8 py-4 rounded-lg font-medium text-lg text-center"
               >
-                View All Services
+                Contact Us
               </Link>
             </div>
           </div>
@@ -108,6 +110,9 @@ export default async function ServicePage({
           </div>
         </div>
       </section>
+
+      {/* Pricing Packages (if available) */}
+      <ServicePackages serviceSlug={service.slug} serviceName={service.name} />
 
       {/* Process */}
       <section className="py-20 px-6 bg-slate-50">
@@ -185,21 +190,24 @@ export default async function ServicePage({
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-6 bg-orange-500">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-orange-100 text-lg mb-8">
-            Contact us today for a free consultation and quote.
-          </p>
-          <Link
-            href="/signup"
-            className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
-          >
-            Get Free Quote
-          </Link>
+      {/* Quote Request Form */}
+      <section id="quote" className="py-20 px-6 bg-slate-900">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Get a Free {service.name} Quote
+            </h2>
+            <p className="text-slate-300 text-lg">
+              Tell us about your project and we&apos;ll get back to you within 24 hours with a detailed proposal.
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl p-8 md:p-10">
+            <QuoteRequestForm
+              serviceSlug={service.slug}
+              serviceName={service.name}
+              sourcePage={`/services/${service.slug}`}
+            />
+          </div>
         </div>
       </section>
 

@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 const navigation = [
-  { name: "Demo", href: "/demo", highlight: true },
+  { name: "Services", href: "/services" },
   { name: "Industries", href: "/industries" },
-  { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "/contact" },
 ];
 
 interface PromoStatus {
@@ -42,18 +42,9 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`transition-colors ${
-                  item.highlight
-                    ? "text-orange-500 font-semibold"
-                    : "text-slate-600 hover:text-orange-500"
-                }`}
+                className="text-slate-600 hover:text-orange-500 transition-colors"
               >
                 {item.name}
-                {item.highlight && (
-                  <span className="ml-1 text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full">
-                    Try it
-                  </span>
-                )}
               </Link>
             ))}
           </div>
@@ -96,15 +87,10 @@ export default function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`block ${item.highlight ? "text-orange-500 font-semibold" : "text-slate-600 hover:text-orange-500"}`}
+              className="block text-slate-600 hover:text-orange-500"
               onClick={() => setMobileOpen(false)}
             >
               {item.name}
-              {item.highlight && (
-                <span className="ml-2 text-xs bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-full">
-                  Try it
-                </span>
-              )}
             </Link>
           ))}
           <div className="pt-3 border-t border-slate-200 space-y-3">
