@@ -11,8 +11,12 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           "/api/",
           "/dashboard/",
+          "/admin/",
           "/auth/",
           "/widget/",
+          "/login",
+          "/signup",
+          "/forgot-password",
         ],
       },
       {
@@ -21,11 +25,16 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           "/api/",
           "/dashboard/",
+          "/admin/",
           "/auth/",
           "/widget/",
+          "/login",
+          "/signup",
+          "/forgot-password",
         ],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

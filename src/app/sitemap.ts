@@ -7,93 +7,80 @@ import { blogPosts } from "@/data/blog-posts";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Use a fixed date for static content to avoid unnecessary recrawling
-  // Update these dates when content actually changes
-  const staticContentDate = "2025-01-05T00:00:00.000Z";
-  const dynamicContentDate = "2025-01-05T00:00:00.000Z";
+  // Use current date for better crawl signals
+  const currentDate = new Date().toISOString();
 
-  // Static pages
+  // Static pages (excluding auth pages - they're blocked in robots.txt)
   const staticPages = [
     {
       url: siteUrl,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 1,
     },
     {
       url: `${siteUrl}/services`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
     {
       url: `${siteUrl}/industries`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
     {
       url: `${siteUrl}/pricing`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.9,
     },
     {
       url: `${siteUrl}/features`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${siteUrl}/blog`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "daily" as const,
       priority: 0.8,
     },
     {
       url: `${siteUrl}/locations`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     },
     {
       url: `${siteUrl}/compare/angi-alternative`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
     {
       url: `${siteUrl}/compare/thumbtack-alternative`,
-      lastModified: staticContentDate,
+      lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
-    {
-      url: `${siteUrl}/signup`,
-      lastModified: staticContentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/login`,
-      lastModified: staticContentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
+    // Note: /login and /signup removed - they are blocked in robots.txt
   ];
 
-  // Service pages (12 services)
+  // Service pages (12 services) - high priority
   const servicePages = services.map((service) => ({
     url: `${siteUrl}/services/${service.slug}`,
-    lastModified: dynamicContentDate,
+    lastModified: currentDate,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
 
-  // Industry pages (40 industries)
+  // Industry pages (40 industries) - high priority
   const industryPages = industries.map((industry) => ({
     url: `${siteUrl}/industries/${industry.slug}`,
-    lastModified: dynamicContentDate,
+    lastModified: currentDate,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
@@ -101,17 +88,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Blog posts - use the post's date if available
   const blogPostPages = blogPosts.map((post) => ({
     url: `${siteUrl}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date).toISOString() : dynamicContentDate,
+    lastModified: post.date ? new Date(post.date).toISOString() : currentDate,
     changeFrequency: "monthly" as const,
-    priority: 0.6,
+    priority: 0.7,
   }));
 
-  // Location pages (200 cities)
-  const locationPages = cities.map((city) => ({
+  // Location pages - prioritize top 50 cities with higher priority
+  const locationPages = cities.map((city, index) => ({
     url: `${siteUrl}/locations/${city.slug}`,
-    lastModified: dynamicContentDate,
+    lastModified: currentDate,
     changeFrequency: "monthly" as const,
-    priority: 0.6,
+    // Top 50 cities get higher priority
+    priority: index < 50 ? 0.7 : 0.5,
   }));
 
   return [
