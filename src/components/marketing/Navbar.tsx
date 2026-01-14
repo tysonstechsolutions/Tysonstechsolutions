@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const navigation = [
   { name: "Services", href: "/services" },
@@ -11,23 +11,8 @@ const navigation = [
   { name: "Contact", href: "/contact" },
 ];
 
-interface PromoStatus {
-  active: boolean;
-  spotsRemaining: number;
-}
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [promo, setPromo] = useState<PromoStatus | null>(null);
-
-  useEffect(() => {
-    fetch("/api/promo/founding")
-      .then((res) => res.json())
-      .then((data) => setPromo(data))
-      .catch(() => setPromo({ active: true, spotsRemaining: 14 }));
-  }, []);
-
-  const showPromo = promo?.active && (promo?.spotsRemaining ?? 0) > 0;
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200 z-50">
@@ -54,19 +39,10 @@ export default function Navbar() {
               Log In
             </Link>
             <Link
-              href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium transition-colors relative group"
+              href="/signup"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium transition-colors"
             >
-              {showPromo ? (
-                <>
-                  <span>Get 50% Off</span>
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full animate-pulse">
-                    {promo?.spotsRemaining} left
-                  </span>
-                </>
-              ) : (
-                "Start Free Trial"
-              )}
+              Get Started
             </Link>
           </div>
 
@@ -96,10 +72,10 @@ export default function Navbar() {
           <div className="pt-3 border-t border-slate-200 space-y-3">
             <Link href="/login" className="block text-slate-600">Log In</Link>
             <Link
-              href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
+              href="/signup"
               className="block bg-orange-500 text-white text-center py-2 rounded-lg font-medium"
             >
-              {showPromo ? `Get 50% Off (${promo?.spotsRemaining} spots left)` : "Start Free Trial"}
+              Get Started
             </Link>
           </div>
         </div>

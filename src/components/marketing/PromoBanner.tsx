@@ -3,11 +3,20 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-interface PromoStatus {
+interface DealStatus {
   active: boolean;
   spotsRemaining: number;
   totalSpots: number;
-  percentOff: number;
+}
+
+interface PromoStatus {
+  active: boolean;
+  totalSpotsRemaining: number;
+  deals: {
+    growth: DealStatus;
+    pro: DealStatus;
+    lifetime: DealStatus;
+  };
 }
 
 export default function PromoBanner() {
@@ -25,7 +34,7 @@ export default function PromoBanner() {
     fetch("/api/promo/founding")
       .then((res) => res.json())
       .then((data) => setPromo(data))
-      .catch(() => setPromo({ active: true, spotsRemaining: 14, totalSpots: 20, percentOff: 50 }));
+      .catch(() => null);
   }, []);
 
   const handleDismiss = () => {
@@ -33,16 +42,30 @@ export default function PromoBanner() {
     setDismissed(true);
   };
 
-  if (dismissed || !promo?.active || (promo?.spotsRemaining ?? 0) <= 0) {
+  if (dismissed || !promo?.active) {
     return null;
   }
+
+  // Show lifetime deal if available, otherwise show the free month deals
+  const showLifetime = promo.deals.lifetime.active;
+  const freeMonthSpotsLeft = promo.deals.growth.spotsRemaining + promo.deals.pro.spotsRemaining;
 
   return (
     <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 text-center text-sm relative">
       <Link href="/pricing" className="hover:underline">
-        <span className="font-bold">Founding Member Special:</span>
-        {" "}50% off forever - Only {promo.spotsRemaining} spots left!
-        {" "}<span className="underline">Claim yours →</span>
+        {showLifetime ? (
+          <>
+            <span className="font-bold">Lifetime Pro Deal:</span>
+            {" "}$1,499 one-time (only {promo.deals.lifetime.spotsRemaining} spots left!)
+            {" "}<span className="underline">Claim yours →</span>
+          </>
+        ) : freeMonthSpotsLeft > 0 ? (
+          <>
+            <span className="font-bold">Founding Member Special:</span>
+            {" "}Buy 1 month, get month 2 FREE!
+            {" "}<span className="underline">See deals →</span>
+          </>
+        ) : null}
       </Link>
       <button
         onClick={handleDismiss}

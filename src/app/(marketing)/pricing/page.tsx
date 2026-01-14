@@ -16,37 +16,45 @@ const softwareReplaced = [
   { name: "Route Planning", examples: "OptimoRoute, Route4Me", cost: "$30-100/mo", emoji: "🗺️" },
 ];
 
-interface PromoStatus {
+interface DealStatus {
   active: boolean;
   spotsRemaining: number;
   totalSpots: number;
-  percentOff: number;
+  description: string;
+  price: number;
+  couponId: string;
+}
+
+interface PromoStatus {
+  active: boolean;
+  totalSpotsRemaining: number;
+  deals: {
+    growth: DealStatus;
+    pro: DealStatus;
+    lifetime: DealStatus;
+  };
 }
 
 export default function PricingPage() {
   const [promo, setPromo] = useState<PromoStatus | null>(null);
-  const [showCalculator, setShowCalculator] = useState(false);
   const [avgJobValue, setAvgJobValue] = useState(250);
 
   useEffect(() => {
     fetch("/api/promo/founding")
       .then((res) => res.json())
       .then((data) => setPromo(data))
-      .catch(() => setPromo({ active: true, spotsRemaining: 14, totalSpots: 20, percentOff: 50 }));
+      .catch(() => null);
   }, []);
 
-  const showPromo = promo?.active && (promo?.spotsRemaining ?? 0) > 0;
+  // Pricing
+  const starterPrice = 99;
+  const growthPrice = 249;
+  const proPrice = 499;
+  const lifetimePrice = 1499;
 
-  // Pricing (Growth plan as the default shown price)
-  const normalPrice = 249;
-  const setupFee = 499;
-  const discountedPrice = Math.round(normalPrice * 0.5); // $125
-
-  // ROI calculations
-  const monthsPayForItself = Math.ceil(discountedPrice / avgJobValue);
-  const yearlyNormalCost = normalPrice * 12;
-  const yearlyDiscountedCost = (setupFee) + (discountedPrice * 11); // First month is setup
-  const yearlyDiscountedCostYear2 = discountedPrice * 12;
+  // ROI calculations based on Growth plan
+  const monthsPayForItself = Math.ceil(growthPrice / avgJobValue);
+  const yearlyGrowthCost = growthPrice * 12;
 
   return (
     <div className="bg-slate-50 min-h-screen">
@@ -120,18 +128,11 @@ export default function PricingPage() {
           <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-8 text-white text-center">
             <div className="text-lg mb-2">TysonsTechSolutions All-in-One:</div>
             <div className="text-5xl md:text-6xl font-bold mb-2">
-              {showPromo ? (
-                <>
-                  <span className="text-3xl line-through text-green-300">${normalPrice}</span>
-                  {" "}${discountedPrice}
-                </>
-              ) : (
-                `$${normalPrice}`
-              )}
+              ${starterPrice} - ${proPrice}
               <span className="text-2xl">/month</span>
             </div>
             <div className="text-green-100">
-              {showPromo ? "Founding Member Price - Locked Forever!" : "Everything included. No hidden fees."}
+              Everything included. No hidden fees.
             </div>
           </div>
         </div>
@@ -181,14 +182,14 @@ export default function PricingPage() {
               <div className="bg-white rounded-xl p-6 border border-slate-200">
                 <div className="text-4xl mb-2">💰</div>
                 <div className="text-3xl font-bold text-green-500 mb-1">
-                  ${(avgJobValue * 12 - yearlyDiscountedCostYear2).toLocaleString()}+
+                  ${(avgJobValue * 12 - yearlyGrowthCost).toLocaleString()}+
                 </div>
                 <div className="text-slate-600">extra profit/year from just 1 job/month captured</div>
               </div>
               <div className="bg-white rounded-xl p-6 border border-slate-200">
                 <div className="text-4xl mb-2">🚀</div>
                 <div className="text-3xl font-bold text-blue-500 mb-1">
-                  {Math.round((avgJobValue * 12) / yearlyDiscountedCostYear2)}x
+                  {Math.round((avgJobValue * 12) / yearlyGrowthCost)}x
                 </div>
                 <div className="text-slate-600">ROI if chatbot books 1 job/month</div>
               </div>
@@ -202,8 +203,8 @@ export default function PricingPage() {
                   <p className="text-slate-700">
                     If your chatbot captures just <strong>ONE lead per month</strong> that you would have missed
                     (someone browsing at 11pm, a busy parent who didn&apos;t want to call), that&apos;s <strong>${avgJobValue} in revenue</strong>.
-                    Your monthly cost? Just <strong>${showPromo ? discountedPrice : normalPrice}</strong>.
-                    {" "}That&apos;s a <strong>{Math.round(avgJobValue / (showPromo ? discountedPrice : normalPrice) * 100)}% return</strong> on ONE booking.
+                    Your monthly cost? Just <strong>${growthPrice}</strong>.
+                    {" "}That&apos;s a <strong>{Math.round(avgJobValue / growthPrice * 100)}% return</strong> on ONE booking.
                   </p>
                 </div>
               </div>
@@ -213,91 +214,123 @@ export default function PricingPage() {
       </section>
 
       {/* Founding Member Special */}
-      {showPromo && (
+      {promo?.active && (
         <section className="py-16 px-6 bg-gradient-to-b from-amber-500 to-orange-500">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl">
               <div className="text-center mb-8">
                 <div className="inline-block bg-amber-100 text-amber-700 px-4 py-1 rounded-full text-sm font-bold mb-4">
-                  FOUNDING MEMBER SPECIAL
+                  FOUNDING MEMBER SPECIALS
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                  Lock in 50% Off Forever
+                  First 10 Customers Get Exclusive Deals
                 </h2>
                 <p className="text-xl text-slate-600">
-                  Be one of our first {promo?.totalSpots} customers and never pay full price.
+                  Limited spots available for each tier. Once they&apos;re gone, they&apos;re gone.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8 mb-8">
-                {/* Normal Pricing */}
-                <div className="bg-slate-100 rounded-2xl p-6 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-slate-300 text-slate-600 px-3 py-1 text-xs font-bold rounded-bl-lg">
-                    REGULAR PRICE
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                {/* Growth Deal */}
+                <div className={`rounded-2xl p-6 border-2 ${promo.deals.growth.active ? 'border-orange-500 bg-orange-50' : 'border-slate-200 bg-slate-100 opacity-60'}`}>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-bold text-orange-600 mb-1">GROWTH PLAN</div>
+                    <div className="text-3xl font-bold text-slate-900">${growthPrice}/mo</div>
                   </div>
-                  <div className="text-slate-500 font-medium mb-2 mt-4">Standard Membership</div>
-                  <div className="text-4xl font-bold text-slate-400 mb-4">
-                    ${normalPrice}<span className="text-xl">/mo</span>
+                  <div className="bg-white rounded-xl p-4 mb-4 text-center">
+                    <div className="text-lg font-bold text-green-600">Buy 1 Month</div>
+                    <div className="text-2xl font-bold text-slate-900">Get Month 2 FREE</div>
+                    <div className="text-sm text-slate-500">Save ${growthPrice}</div>
                   </div>
-                  <ul className="space-y-2 text-slate-500">
-                    <li>Year 1: ${yearlyNormalCost.toLocaleString()}</li>
-                    <li>Year 2: ${yearlyNormalCost.toLocaleString()}</li>
-                    <li>Year 3: ${yearlyNormalCost.toLocaleString()}</li>
-                    <li className="font-bold">3-Year Total: ${(yearlyNormalCost * 3).toLocaleString()}</li>
-                  </ul>
+                  {promo.deals.growth.active ? (
+                    <>
+                      <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        </span>
+                        <span className="text-red-600 font-bold">{promo.deals.growth.spotsRemaining} spots left</span>
+                      </div>
+                      <Link
+                        href="/signup?plan=growth&promo=FOUNDING_GROWTH"
+                        className="block w-full bg-orange-500 hover:bg-orange-600 text-white text-center py-3 rounded-lg font-bold"
+                      >
+                        Claim This Deal
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="text-center text-slate-500 font-medium py-3">Sold Out</div>
+                  )}
                 </div>
 
-                {/* Founding Member Pricing */}
-                <div className="bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-white text-orange-500 px-3 py-1 text-xs font-bold rounded-bl-lg">
-                    FOUNDING MEMBER
+                {/* Pro Deal */}
+                <div className={`rounded-2xl p-6 border-2 ${promo.deals.pro.active ? 'border-blue-500 bg-blue-50' : 'border-slate-200 bg-slate-100 opacity-60'}`}>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-bold text-blue-600 mb-1">PRO PLAN</div>
+                    <div className="text-3xl font-bold text-slate-900">${proPrice}/mo</div>
                   </div>
-                  <div className="text-orange-100 font-medium mb-2 mt-4">Your Price Forever</div>
-                  <div className="mb-4">
-                    <div className="text-lg text-orange-200 line-through">${normalPrice}/mo</div>
-                    <div className="text-4xl font-bold">
-                      ${discountedPrice}<span className="text-xl">/mo</span>
-                    </div>
+                  <div className="bg-white rounded-xl p-4 mb-4 text-center">
+                    <div className="text-lg font-bold text-green-600">Buy 1 Month</div>
+                    <div className="text-2xl font-bold text-slate-900">Get Month 2 FREE</div>
+                    <div className="text-sm text-slate-500">Save ${proPrice}</div>
                   </div>
-                  <ul className="space-y-2 text-orange-100">
-                    <li>Month 1 (Setup): ${setupFee}</li>
-                    <li>Month 2+: ${discountedPrice}/mo forever</li>
-                    <li>Year 1: ${yearlyDiscountedCost.toLocaleString()}</li>
-                    <li className="font-bold text-white">3-Year Total: ${(yearlyDiscountedCost + yearlyDiscountedCostYear2 * 2).toLocaleString()}</li>
-                  </ul>
-                  <div className="mt-4 pt-4 border-t border-orange-400">
-                    <div className="text-2xl font-bold">
-                      You Save: ${((yearlyNormalCost * 3) - (yearlyDiscountedCost + yearlyDiscountedCostYear2 * 2)).toLocaleString()}
-                    </div>
-                    <div className="text-orange-200 text-sm">over 3 years</div>
+                  {promo.deals.pro.active ? (
+                    <>
+                      <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        </span>
+                        <span className="text-red-600 font-bold">{promo.deals.pro.spotsRemaining} spots left</span>
+                      </div>
+                      <Link
+                        href="/signup?plan=pro&promo=FOUNDING_PRO"
+                        className="block w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-3 rounded-lg font-bold"
+                      >
+                        Claim This Deal
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="text-center text-slate-500 font-medium py-3">Sold Out</div>
+                  )}
+                </div>
+
+                {/* Lifetime Deal */}
+                <div className={`rounded-2xl p-6 border-2 ${promo.deals.lifetime.active ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 ring-2 ring-amber-500 ring-offset-2' : 'border-slate-200 bg-slate-100 opacity-60'}`}>
+                  <div className="text-center mb-4">
+                    <div className="text-sm font-bold text-amber-600 mb-1">LIFETIME PRO</div>
+                    <div className="text-3xl font-bold text-slate-900">${lifetimePrice}</div>
+                    <div className="text-sm text-slate-500">one-time payment</div>
                   </div>
+                  <div className="bg-white rounded-xl p-4 mb-4 text-center">
+                    <div className="text-lg font-bold text-green-600">Pay Once</div>
+                    <div className="text-2xl font-bold text-slate-900">Own Forever</div>
+                    <div className="text-sm text-slate-500">vs ${proPrice * 12}/yr paying monthly</div>
+                  </div>
+                  {promo.deals.lifetime.active ? (
+                    <>
+                      <div className="flex items-center justify-center gap-2 mb-4">
+                        <span className="relative flex h-3 w-3">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                        </span>
+                        <span className="text-red-600 font-bold">{promo.deals.lifetime.spotsRemaining} spots left</span>
+                      </div>
+                      <Link
+                        href="/signup?plan=lifetime"
+                        className="block w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-center py-3 rounded-lg font-bold"
+                      >
+                        Get Lifetime Access
+                      </Link>
+                    </>
+                  ) : (
+                    <div className="text-center text-slate-500 font-medium py-3">Sold Out</div>
+                  )}
                 </div>
               </div>
 
-              {/* Urgency */}
-              <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6 text-center mb-8">
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <span className="relative flex h-4 w-4">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
-                  </span>
-                  <span className="text-2xl font-bold text-red-600">
-                    Only {promo?.spotsRemaining} of {promo?.totalSpots} Spots Left
-                  </span>
-                </div>
-                <p className="text-red-600">
-                  Once these spots are gone, the price goes to ${normalPrice}/month. No exceptions.
-                </p>
-              </div>
-
-              <Link
-                href="/signup?promo=FOUNDING50"
-                className="block w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white text-center py-5 rounded-xl font-bold text-xl shadow-lg hover:shadow-xl transition-all"
-              >
-                Claim My Founding Member Spot - ${setupFee} Today
-              </Link>
-              <p className="text-center text-slate-500 mt-4 text-sm">
-                Then just ${discountedPrice}/month forever. Cancel anytime.
+              <p className="text-center text-slate-500 text-sm">
+                Founding member deals are first-come, first-served. Spots are tracked automatically.
               </p>
             </div>
           </div>
@@ -429,35 +462,21 @@ export default function PricingPage() {
             that&apos;s money you&apos;re losing. Let our AI work for you 24/7.
           </p>
 
-          {showPromo ? (
-            <div className="bg-white/10 backdrop-blur rounded-2xl p-8 mb-8">
-              <div className="text-lg text-orange-200 mb-2">Founding Member Special</div>
-              <div className="text-5xl font-bold mb-2">
-                ${setupFee} + ${discountedPrice}/mo
-              </div>
-              <div className="text-orange-200">
-                ${normalPrice}/mo value - locked at half price forever
-              </div>
-            </div>
-          ) : (
-            <div className="bg-white/10 backdrop-blur rounded-2xl p-8 mb-8">
-              <div className="text-5xl font-bold mb-2">${normalPrice}/mo</div>
-              <div className="text-orange-200">Everything included</div>
-            </div>
-          )}
+          <div className="bg-white/10 backdrop-blur rounded-2xl p-8 mb-8">
+            <div className="text-lg text-orange-200 mb-2">Plans starting at</div>
+            <div className="text-5xl font-bold mb-2">${starterPrice}/mo</div>
+            <div className="text-orange-200">Everything included. Cancel anytime.</div>
+          </div>
 
           <Link
-            href={showPromo ? "/signup?promo=FOUNDING50" : "/signup"}
+            href="/signup"
             className="inline-block bg-white text-orange-500 px-10 py-5 rounded-xl font-bold text-xl hover:bg-orange-50 transition-colors shadow-lg"
           >
-            {showPromo ? "Claim My Founding Spot" : "Start Free Trial"}
+            Get Started
           </Link>
 
           <p className="mt-6 text-orange-200">
-            {showPromo
-              ? `Only ${promo?.spotsRemaining} spots left at this price!`
-              : "14-day free trial. No credit card required."
-            }
+            Cancel anytime. No long-term contracts.
           </p>
         </div>
       </section>
@@ -487,8 +506,8 @@ export default function PricingPage() {
                 a: "Those are great tools, but they cost $50-200/month EACH and still don't have AI chatbots or satellite measurement. We give you everything in one place for less than what you'd pay for just scheduling software."
               },
               {
-                q: "Is the 'founding member' price really locked forever?",
-                a: "Yes. When you sign up as a founding member, your $125/month rate is locked for as long as you're a customer. Even if we raise prices to $300/month next year, you pay $125. Forever."
+                q: "How do the founding member deals work?",
+                a: "For Growth ($249/mo) and Pro ($499/mo) plans, the first 10 customers get their second month free. For Lifetime Pro, the first 10 customers can pay $1,499 once and own the Pro plan forever. Once spots are claimed, the deals are gone."
               },
             ].map((item, i) => (
               <div key={i} className="bg-slate-50 rounded-xl p-6">

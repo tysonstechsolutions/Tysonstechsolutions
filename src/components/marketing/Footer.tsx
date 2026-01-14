@@ -48,14 +48,14 @@ export default function Footer() {
                 See It In Action
               </Link>
               <Link
-                href="/signup?promo=FOUNDING50"
+                href="/signup"
                 className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors"
               >
-                Get 50% Off Forever →
+                Get Started →
               </Link>
             </div>
             <p className="text-orange-200 text-sm mt-4">
-              Only 14 founding member spots left at $118/month
+              Plans starting at $99/month
             </p>
           </div>
         </div>

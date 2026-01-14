@@ -5,7 +5,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tysonstechsolutions
 
 export const metadata: Metadata = {
   title: "AI Chatbot Features for Contractors - Instant Quotes & Lead Capture",
-  description: "24/7 AI chatbot captures leads, measures properties via satellite, and sends instant quotes. SMS alerts, CRM integration. Free 14-day trial.",
+  description: "24/7 AI chatbot captures leads, measures properties via satellite, and sends instant quotes. SMS alerts, CRM integration.",
   keywords: ["contractor chatbot", "AI lead generation", "instant quote software", "satellite measurement"],
   alternates: {
     canonical: `${siteUrl}/features`,
@@ -73,7 +73,7 @@ export default function FeaturesPage() {
             href="/signup"
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
           >
-            Start Your Free Trial
+            Get Started
           </Link>
         </div>
       </div>

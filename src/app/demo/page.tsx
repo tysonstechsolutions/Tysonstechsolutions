@@ -13,8 +13,8 @@ export default function DemoPage() {
       <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2.5 px-4 text-center text-sm">
         <Link href="/pricing" className="hover:underline">
           <span className="font-bold">Founding Member Special:</span>
-          {" "}$500 setup + $118/mo forever (normally $237/mo) - Only 14 spots left!
-          {" "}<span className="underline">Lock in your price →</span>
+          {" "}Buy 1st month, get 2nd month FREE! Limited spots available.
+          {" "}<span className="underline">See deals →</span>
         </Link>
       </div>
 
@@ -39,13 +39,10 @@ export default function DemoPage() {
             </Link>
           </div>
           <Link
-            href="/signup?promo=FOUNDING50"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium relative"
+            href="/signup"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg font-medium"
           >
-            Get 50% Off
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full animate-pulse">
-              14 left
-            </span>
+            Get Started
           </Link>
         </div>
       </nav>
@@ -158,9 +155,9 @@ export default function DemoPage() {
           </h2>
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white/10 backdrop-blur rounded-xl p-6">
-              <div className="text-4xl font-bold">$118</div>
-              <div className="text-orange-100">Your monthly cost</div>
-              <div className="text-xs text-orange-200 mt-1">(founding member price)</div>
+              <div className="text-4xl font-bold">$99</div>
+              <div className="text-orange-100">Starting monthly cost</div>
+              <div className="text-xs text-orange-200 mt-1">(Starter plan)</div>
             </div>
             <div className="bg-white/10 backdrop-blur rounded-xl p-6">
               <div className="text-4xl font-bold">1 lead</div>
@@ -174,7 +171,7 @@ export default function DemoPage() {
             </div>
           </div>
           <p className="text-xl text-orange-100 mb-6">
-            That's a <span className="font-bold text-white">212% return</span> from capturing just ONE extra lead per month.
+            That's a <span className="font-bold text-white">250%+ return</span> from capturing just ONE extra lead per month.
             <br />Most customers capture 5-10+ leads per month.
           </p>
           <Link
@@ -249,25 +246,24 @@ export default function DemoPage() {
       {/* CTA Section */}
       <section className="py-20 px-6 bg-slate-800">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            Limited Time - 14 Founding Member Spots Remaining
+          <div className="inline-block bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+            Plans Starting at $99/month
           </div>
           <h2 className="text-3xl font-bold text-white mb-6">
             Get Your Own Custom Chatbot
           </h2>
           <p className="text-slate-300 mb-4 text-lg">
-            $500 setup + $118/month (locked forever)
+            Starter $99/mo · Growth $249/mo · Pro $499/mo
           </p>
           <p className="text-slate-400 mb-8">
             Includes custom branding, your services & pricing, SMS notifications, and everything you saw in the demos.
-            <br />Normal price is $237/month - founding members save $1,428/year forever.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/signup?promo=FOUNDING50"
+              href="/signup"
               className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-bold text-lg"
             >
-              Claim My Founding Spot - $500 Today
+              Get Started
             </Link>
             <Link
               href="/pricing"
@@ -277,7 +273,7 @@ export default function DemoPage() {
             </Link>
           </div>
           <p className="text-slate-500 mt-4 text-sm">
-            Cancel anytime. No contracts. 30-day money-back guarantee.
+            Cancel anytime. No contracts.
           </p>
         </div>
       </section>

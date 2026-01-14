@@ -77,12 +77,23 @@ export async function POST(request: NextRequest) {
         // Update contractor with Stripe customer ID if this is their first purchase
         const customerId = getCustomerId(session.customer);
         if (customerId && session.client_reference_id) {
+          // Check if this is a lifetime purchase
+          const isLifetime = session.metadata?.plan_type === "lifetime" || session.mode === "payment";
+
+          const updateData: Record<string, unknown> = {
+            stripe_customer_id: customerId,
+            updated_at: new Date().toISOString(),
+          };
+
+          // If lifetime purchase, set tier to pro and status to lifetime
+          if (isLifetime) {
+            updateData.subscription_tier = "pro";
+            updateData.subscription_status = "lifetime";
+          }
+
           const { error } = await supabase
             .from("contractors")
-            .update({
-              stripe_customer_id: customerId,
-              updated_at: new Date().toISOString(),
-            })
+            .update(updateData)
             .eq("id", session.client_reference_id);
 
           if (error) {

@@ -70,8 +70,7 @@ export default function SignupPage() {
           email: formData.email,
           phone: formData.phone || "",
           subscription_tier: "starter",
-          subscription_status: "trialing",
-          // trial_ends_at defaults to NOW() + 14 days in the database
+          subscription_status: "active",
         });
 
       if (contractorError) {
@@ -91,8 +90,8 @@ export default function SignupPage() {
           <Link href="/" className="text-2xl font-bold text-orange-500">
             TysonsTechSolutions
           </Link>
-          <h1 className="mt-6 text-3xl font-bold text-slate-900">Start your free trial</h1>
-          <p className="mt-2 text-slate-600">14 days free. No credit card required.</p>
+          <h1 className="mt-6 text-3xl font-bold text-slate-900">Create your account</h1>
+          <p className="mt-2 text-slate-600">Get started with TysonsTechSolutions today.</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
@@ -203,7 +202,7 @@ export default function SignupPage() {
               disabled={loading}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating account..." : "Start free trial"}
+              {loading ? "Creating account..." : "Create account"}
             </button>
 
             <p className="text-xs text-slate-500 text-center">

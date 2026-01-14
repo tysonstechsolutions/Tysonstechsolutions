@@ -138,7 +138,7 @@ export default function Home() {
               {/* First 10 bonus */}
               <div className="bg-white/20 rounded-lg p-2 mb-4 text-xs">
                 <div className="text-white font-semibold">First 10 customers:</div>
-                <div className="text-orange-100">Month 2 FREE + 1-on-1 setup + $199/mo forever</div>
+                <div className="text-orange-100">Buy 1st month, get 2nd month FREE!</div>
               </div>
               <ul className="space-y-2 text-orange-100 text-sm mb-6">
                 <li className="flex items-center gap-2">
@@ -188,7 +188,7 @@ export default function Home() {
               {/* First 10 bonus */}
               <div className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-2 mb-4 text-xs">
                 <div className="text-amber-400 font-semibold">First 10 customers:</div>
-                <div className="text-slate-300">Month 2 FREE + 1-on-1 setup + $399/mo forever</div>
+                <div className="text-slate-300">Buy 1st month, get 2nd month FREE!</div>
               </div>
               <ul className="space-y-2 text-slate-300 text-sm mb-6">
                 <li className="flex items-center gap-2">
@@ -475,7 +475,7 @@ export default function Home() {
               href="/signup"
               className="inline-block bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-700 border-2 border-orange-400"
             >
-              Start Free Trial
+              Get Started
             </Link>
           </div>
         </div>

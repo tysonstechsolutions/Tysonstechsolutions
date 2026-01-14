@@ -8,43 +8,41 @@ interface LifetimeProPopupProps {
   onClose: () => void;
 }
 
+interface PromoStatus {
+  active: boolean;
+  deals: {
+    lifetime: {
+      active: boolean;
+      spotsRemaining: number;
+    };
+  };
+}
+
 export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupProps) {
-  const [countdown, setCountdown] = useState({ hours: 23, minutes: 59, seconds: 59 });
+  const [spotsLeft, setSpotsLeft] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
-    // Get or set countdown end time
-    let endTime = localStorage.getItem("lifetime_offer_ends");
-    if (!endTime) {
-      // Set 24 hour countdown from now
-      const end = new Date();
-      end.setHours(end.getHours() + 24);
-      endTime = end.toISOString();
-      localStorage.setItem("lifetime_offer_ends", endTime);
-    }
-
-    const timer = setInterval(() => {
-      const now = new Date();
-      const end = new Date(endTime!);
-      const diff = end.getTime() - now.getTime();
-
-      if (diff <= 0) {
-        setCountdown({ hours: 0, minutes: 0, seconds: 0 });
-        clearInterval(timer);
-        return;
-      }
-
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      setCountdown({ hours, minutes, seconds });
-    }, 1000);
-
-    return () => clearInterval(timer);
+    fetch("/api/promo/founding")
+      .then((res) => res.json())
+      .then((data: PromoStatus) => {
+        if (data.deals?.lifetime?.active) {
+          setSpotsLeft(data.deals.lifetime.spotsRemaining);
+        } else {
+          setSpotsLeft(0);
+        }
+      })
+      .catch(() => setSpotsLeft(10));
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  // Don't show if no spots left
+  if (spotsLeft === 0) {
+    onClose();
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -79,24 +77,17 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
           </p>
         </div>
 
-        {/* Countdown Timer */}
+        {/* Spots Remaining */}
         <div className="bg-slate-900 py-4 px-8">
           <div className="text-center">
-            <div className="text-xs text-slate-400 mb-2">OFFER EXPIRES IN</div>
-            <div className="flex justify-center gap-3">
-              <div className="bg-slate-800 rounded-lg px-3 py-2 min-w-[60px]">
-                <div className="text-2xl font-bold text-white">{String(countdown.hours).padStart(2, '0')}</div>
-                <div className="text-xs text-slate-400">HOURS</div>
-              </div>
-              <div className="text-2xl font-bold text-slate-500 self-center">:</div>
-              <div className="bg-slate-800 rounded-lg px-3 py-2 min-w-[60px]">
-                <div className="text-2xl font-bold text-white">{String(countdown.minutes).padStart(2, '0')}</div>
-                <div className="text-xs text-slate-400">MINS</div>
-              </div>
-              <div className="text-2xl font-bold text-slate-500 self-center">:</div>
-              <div className="bg-slate-800 rounded-lg px-3 py-2 min-w-[60px]">
-                <div className="text-2xl font-bold text-white">{String(countdown.seconds).padStart(2, '0')}</div>
-                <div className="text-xs text-slate-400">SECS</div>
+            <div className="text-xs text-slate-400 mb-2">FOUNDING MEMBER SPOTS</div>
+            <div className="flex justify-center items-center gap-3">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+              <div className="text-2xl font-bold text-white">
+                Only {spotsLeft ?? '...'} of 10 spots left
               </div>
             </div>
           </div>
@@ -164,7 +155,7 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
         {/* Urgency bar */}
         <div className="bg-red-50 border-t border-red-100 px-8 py-3 text-center">
           <span className="text-red-600 text-sm font-medium">
-            This offer won&apos;t be available after the timer runs out
+            Once all 10 spots are claimed, this deal is gone forever
           </span>
         </div>
       </div>

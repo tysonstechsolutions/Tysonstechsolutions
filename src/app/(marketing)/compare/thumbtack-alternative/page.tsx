@@ -57,7 +57,7 @@ export default function ThumbtackAlternativePage() {
             href="/signup"
             className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg"
           >
-            Start 14-Day Free Trial
+            Get Started
           </Link>
         </div>
       </section>
@@ -160,7 +160,7 @@ export default function ThumbtackAlternativePage() {
             href="/signup"
             className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
           >
-            Start Your Free Trial
+            Get Started
           </Link>
         </div>
       </section>
