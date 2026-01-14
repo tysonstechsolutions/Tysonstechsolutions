@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     // Validate the API key against the contractors table
     const { data: contractor, error: contractorError } = await supabase
       .from("contractors")
-      .select("id, business_name, subscription_status, trial_ends_at")
+      .select("id, business_name, subscription_status, trial_ends_at, conversations_this_month")
       .eq("widget_api_key", apiKey)
       .single();
 
@@ -151,9 +151,7 @@ export async function POST(request: NextRequest) {
     supabase
       .from("contractors")
       .update({
-        conversations_this_month: (contractor as { conversations_this_month?: number }).conversations_this_month
-          ? (contractor as { conversations_this_month?: number }).conversations_this_month! + 1
-          : 1,
+        conversations_this_month: (contractor.conversations_this_month || 0) + 1,
         updated_at: new Date().toISOString(),
       })
       .eq("id", contractor.id)

@@ -1,11 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, getClientIP, rateLimitConfigs, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request);
+    const rateLimit = checkRateLimit(`maps:${clientIP}`, rateLimitConfigs.maps);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit.resetIn);
+    }
+
     const { address } = await request.json();
 
-    if (!address) {
+    if (!address || typeof address !== "string") {
       return NextResponse.json({ error: "Address is required" }, { status: 400 });
+    }
+
+    // Limit address length to prevent abuse
+    if (address.length > 500) {
+      return NextResponse.json({ error: "Address too long" }, { status: 400 });
     }
 
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;

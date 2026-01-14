@@ -163,14 +163,14 @@ export default async function BillingPage() {
         ))}
       </div>
 
-      {isActive && (
+      {isActive && process.env.STRIPE_CUSTOMER_PORTAL_URL && (
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Manage Subscription</h2>
           <p className="text-slate-600 mb-4">
             Need to update your payment method or cancel your subscription?
           </p>
           <a
-            href="https://billing.stripe.com/p/login/test_00000000000"
+            href={process.env.STRIPE_CUSTOMER_PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-colors inline-block"

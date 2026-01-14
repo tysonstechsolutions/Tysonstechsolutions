@@ -31,6 +31,8 @@ CREATE TABLE contractors (
   widget_api_key UUID DEFAULT uuid_generate_v4() UNIQUE,
   widget_primary_color VARCHAR(7) DEFAULT '#2563eb',
   widget_position VARCHAR(20) DEFAULT 'bottom-right',
+  email_notifications BOOLEAN DEFAULT true,
+  sms_notifications BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -145,14 +147,17 @@ ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sms_log ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Contractors see own data" ON contractors FOR ALL USING (auth.uid() = auth_user_id);
 CREATE POLICY "Contractors see own leads" ON leads FOR ALL USING (contractor_id IN (SELECT id FROM contractors WHERE auth_user_id = auth.uid()));
+CREATE POLICY "Contractors see own sms" ON sms_log FOR ALL USING (contractor_id IN (SELECT id FROM contractors WHERE auth_user_id = auth.uid()));
 CREATE POLICY "Public posts" ON blog_posts FOR SELECT USING (status = 'published');
 CREATE POLICY "Service role contractors" ON contractors FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 CREATE POLICY "Service role leads" ON leads FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 CREATE POLICY "Service role conversations" ON conversations FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 CREATE POLICY "Service role messages" ON messages FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
+CREATE POLICY "Service role sms_log" ON sms_log FOR ALL USING (auth.jwt() ->> 'role' = 'service_role');
 
 -- =====================================================
 -- TYSONSTECHSOLUTIONS AGENCY SERVICES (v2.1)

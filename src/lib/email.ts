@@ -14,6 +14,25 @@ interface EmailOptions {
   replyTo?: string;
 }
 
+// Escape HTML entities to prevent XSS
+function escapeHtml(text: string): string {
+  if (!text) return "";
+  const htmlEntities: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  };
+  return text.replace(/[&<>"']/g, (char) => htmlEntities[char] || char);
+}
+
+// Escape for use in href attributes (more restrictive)
+function escapeAttr(text: string): string {
+  if (!text) return "";
+  return escapeHtml(text).replace(/javascript:/gi, "").replace(/data:/gi, "");
+}
+
 export async function sendEmail(options: EmailOptions) {
   if (!resend) {
     console.log("Email service not configured. Would send:", options);
@@ -55,7 +74,7 @@ export const emailTemplates = {
     description?: string;
   }) => ({
     to: ADMIN_EMAIL,
-    subject: `New ${inquiry.serviceName} Inquiry from ${inquiry.name}`,
+    subject: `New ${escapeHtml(inquiry.serviceName)} Inquiry from ${escapeHtml(inquiry.name)}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -76,49 +95,49 @@ export const emailTemplates = {
           <div class="container">
             <div class="header">
               <h1 style="margin: 0;">New Service Inquiry</h1>
-              <p style="margin: 10px 0 0 0; opacity: 0.9;">${inquiry.serviceName}</p>
+              <p style="margin: 10px 0 0 0; opacity: 0.9;">${escapeHtml(inquiry.serviceName)}</p>
             </div>
             <div class="content">
               <div class="field">
                 <div class="label">Contact Name</div>
-                <div class="value">${inquiry.name}</div>
+                <div class="value">${escapeHtml(inquiry.name)}</div>
               </div>
               <div class="field">
                 <div class="label">Email</div>
-                <div class="value"><a href="mailto:${inquiry.email}">${inquiry.email}</a></div>
+                <div class="value"><a href="mailto:${escapeAttr(inquiry.email)}">${escapeHtml(inquiry.email)}</a></div>
               </div>
               ${inquiry.phone ? `
               <div class="field">
                 <div class="label">Phone</div>
-                <div class="value"><a href="tel:${inquiry.phone}">${inquiry.phone}</a></div>
+                <div class="value"><a href="tel:${escapeAttr(inquiry.phone)}">${escapeHtml(inquiry.phone)}</a></div>
               </div>
               ` : ""}
               ${inquiry.companyName ? `
               <div class="field">
                 <div class="label">Company</div>
-                <div class="value">${inquiry.companyName}</div>
+                <div class="value">${escapeHtml(inquiry.companyName)}</div>
               </div>
               ` : ""}
               ${inquiry.budget ? `
               <div class="field">
                 <div class="label">Budget</div>
-                <div class="value">${inquiry.budget}</div>
+                <div class="value">${escapeHtml(inquiry.budget)}</div>
               </div>
               ` : ""}
               ${inquiry.timeline ? `
               <div class="field">
                 <div class="label">Timeline</div>
-                <div class="value">${inquiry.timeline}</div>
+                <div class="value">${escapeHtml(inquiry.timeline)}</div>
               </div>
               ` : ""}
               ${inquiry.description ? `
               <div class="field">
                 <div class="label">Project Description</div>
-                <div class="description">${inquiry.description}</div>
+                <div class="description">${escapeHtml(inquiry.description)}</div>
               </div>
               ` : ""}
-              <a href="mailto:${inquiry.email}?subject=Re: Your ${inquiry.serviceName} Inquiry" class="cta">
-                Reply to ${inquiry.name}
+              <a href="mailto:${escapeAttr(inquiry.email)}?subject=Re: Your ${escapeAttr(inquiry.serviceName)} Inquiry" class="cta">
+                Reply to ${escapeHtml(inquiry.name)}
               </a>
             </div>
           </div>
@@ -135,7 +154,7 @@ export const emailTemplates = {
     serviceName: string;
   }) => ({
     to: customer.email,
-    subject: `We received your ${customer.serviceName} inquiry - TysonsTechSolutions`,
+    subject: `We received your ${escapeHtml(customer.serviceName)} inquiry - TysonsTechSolutions`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -156,8 +175,8 @@ export const emailTemplates = {
               <h1 style="margin: 0;">Thanks for reaching out!</h1>
             </div>
             <div class="content">
-              <p>Hi ${customer.name},</p>
-              <p>We've received your inquiry about our <strong>${customer.serviceName}</strong> services. Our team will review your request and get back to you within 24 hours.</p>
+              <p>Hi ${escapeHtml(customer.name)},</p>
+              <p>We've received your inquiry about our <strong>${escapeHtml(customer.serviceName)}</strong> services. Our team will review your request and get back to you within 24 hours.</p>
 
               <div class="highlight">
                 <strong>What happens next?</strong>
@@ -191,7 +210,7 @@ export const emailTemplates = {
     message: string;
   }) => ({
     to: ADMIN_EMAIL,
-    subject: `New Contact Form: ${contact.subject || "General Inquiry"} from ${contact.name}`,
+    subject: `New Contact Form: ${escapeHtml(contact.subject || "General Inquiry")} from ${escapeHtml(contact.name)}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -216,20 +235,20 @@ export const emailTemplates = {
             <div class="content">
               <div class="field">
                 <div class="label">From</div>
-                <div class="value">${contact.name} (<a href="mailto:${contact.email}">${contact.email}</a>)</div>
+                <div class="value">${escapeHtml(contact.name)} (<a href="mailto:${escapeAttr(contact.email)}">${escapeHtml(contact.email)}</a>)</div>
               </div>
               ${contact.subject ? `
               <div class="field">
                 <div class="label">Subject</div>
-                <div class="value">${contact.subject}</div>
+                <div class="value">${escapeHtml(contact.subject)}</div>
               </div>
               ` : ""}
               <div class="field">
                 <div class="label">Message</div>
-                <div class="message">${contact.message}</div>
+                <div class="message">${escapeHtml(contact.message)}</div>
               </div>
-              <a href="mailto:${contact.email}?subject=Re: ${contact.subject || "Your message"}" class="cta">
-                Reply to ${contact.name}
+              <a href="mailto:${escapeAttr(contact.email)}?subject=Re: ${escapeAttr(contact.subject || "Your message")}" class="cta">
+                Reply to ${escapeHtml(contact.name)}
               </a>
             </div>
           </div>
@@ -264,7 +283,7 @@ export const emailTemplates = {
               <h1 style="margin: 0;">Message Received!</h1>
             </div>
             <div class="content">
-              <p>Hi ${customer.name},</p>
+              <p>Hi ${escapeHtml(customer.name)},</p>
               <p>Thanks for reaching out! We've received your message and will get back to you within 24 hours.</p>
               <p>Best regards,<br><strong>The TysonsTechSolutions Team</strong></p>
             </div>

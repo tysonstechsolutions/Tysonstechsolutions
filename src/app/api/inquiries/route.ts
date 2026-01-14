@@ -1,10 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/admin";
+import { createClient as createServerClient } from "@/lib/supabase/server";
 import { sendEmail, emailTemplates } from "@/lib/email";
+
+// Sanitize user input to prevent XSS and injection attacks
+function sanitizeInput(input: string): string {
+  if (typeof input !== "string") return "";
+  return input
+    .replace(/[<>]/g, "")
+    .replace(/javascript:/gi, "")
+    .replace(/on\w+=/gi, "")
+    .trim()
+    .slice(0, 5000);
+}
+
+// Sanitize object values
+function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
+  const sanitized = { ...obj };
+  for (const key in sanitized) {
+    if (typeof sanitized[key] === "string") {
+      (sanitized as Record<string, unknown>)[key] = sanitizeInput(sanitized[key] as string);
+    }
+  }
+  return sanitized;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
+    const rawData = await request.json();
+    const data = sanitizeObject(rawData);
 
     // Validate required fields
     const { name, email, service_slug, service_name } = data;
@@ -90,13 +114,28 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET endpoint to fetch inquiries (for admin dashboard)
+// GET endpoint to fetch inquiries (for admin dashboard - requires authentication)
 export async function GET(request: NextRequest) {
   try {
+    // Verify user is authenticated
+    const serverSupabase = await createServerClient();
+    const { data: { user }, error: authError } = await serverSupabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Check if user is an admin (you can customize this check based on your admin logic)
+    // For now, we check if the user's email matches the admin email
+    const adminEmail = process.env.ADMIN_EMAIL || "tyson@tysonstechsolutions.com";
+    if (user.email !== adminEmail) {
+      return NextResponse.json({ error: "Forbidden - Admin access required" }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
     const service = searchParams.get("service");
-    const limit = parseInt(searchParams.get("limit") || "50");
+    const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100); // Cap at 100
 
     const supabase = createClient();
 

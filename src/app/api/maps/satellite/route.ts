@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, getClientIP, rateLimitConfigs, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request);
+    const rateLimit = checkRateLimit(`maps:${clientIP}`, rateLimitConfigs.maps);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit.resetIn);
+    }
+
     const { latitude, longitude, zoom = 19 } = await request.json();
 
     // Validate required fields
-    if (!latitude || !longitude) {
+    if (latitude === undefined || longitude === undefined) {
       return NextResponse.json({ error: "Coordinates required" }, { status: 400 });
     }
 
