@@ -41,11 +41,13 @@ export default function Home() {
       if (data.url) {
         window.location.href = data.url;
       } else {
+        console.error("Checkout error:", data);
         alert(data.error || "Something went wrong");
         setLoadingPlan(null);
       }
-    } catch {
-      alert("Something went wrong");
+    } catch (err) {
+      console.error("Checkout fetch error:", err);
+      alert("Something went wrong - check console for details");
       setLoadingPlan(null);
     }
   };
