@@ -10,6 +10,7 @@ export default function Home() {
   const topServices = services.slice(0, 6);
   const topIndustries = industries.slice(0, 8);
   const [showPopup, setShowPopup] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if user has already seen the popup
@@ -26,6 +27,27 @@ export default function Home() {
   const handleClosePopup = () => {
     setShowPopup(false);
     localStorage.setItem("lifetime_popup_seen", "true");
+  };
+
+  const handleCheckout = async (plan: string, applyPromo: boolean = false) => {
+    setLoadingPlan(plan);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, applyFoundingPromo: applyPromo }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error || "Something went wrong");
+        setLoadingPlan(null);
+      }
+    } catch {
+      alert("Something went wrong");
+      setLoadingPlan(null);
+    }
   };
 
   return (
@@ -83,7 +105,11 @@ export default function Home() {
           {/* Pricing Cards - Front and Center */}
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {/* Starter */}
-            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-slate-600 transition-colors">
+            <button
+              onClick={() => handleCheckout("starter")}
+              disabled={loadingPlan !== null}
+              className="block rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-orange-500 hover:scale-[1.02] transition-all cursor-pointer text-left disabled:opacity-70 disabled:cursor-wait"
+            >
               <div className="text-lg font-semibold text-white mb-1">Starter</div>
               <div className="text-sm text-slate-400 mb-3">AI Chatbot Only</div>
               <div className="mb-4">
@@ -116,16 +142,17 @@ export default function Home() {
                   Unlimited Conversations
                 </li>
               </ul>
-              <Link
-                href="/signup?plan=starter"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white transition-colors"
-              >
-                Get Started
-              </Link>
-            </div>
+              <div className="w-full py-3 rounded-lg font-medium text-center bg-slate-700 text-white transition-colors">
+                {loadingPlan === "starter" ? "Loading..." : "Get Started"}
+              </div>
+            </button>
 
             {/* Growth - Most Popular */}
-            <div className="rounded-2xl p-6 bg-orange-500 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900 relative">
+            <button
+              onClick={() => handleCheckout("growth", true)}
+              disabled={loadingPlan !== null}
+              className="block rounded-2xl p-6 bg-orange-500 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900 relative hover:scale-[1.02] hover:ring-orange-400 transition-all cursor-pointer text-left disabled:opacity-70 disabled:cursor-wait"
+            >
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-orange-500 px-3 py-1 rounded-full text-xs font-bold">
                 MOST POPULAR
               </div>
@@ -166,16 +193,13 @@ export default function Home() {
                   Priority Support
                 </li>
               </ul>
-              <Link
-                href="/signup?plan=growth"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-white text-orange-500 hover:bg-orange-50 transition-colors"
-              >
-                Get Started
-              </Link>
-            </div>
+              <div className="w-full py-3 rounded-lg font-medium text-center bg-white text-orange-500 transition-colors">
+                {loadingPlan === "growth" ? "Loading..." : "Get Started"}
+              </div>
+            </button>
 
             {/* Pro */}
-            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-slate-600 transition-colors relative">
+            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-orange-500 transition-all relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
                 LIFETIME DEAL
               </div>
@@ -216,18 +240,20 @@ export default function Home() {
                   SEO & Review Automation
                 </li>
               </ul>
-              <Link
-                href="/signup?plan=pro"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white transition-colors mb-2"
+              <button
+                onClick={() => handleCheckout("pro", true)}
+                disabled={loadingPlan !== null}
+                className="w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white transition-colors mb-2 disabled:opacity-70 disabled:cursor-wait"
               >
-                Get Started - $499/mo
-              </Link>
-              <Link
-                href="/signup?plan=lifetime"
-                className="block w-full py-2 rounded-lg font-medium text-center text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-colors"
+                {loadingPlan === "pro" ? "Loading..." : "Get Started - $499/mo"}
+              </button>
+              <button
+                onClick={() => handleCheckout("lifetime")}
+                disabled={loadingPlan !== null}
+                className="w-full py-2 rounded-lg font-medium text-center text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-colors disabled:opacity-70 disabled:cursor-wait"
               >
-                Or Get Lifetime - $1,499
-              </Link>
+                {loadingPlan === "lifetime" ? "Loading..." : "Or Get Lifetime - $1,499"}
+              </button>
             </div>
           </div>
 

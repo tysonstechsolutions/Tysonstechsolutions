@@ -16,6 +16,14 @@ const FOUNDING_COUPONS = {
 
 const MAX_SPOTS_PER_DEAL = 10;
 
+// Map plan names to price env vars
+const PLAN_PRICE_MAP: Record<string, string | undefined> = {
+  starter: process.env.STRIPE_PRICE_STARTER,
+  growth: process.env.STRIPE_PRICE_GROWTH,
+  pro: process.env.STRIPE_PRICE_PRO,
+  lifetime: process.env.STRIPE_PRICE_LIFETIME,
+};
+
 // Validate priceId against known Stripe price IDs
 function isValidPriceId(priceId: string): boolean {
   const validPriceIds = [
@@ -82,8 +90,105 @@ async function checkLifetimeSpotsAvailable(stripe: Stripe): Promise<boolean> {
 
 export async function POST(request: NextRequest) {
   try {
-    const { priceId, contractorId, applyFoundingPromo } = await request.json();
+    const body = await request.json();
 
+    // Support both legacy (priceId + contractorId) and new (plan only) flows
+    const { priceId, contractorId, applyFoundingPromo, plan } = body;
+
+    const stripe = getStripe();
+    const supabase = createClient();
+
+    // NEW FLOW: Direct checkout without account (plan name provided)
+    if (plan && !contractorId) {
+      const planPriceId = PLAN_PRICE_MAP[plan];
+      if (!planPriceId) {
+        return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+      }
+
+      const isLifetime = plan === "lifetime";
+      const planType = plan as "starter" | "growth" | "pro" | "lifetime";
+
+      // Check if we should apply founding promo
+      let couponToApply: string | undefined;
+      if (applyFoundingPromo && (planType === "growth" || planType === "pro")) {
+        const promoAvailable = await checkFoundingPromoAvailable(stripe, planType);
+        if (promoAvailable) {
+          couponToApply = FOUNDING_COUPONS[planType];
+        }
+      }
+
+      if (isLifetime) {
+        // Check lifetime spots
+        const lifetimeAvailable = await checkLifetimeSpotsAvailable(stripe);
+        if (!lifetimeAvailable) {
+          return NextResponse.json({ error: "Lifetime founding member spots are sold out" }, { status: 400 });
+        }
+
+        // One-time payment - collect customer info on Stripe
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          line_items: [{ price: planPriceId, quantity: 1 }],
+          mode: "payment",
+          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/welcome?success=true&plan=${plan}`,
+          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
+          // Collect customer info on Stripe checkout page
+          customer_creation: "always",
+          billing_address_collection: "required",
+          custom_fields: [
+            {
+              key: "business_name",
+              label: { type: "custom", custom: "Business Name" },
+              type: "text",
+            },
+          ],
+          metadata: {
+            plan_type: "lifetime",
+            new_customer: "true",
+          },
+        });
+
+        return NextResponse.json({ url: session.url });
+      } else {
+        // Subscription - collect customer info on Stripe
+        const sessionConfig: Stripe.Checkout.SessionCreateParams = {
+          payment_method_types: ["card"],
+          line_items: [{ price: planPriceId, quantity: 1 }],
+          mode: "subscription",
+          success_url: `${process.env.NEXT_PUBLIC_APP_URL}/welcome?success=true&plan=${plan}`,
+          cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
+          // Collect customer info on Stripe checkout page
+          customer_creation: "always",
+          billing_address_collection: "required",
+          custom_fields: [
+            {
+              key: "business_name",
+              label: { type: "custom", custom: "Business Name" },
+              type: "text",
+            },
+          ],
+          subscription_data: {
+            metadata: {
+              plan_type: planType,
+              new_customer: "true",
+            },
+          },
+          metadata: {
+            plan_type: planType,
+            new_customer: "true",
+          },
+        };
+
+        // Apply coupon if available
+        if (couponToApply) {
+          sessionConfig.discounts = [{ coupon: couponToApply }];
+        }
+
+        const session = await stripe.checkout.sessions.create(sessionConfig);
+        return NextResponse.json({ url: session.url });
+      }
+    }
+
+    // LEGACY FLOW: Existing user with contractorId
     if (!priceId || !contractorId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
@@ -92,9 +197,6 @@ export async function POST(request: NextRequest) {
     if (typeof priceId !== "string" || !isValidPriceId(priceId)) {
       return NextResponse.json({ error: "Invalid price ID" }, { status: 400 });
     }
-
-    const stripe = getStripe();
-    const supabase = createClient();
 
     // Get contractor info
     const { data: contractor, error: contractorError } = await supabase
