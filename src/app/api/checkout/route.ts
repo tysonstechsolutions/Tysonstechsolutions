@@ -115,9 +115,14 @@ export async function POST(request: NextRequest) {
       // Check if we should apply founding promo
       let couponToApply: string | undefined;
       if (applyFoundingPromo && (planType === "growth" || planType === "pro")) {
-        const promoAvailable = await checkFoundingPromoAvailable(stripe, planType);
-        if (promoAvailable) {
-          couponToApply = FOUNDING_COUPONS[planType];
+        try {
+          const promoAvailable = await checkFoundingPromoAvailable(stripe, planType);
+          if (promoAvailable) {
+            couponToApply = FOUNDING_COUPONS[planType];
+          }
+        } catch (e) {
+          // Coupon doesn't exist yet - skip applying it
+          console.log("Coupon not found, skipping:", e);
         }
       }
 
@@ -182,9 +187,15 @@ export async function POST(request: NextRequest) {
           },
         };
 
-        // Apply coupon if available
+        // Apply coupon if available - verify it exists first
         if (couponToApply) {
-          sessionConfig.discounts = [{ coupon: couponToApply }];
+          try {
+            await stripe.coupons.retrieve(couponToApply);
+            sessionConfig.discounts = [{ coupon: couponToApply }];
+          } catch {
+            // Coupon doesn't exist, skip it
+            console.log("Coupon not found, proceeding without discount");
+          }
         }
 
         const session = await stripe.checkout.sessions.create(sessionConfig);
