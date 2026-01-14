@@ -68,24 +68,14 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section - NOW PRICING FOCUSED */}
-      <section className="pt-28 pb-16 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
+      {/* Hero Section - PRICING FIRST */}
+      <section className="pt-20 pb-12 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
-              </span>
-              Limited Time: Lifetime Pro Access Available
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              AI-Powered Business Tools
-              <br />
-              <span className="text-orange-400">Starting at $99/month</span>
+          <div className="text-center mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              AI-Powered Business Tools <span className="text-orange-400">Starting at $99/mo</span>
             </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Replace $500+ worth of software with one powerful system.
+            <p className="text-slate-300">
               Chatbots, websites, CRM, invoicing - everything you need to grow.
             </p>
           </div>
