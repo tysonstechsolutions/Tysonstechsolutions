@@ -1,13 +1,38 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { services } from "@/data/services";
 import { industries } from "@/data/industries";
+import LifetimeProPopup from "@/components/LifetimeProPopup";
 
 export default function Home() {
   const topServices = services.slice(0, 6);
   const topIndustries = industries.slice(0, 8);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already seen the popup
+    const hasSeenPopup = localStorage.getItem("lifetime_popup_seen");
+    if (!hasSeenPopup) {
+      // Show popup after 3 seconds
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    localStorage.setItem("lifetime_popup_seen", "true");
+  };
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Lifetime Pro Popup */}
+      <LifetimeProPopup isOpen={showPopup} onClose={handleClosePopup} />
+
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-slate-200 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -43,95 +68,280 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-slate-50 to-white">
+      {/* Hero Section - NOW PRICING FOCUSED */}
+      <section className="pt-28 pb-16 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-medium mb-6">
-              Web Development | AI Chatbots | Custom Software
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-green-500/20 text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+              </span>
+              Limited Time: Lifetime Pro Access Available
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
-              Technology Solutions That
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+              AI-Powered Business Tools
               <br />
-              <span className="text-orange-500">Grow Your Business</span>
+              <span className="text-orange-400">Starting at $99/month</span>
             </h1>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-10">
-              From stunning websites to intelligent chatbots to custom software,
-              we build technology that helps businesses attract customers, save time,
-              and increase revenue.
+            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+              Replace $500+ worth of software with one powerful system.
+              Chatbots, websites, CRM, invoicing - everything you need to grow.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          </div>
+
+          {/* Pricing Cards - Front and Center */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Starter */}
+            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-slate-600 transition-colors">
+              <div className="text-lg font-semibold text-white mb-1">Starter</div>
+              <div className="text-sm text-slate-400 mb-3">AI Chatbot Only</div>
+              <div className="mb-4">
+                <span className="text-3xl font-bold text-white">$99</span>
+                <span className="text-slate-400">/mo</span>
+              </div>
+              <ul className="space-y-2 text-slate-300 text-sm mb-6">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  AI Chat Widget
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Lead Capture
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Satellite Measurement
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Unlimited Conversations
+                </li>
+              </ul>
               <Link
-                href="/signup"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg shadow-lg"
+                href="/signup?plan=starter"
+                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white transition-colors"
               >
-                Get Free Consultation
-              </Link>
-              <Link
-                href="/services"
-                className="border-2 border-slate-300 hover:border-orange-500 text-slate-700 px-8 py-4 rounded-lg font-medium text-lg"
-              >
-                View Our Services
+                Get Started
               </Link>
             </div>
+
+            {/* Growth - Most Popular */}
+            <div className="rounded-2xl p-6 bg-orange-500 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-orange-500 px-3 py-1 rounded-full text-xs font-bold">
+                MOST POPULAR
+              </div>
+              <div className="text-lg font-semibold text-white mb-1">Growth</div>
+              <div className="text-sm text-orange-200 mb-3">Chatbot + Full Website</div>
+              <div className="mb-4">
+                <span className="text-3xl font-bold text-white">$249</span>
+                <span className="text-orange-200">/mo</span>
+              </div>
+              <ul className="space-y-2 text-orange-100 text-sm mb-6">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Everything in Starter
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Professional Website
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Online Booking System
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Priority Support
+                </li>
+              </ul>
+              <Link
+                href="/signup?plan=growth"
+                className="block w-full py-3 rounded-lg font-medium text-center bg-white text-orange-500 hover:bg-orange-50 transition-colors"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Pro */}
+            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-slate-600 transition-colors relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+                LIFETIME DEAL
+              </div>
+              <div className="text-lg font-semibold text-white mb-1">Pro</div>
+              <div className="text-sm text-slate-400 mb-3">Full Business Platform</div>
+              <div className="mb-4">
+                <span className="text-3xl font-bold text-white">$499</span>
+                <span className="text-slate-400">/mo</span>
+              </div>
+              <ul className="space-y-2 text-slate-300 text-sm mb-6">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Everything in Growth
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Admin Dashboard & CRM
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Invoice & Expense Tracking
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  SEO & Review Automation
+                </li>
+              </ul>
+              <Link
+                href="/signup?plan=pro&offer=lifetime"
+                className="block w-full py-3 rounded-lg font-medium text-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-colors"
+              >
+                Get Lifetime Access
+              </Link>
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <Link
+              href="/pricing"
+              className="text-orange-400 hover:text-orange-300 font-medium"
+            >
+              View Full Pricing Details & ROI Calculator →
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Trust Indicators */}
-      <section className="py-12 px-6 bg-slate-900">
+      <section className="py-10 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-white">$4,200+</div>
-              <div className="text-slate-400">Avg. Yearly Savings</div>
+              <div className="text-3xl font-bold text-slate-900">$4,200+</div>
+              <div className="text-slate-500">Avg. Yearly Savings</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">16+</div>
-              <div className="text-slate-400">Industries Supported</div>
+              <div className="text-3xl font-bold text-slate-900">16+</div>
+              <div className="text-slate-500">Industries Supported</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">24/7</div>
-              <div className="text-slate-400">Lead Capture</div>
+              <div className="text-3xl font-bold text-slate-900">24/7</div>
+              <div className="text-slate-500">Lead Capture</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">3 min</div>
-              <div className="text-slate-400">Avg. Quote Time</div>
+              <div className="text-3xl font-bold text-slate-900">3 min</div>
+              <div className="text-slate-500">Avg. Quote Time</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included Section */}
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Everything You Need to Grow
+            </h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Stop paying for 10 different apps. Get everything in one place.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-slate-50 rounded-xl p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">AI Chatbot</h3>
+              <p className="text-slate-600">
+                24/7 lead capture with intelligent conversations. Never miss another late-night customer again.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Professional Website</h3>
+              <p className="text-slate-600">
+                Mobile-optimized website with booking system, service areas, and Google Maps integration.
+              </p>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-6">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">Business Dashboard</h3>
+              <p className="text-slate-600">
+                CRM, invoicing, expense tracking, and SEO reports - all in one powerful dashboard.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 px-6">
+      <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Our Services
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Comprehensive technology solutions to help your business thrive in the digital age.
+              Comprehensive technology solutions to help your business thrive.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topServices.map((service) => (
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="group bg-white border border-slate-200 rounded-xl p-8 hover:border-orange-300 hover:shadow-lg transition-all"
+                className="group bg-white border border-slate-200 rounded-xl p-6 hover:border-orange-300 hover:shadow-lg transition-all"
               >
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-xl font-semibold text-slate-900 group-hover:text-orange-500 mb-3">
+                <div className="text-3xl mb-3">{service.icon}</div>
+                <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
                   {service.name}
                 </h3>
-                <p className="text-slate-600">{service.description}</p>
+                <p className="text-slate-600 text-sm">{service.description}</p>
               </Link>
             ))}
           </div>
-          <div className="text-center mt-10">
+          <div className="text-center mt-8">
             <Link
               href="/services"
-              className="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors"
+              className="inline-block border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white px-6 py-2 rounded-lg font-medium transition-colors"
             >
               View All Services
             </Link>
@@ -140,17 +350,16 @@ export default function Home() {
       </section>
 
       {/* Why Choose Us */}
-      <section className="py-20 px-6 bg-slate-50">
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-                Why Businesses Choose TysonsTechSolutions
+                Why Businesses Choose Us
               </h2>
               <p className="text-slate-600 text-lg mb-8">
                 We combine technical expertise with business understanding to deliver
-                solutions that actually drive results. No jargon, no unnecessary complexity
-                - just technology that works.
+                solutions that actually drive results.
               </p>
               <ul className="space-y-4">
                 {[
@@ -205,7 +414,7 @@ export default function Home() {
       </section>
 
       {/* Industries Section */}
-      <section className="py-20 px-6">
+      <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
@@ -215,21 +424,21 @@ export default function Home() {
               We build technology solutions for businesses across 40+ industries.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {topIndustries.map((industry) => (
               <Link
                 key={industry.slug}
                 href={`/industries/${industry.slug}`}
-                className="group bg-white border border-slate-200 rounded-xl p-6 text-center hover:border-orange-300 hover:shadow-lg transition-all"
+                className="group bg-white border border-slate-200 rounded-xl p-4 text-center hover:border-orange-300 hover:shadow-lg transition-all"
               >
-                <div className="text-3xl mb-3">{industry.icon}</div>
+                <div className="text-2xl mb-2">{industry.icon}</div>
                 <h3 className="text-sm font-semibold text-slate-900 group-hover:text-orange-500">
                   {industry.name}
                 </h3>
               </Link>
             ))}
           </div>
-          <div className="text-center mt-10">
+          <div className="text-center mt-8">
             <Link
               href="/industries"
               className="text-orange-500 hover:text-orange-600 font-medium"
@@ -240,109 +449,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing Preview */}
-      <section className="py-20 px-6 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-              Choose the plan that fits your needs. All plans include our core features.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="rounded-2xl p-8 bg-slate-800 border border-slate-700">
-              <div className="text-xl font-semibold mb-1">Starter</div>
-              <div className="text-sm text-slate-400 mb-4">AI Chatbot Only</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">$99</span>
-                <span className="text-slate-400">/mo</span>
-              </div>
-              <ul className="space-y-3 text-slate-300 mb-8">
-                <li>AI Chat Widget</li>
-                <li>Lead Capture</li>
-                <li>Satellite Measurement</li>
-                <li>SMS & Email Notifications</li>
-                <li>Unlimited Conversations</li>
-              </ul>
-              <Link
-                href="/signup"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white"
-              >
-                Get Started
-              </Link>
-            </div>
-            <div className="rounded-2xl p-8 bg-orange-500 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900">
-              <div className="text-sm text-orange-200 mb-2">MOST POPULAR</div>
-              <div className="text-xl font-semibold mb-1">Growth</div>
-              <div className="text-sm text-orange-200 mb-4">Chatbot + Full Website</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">$249</span>
-                <span className="text-orange-200">/mo</span>
-              </div>
-              <ul className="space-y-3 text-orange-100 mb-8">
-                <li>Everything in Starter</li>
-                <li>Professional Website</li>
-                <li>Online Booking System</li>
-                <li>Service Area Pages</li>
-                <li>Priority Support</li>
-              </ul>
-              <Link
-                href="/signup"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-white text-orange-500 hover:bg-orange-50"
-              >
-                Get Started
-              </Link>
-            </div>
-            <div className="rounded-2xl p-8 bg-slate-800 border border-slate-700">
-              <div className="text-xl font-semibold mb-1">Pro</div>
-              <div className="text-sm text-slate-400 mb-4">Full Business Platform</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">$499</span>
-                <span className="text-slate-400">/mo</span>
-              </div>
-              <ul className="space-y-3 text-slate-300 mb-8">
-                <li>Everything in Growth</li>
-                <li>Admin Dashboard & CRM</li>
-                <li>Invoice & Expense Tracking</li>
-                <li>Google Business Profile</li>
-                <li>Review Automation</li>
-              </ul>
-              <Link
-                href="/signup"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white"
-              >
-                Get Started
-              </Link>
-            </div>
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/pricing"
-              className="text-orange-400 hover:text-orange-300 font-medium"
-            >
-              View Full Pricing Details →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
-      <section className="py-20 px-6 bg-orange-500">
+      <section className="py-16 px-6 bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Transform Your Business?
           </h2>
           <p className="text-orange-100 text-lg mb-8">
-            Get a free consultation and discover how we can help you grow with technology.
+            Get started today. One booking pays for months of service.
           </p>
-          <Link
-            href="/signup"
-            className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-50"
-          >
-            Get Free Consultation
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/signup?plan=pro&offer=lifetime"
+              className="inline-block bg-white text-orange-500 px-8 py-4 rounded-lg font-bold text-lg hover:bg-orange-50 shadow-lg"
+            >
+              Get Lifetime Pro Access
+            </Link>
+            <Link
+              href="/signup"
+              className="inline-block bg-orange-600 text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-orange-700 border-2 border-orange-400"
+            >
+              Start Free Trial
+            </Link>
+          </div>
         </div>
       </section>
 
