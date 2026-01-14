@@ -238,6 +238,31 @@ export const blogPosts = [
     date: "2024-01-03",
     readTime: "8 min read",
   },
+  // Contractor-Specific (fixing 404s from Google)
+  {
+    slug: "seo-for-contractors",
+    title: "SEO for Contractors: The Complete Guide to Ranking Higher",
+    excerpt: "Learn how contractors can dominate local search results and get more leads through effective SEO strategies.",
+    category: "Industry Guides",
+    date: "2024-01-19",
+    readTime: "12 min read",
+  },
+  {
+    slug: "ai-chatbots-for-contractors",
+    title: "AI Chatbots for Contractors: Capture Leads 24/7",
+    excerpt: "How contractors can use AI chatbots to capture leads, answer customer questions, and book jobs automatically.",
+    category: "Industry Guides",
+    date: "2024-01-18",
+    readTime: "9 min read",
+  },
+  {
+    slug: "how-to-price-sealcoating-jobs",
+    title: "How to Price Sealcoating Jobs: Complete Pricing Guide",
+    excerpt: "Learn how to accurately price sealcoating projects, calculate costs, and maximize your profit margins.",
+    category: "Industry Guides",
+    date: "2024-01-17",
+    readTime: "10 min read",
+  },
   // Industry-Specific
   {
     slug: "restaurant-website-design-tips",
