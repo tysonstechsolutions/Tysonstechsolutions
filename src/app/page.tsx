@@ -141,9 +141,14 @@ export default function Home() {
               </div>
               <div className="text-lg font-semibold text-white mb-1">Growth</div>
               <div className="text-sm text-orange-200 mb-3">Chatbot + Full Website</div>
-              <div className="mb-4">
+              <div className="mb-2">
                 <span className="text-3xl font-bold text-white">$249</span>
                 <span className="text-orange-200">/mo</span>
+              </div>
+              {/* First 10 bonus */}
+              <div className="bg-white/20 rounded-lg p-2 mb-4 text-xs">
+                <div className="text-white font-semibold">First 10 customers:</div>
+                <div className="text-orange-100">Month 2 FREE + 1-on-1 setup + $199/mo forever</div>
               </div>
               <ul className="space-y-2 text-orange-100 text-sm mb-6">
                 <li className="flex items-center gap-2">
@@ -186,9 +191,14 @@ export default function Home() {
               </div>
               <div className="text-lg font-semibold text-white mb-1">Pro</div>
               <div className="text-sm text-slate-400 mb-3">Full Business Platform</div>
-              <div className="mb-4">
+              <div className="mb-2">
                 <span className="text-3xl font-bold text-white">$499</span>
                 <span className="text-slate-400">/mo</span>
+              </div>
+              {/* First 10 bonus */}
+              <div className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-2 mb-4 text-xs">
+                <div className="text-amber-400 font-semibold">First 10 customers:</div>
+                <div className="text-slate-300">Month 2 FREE + 1-on-1 setup + $399/mo forever</div>
               </div>
               <ul className="space-y-2 text-slate-300 text-sm mb-6">
                 <li className="flex items-center gap-2">
@@ -217,10 +227,16 @@ export default function Home() {
                 </li>
               </ul>
               <Link
-                href="/signup?plan=pro&offer=lifetime"
-                className="block w-full py-3 rounded-lg font-medium text-center bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-colors"
+                href="/signup?plan=pro"
+                className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white transition-colors mb-2"
               >
-                Get Lifetime Access
+                Get Started - $499/mo
+              </Link>
+              <Link
+                href="/signup?plan=lifetime"
+                className="block w-full py-2 rounded-lg font-medium text-center text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white transition-colors"
+              >
+                Or Get Lifetime - $1,499
               </Link>
             </div>
           </div>

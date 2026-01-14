@@ -46,10 +46,6 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
 
   if (!isOpen) return null;
 
-  const lifetimePrice = 2999;
-  const monthlyPrice = 499;
-  const monthsValue = Math.ceil(lifetimePrice / monthlyPrice); // ~6 months
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -111,12 +107,9 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
           {/* Price */}
           <div className="text-center mb-6">
             <div className="text-sm text-slate-500 mb-1">One-time payment</div>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-2xl text-slate-400 line-through">${monthlyPrice}/mo forever</span>
-            </div>
-            <div className="text-5xl font-bold text-slate-900">${lifetimePrice}</div>
+            <div className="text-5xl font-bold text-slate-900">$1,499</div>
             <div className="text-sm text-green-600 font-medium mt-1">
-              That&apos;s just {monthsValue} months of Pro - then it&apos;s FREE forever
+              vs $5,988/year paying monthly - save $4,489 year one
             </div>
           </div>
 
@@ -134,7 +127,7 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
                 "Expense Tracking",
                 "SEO Reports",
                 "Review Automation",
-                "Priority Support",
+                "Dedicated Support",
               ].map((feature) => (
                 <div key={feature} className="flex items-center gap-2 text-slate-600">
                   <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,11 +141,11 @@ export default function LifetimeProPopup({ isOpen, onClose }: LifetimeProPopupPr
 
           {/* CTA Button */}
           <Link
-            href="/signup?plan=pro&offer=lifetime"
+            href="/signup?plan=lifetime"
             onClick={onClose}
             className="block w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-center py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
           >
-            Get Lifetime Access - ${lifetimePrice}
+            Get Lifetime Access - $1,499
           </Link>
 
           <p className="text-center text-slate-400 text-xs mt-4">
