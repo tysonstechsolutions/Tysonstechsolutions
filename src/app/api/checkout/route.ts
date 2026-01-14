@@ -155,7 +155,6 @@ export async function POST(request: NextRequest) {
           success_url: `${process.env.NEXT_PUBLIC_APP_URL}/welcome?success=true&plan=${plan}`,
           cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
           // Collect customer info on Stripe checkout page
-          customer_creation: "always",
           billing_address_collection: "required",
           custom_fields: [
             {
