@@ -8,10 +8,10 @@ function getStripe() {
   return new Stripe(key);
 }
 
-// Coupon IDs for founding member deals (must match Stripe)
+// Coupon IDs for founding member deals (must match Stripe coupon IDs exactly)
 const FOUNDING_COUPONS = {
-  growth: "FOUNDING_GROWTH_FREE_MONTH",
-  pro: "FOUNDING_PRO_FREE_MONTH",
+  growth: "UPsPj9mn",  // FOUNDING_GROWTH_FREE_MONTH
+  pro: "REPLACE_WITH_PRO_COUPON_ID",  // FOUNDING_PRO_FREE_MONTH - get ID from Stripe
 };
 
 const MAX_SPOTS_PER_DEAL = 10;
@@ -112,19 +112,8 @@ export async function POST(request: NextRequest) {
       const isLifetime = plan === "lifetime";
       const planType = plan as "starter" | "growth" | "pro" | "lifetime";
 
-      // Check if we should apply founding promo
-      let couponToApply: string | undefined;
-      if (applyFoundingPromo && (planType === "growth" || planType === "pro")) {
-        try {
-          const promoAvailable = await checkFoundingPromoAvailable(stripe, planType);
-          if (promoAvailable) {
-            couponToApply = FOUNDING_COUPONS[planType];
-          }
-        } catch (e) {
-          // Coupon doesn't exist yet - skip applying it
-          console.log("Coupon not found, skipping:", e);
-        }
-      }
+      // Skip coupon for now - apply manually or fix later
+      const couponToApply: string | undefined = undefined;
 
       if (isLifetime) {
         // Check lifetime spots
