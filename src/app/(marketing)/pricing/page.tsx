@@ -37,10 +37,10 @@ export default function PricingPage() {
 
   const showPromo = promo?.active && (promo?.spotsRemaining ?? 0) > 0;
 
-  // Pricing
-  const normalPrice = 237;
-  const setupFee = 500;
-  const discountedPrice = Math.round(normalPrice * 0.5); // $118
+  // Pricing (Growth plan as the default shown price)
+  const normalPrice = 249;
+  const setupFee = 499;
+  const discountedPrice = Math.round(normalPrice * 0.5); // $125
 
   // ROI calculations
   const monthsPayForItself = Math.ceil(discountedPrice / avgJobValue);
@@ -304,41 +304,116 @@ export default function PricingPage() {
         </section>
       )}
 
-      {/* What's Included */}
+      {/* Pricing Tiers */}
       <section className="py-16 px-6 bg-slate-900 text-white">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Everything You Get
+              Choose Your Plan
             </h2>
             <p className="text-xl text-slate-400">
-              All these tools, one simple price. No surprises.
+              Start with chatbot, add website, then SEO. Upgrade anytime.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: "🤖", title: "AI Chatbot", desc: "24/7 lead capture with instant quotes" },
-              { icon: "🛰️", title: "Satellite Measurement", desc: "AI-powered property measurement" },
-              { icon: "📅", title: "Smart Scheduling", desc: "Automated booking & reminders" },
-              { icon: "💳", title: "Invoicing & Payments", desc: "Get paid faster with Stripe" },
-              { icon: "📱", title: "SMS Automation", desc: "Appointment reminders & follow-ups" },
-              { icon: "⭐", title: "Review Requests", desc: "Automatic 5-star review collection" },
-              { icon: "👥", title: "Customer CRM", desc: "Track every lead and customer" },
-              { icon: "🧾", title: "Receipt Scanner", desc: "AI expense tracking from photos" },
-              { icon: "📊", title: "Analytics Dashboard", desc: "Know your numbers instantly" },
-              { icon: "🗺️", title: "Route Optimization", desc: "Daily route text to your phone" },
-              { icon: "📧", title: "Email Marketing", desc: "Stay in touch with customers" },
-              { icon: "🔒", title: "Customer Portal", desc: "Let customers view their history" },
-            ].map((item) => (
-              <div key={item.title} className="flex items-start gap-4 bg-slate-800 rounded-xl p-5">
-                <span className="text-3xl">{item.icon}</span>
-                <div>
-                  <div className="font-semibold text-white">{item.title}</div>
-                  <div className="text-sm text-slate-400">{item.desc}</div>
-                </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Starter */}
+            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+              <div className="text-xl font-bold mb-1">Starter</div>
+              <div className="text-sm text-slate-400 mb-4">AI Chatbot Only</div>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$99</span>
+                <span className="text-slate-400">/mo</span>
               </div>
-            ))}
+              <ul className="space-y-3 mb-8">
+                {[
+                  "AI Chat Widget",
+                  "Lead Capture",
+                  "Satellite Measurement",
+                  "SMS & Email Notifications",
+                  "Unlimited Conversations",
+                  "Email Support",
+                ].map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-slate-300">
+                    <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/signup" className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white">
+                Get Started
+              </Link>
+            </div>
+
+            {/* Growth */}
+            <div className="bg-orange-500 rounded-2xl p-8 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900">
+              <div className="text-sm text-orange-200 mb-2">MOST POPULAR</div>
+              <div className="text-xl font-bold mb-1">Growth</div>
+              <div className="text-sm text-orange-200 mb-4">Chatbot + Full Website</div>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$249</span>
+                <span className="text-orange-200">/mo</span>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Everything in Starter",
+                  "Professional Website",
+                  "Online Booking System",
+                  "Service Area Pages",
+                  "Pricing & FAQ Pages",
+                  "Google Maps Integration",
+                  "2 Monthly Updates",
+                  "Priority Support",
+                ].map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-orange-100">
+                    <svg className="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/signup" className="block w-full py-3 rounded-lg font-medium text-center bg-white text-orange-500 hover:bg-orange-50">
+                Get Started
+              </Link>
+            </div>
+
+            {/* Pro */}
+            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700">
+              <div className="text-xl font-bold mb-1">Pro</div>
+              <div className="text-sm text-slate-400 mb-4">Full Business Platform</div>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$499</span>
+                <span className="text-slate-400">/mo</span>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Everything in Growth",
+                  "Admin Dashboard",
+                  "Customer CRM",
+                  "Invoice Management",
+                  "Expense Tracking (AI-Powered)",
+                  "Automated SMS Reminders",
+                  "Google Business Profile Setup",
+                  "Review Request Automation",
+                  "Monthly SEO Report",
+                  "Unlimited Updates",
+                  "Dedicated Support",
+                ].map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-slate-300">
+                    <svg className="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/signup" className="block w-full py-3 rounded-lg font-medium text-center bg-slate-700 hover:bg-slate-600 text-white">
+                Get Started
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -413,7 +488,7 @@ export default function PricingPage() {
               },
               {
                 q: "Is the 'founding member' price really locked forever?",
-                a: "Yes. When you sign up as a founding member, your $118/month rate is locked for as long as you're a customer. Even if we raise prices to $300/month next year, you pay $118. Forever."
+                a: "Yes. When you sign up as a founding member, your $125/month rate is locked for as long as you're a customer. Even if we raise prices to $300/month next year, you pay $125. Forever."
               },
             ].map((item, i) => (
               <div key={i} className="bg-slate-50 rounded-xl p-6">

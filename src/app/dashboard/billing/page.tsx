@@ -8,18 +8,32 @@ const plans = [
     name: "Starter",
     price: 99,
     priceId: process.env.STRIPE_PRICE_STARTER || "",
-    conversations: "500",
-    leads: "50",
-    features: ["AI Chat Widget", "Satellite Measurement", "Email Notifications"],
+    description: "AI Chatbot Only",
+    features: [
+      "AI Chat Widget",
+      "Lead Capture",
+      "Satellite Measurement",
+      "SMS & Email Notifications",
+      "Unlimited Conversations",
+      "Email Support",
+    ],
   },
   {
     id: "growth",
     name: "Growth",
     price: 249,
     priceId: process.env.STRIPE_PRICE_GROWTH || "",
-    conversations: "2,000",
-    leads: "200",
-    features: ["Everything in Starter", "SMS Notifications", "Priority Support"],
+    description: "Chatbot + Full Website",
+    features: [
+      "Everything in Starter",
+      "Professional Website",
+      "Online Booking System",
+      "Service Area Pages",
+      "Pricing & FAQ Pages",
+      "Google Maps Integration",
+      "2 Monthly Updates",
+      "Priority Support",
+    ],
     recommended: true,
   },
   {
@@ -27,9 +41,20 @@ const plans = [
     name: "Pro",
     price: 499,
     priceId: process.env.STRIPE_PRICE_PRO || "",
-    conversations: "Unlimited",
-    leads: "500",
-    features: ["Everything in Growth", "Custom Branding", "API Access", "Dedicated Support"],
+    description: "Full Business Platform",
+    features: [
+      "Everything in Growth",
+      "Admin Dashboard",
+      "Customer CRM",
+      "Invoice Management",
+      "Expense Tracking (AI-Powered)",
+      "Automated SMS Reminders",
+      "Google Business Profile Setup",
+      "Review Request Automation",
+      "Monthly SEO Report",
+      "Unlimited Updates",
+      "Dedicated Support",
+    ],
   },
 ];
 
@@ -55,11 +80,6 @@ export default async function BillingPage() {
     : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
   const conversationsUsed = contractor?.conversations_this_month || 0;
   const leadsUsed = contractor?.leads_this_month || 0;
-
-  // Get plan limits
-  const currentPlanData = plans.find(p => p.id === currentPlan);
-  const conversationLimit = currentPlanData?.conversations || "500";
-  const leadLimit = currentPlanData?.leads || "50";
 
   const isTrialing = subscriptionStatus === "trialing";
   const isActive = subscriptionStatus === "active";
@@ -104,10 +124,10 @@ export default async function BillingPage() {
           <div className="text-right">
             <div className="text-sm text-slate-600">Usage this month</div>
             <div className="text-lg font-semibold text-slate-900">
-              {conversationsUsed} / {conversationLimit} conversations
+              {conversationsUsed} conversations
             </div>
             <div className="text-lg font-semibold text-slate-900">
-              {leadsUsed} / {leadLimit} leads
+              {leadsUsed} leads captured
             </div>
           </div>
         </div>
@@ -126,13 +146,10 @@ export default async function BillingPage() {
               <div className="text-xs font-semibold text-orange-500 mb-2">RECOMMENDED</div>
             )}
             <div className="text-xl font-semibold text-slate-900">{plan.name}</div>
+            <div className="text-sm text-slate-500 mb-2">{plan.description}</div>
             <div className="mt-2 mb-4">
               <span className="text-3xl font-bold text-slate-900">${plan.price}</span>
               <span className="text-slate-500">/mo</span>
-            </div>
-            <div className="text-sm text-slate-600 mb-4">
-              <div>{plan.conversations} conversations/mo</div>
-              <div>{plan.leads} leads/mo</div>
             </div>
             <ul className="space-y-2 mb-6">
               {plan.features.map((feature) => (

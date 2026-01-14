@@ -253,15 +253,18 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="rounded-2xl p-8 bg-slate-800 border border-slate-700">
-              <div className="text-xl font-semibold mb-2">Starter</div>
+              <div className="text-xl font-semibold mb-1">Starter</div>
+              <div className="text-sm text-slate-400 mb-4">AI Chatbot Only</div>
               <div className="mb-6">
                 <span className="text-4xl font-bold">$99</span>
                 <span className="text-slate-400">/mo</span>
               </div>
               <ul className="space-y-3 text-slate-300 mb-8">
-                <li>Basic website</li>
-                <li>500 chatbot conversations</li>
-                <li>Email support</li>
+                <li>AI Chat Widget</li>
+                <li>Lead Capture</li>
+                <li>Satellite Measurement</li>
+                <li>SMS & Email Notifications</li>
+                <li>Unlimited Conversations</li>
               </ul>
               <Link
                 href="/signup"
@@ -272,16 +275,18 @@ export default function Home() {
             </div>
             <div className="rounded-2xl p-8 bg-orange-500 ring-4 ring-orange-500 ring-offset-4 ring-offset-slate-900">
               <div className="text-sm text-orange-200 mb-2">MOST POPULAR</div>
-              <div className="text-xl font-semibold mb-2">Growth</div>
+              <div className="text-xl font-semibold mb-1">Growth</div>
+              <div className="text-sm text-orange-200 mb-4">Chatbot + Full Website</div>
               <div className="mb-6">
                 <span className="text-4xl font-bold">$249</span>
                 <span className="text-orange-200">/mo</span>
               </div>
               <ul className="space-y-3 text-orange-100 mb-8">
-                <li>Custom website</li>
-                <li>2,000 chatbot conversations</li>
-                <li>Priority support</li>
-                <li>Monthly analytics</li>
+                <li>Everything in Starter</li>
+                <li>Professional Website</li>
+                <li>Online Booking System</li>
+                <li>Service Area Pages</li>
+                <li>Priority Support</li>
               </ul>
               <Link
                 href="/signup"
@@ -291,16 +296,18 @@ export default function Home() {
               </Link>
             </div>
             <div className="rounded-2xl p-8 bg-slate-800 border border-slate-700">
-              <div className="text-xl font-semibold mb-2">Pro</div>
+              <div className="text-xl font-semibold mb-1">Pro</div>
+              <div className="text-sm text-slate-400 mb-4">Full Business Platform</div>
               <div className="mb-6">
                 <span className="text-4xl font-bold">$499</span>
                 <span className="text-slate-400">/mo</span>
               </div>
               <ul className="space-y-3 text-slate-300 mb-8">
-                <li>Advanced web application</li>
-                <li>Unlimited conversations</li>
-                <li>Dedicated support</li>
-                <li>Custom integrations</li>
+                <li>Everything in Growth</li>
+                <li>Admin Dashboard & CRM</li>
+                <li>Invoice & Expense Tracking</li>
+                <li>Google Business Profile</li>
+                <li>Review Automation</li>
               </ul>
               <Link
                 href="/signup"
