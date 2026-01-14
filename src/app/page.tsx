@@ -199,7 +199,7 @@ export default function Home() {
             </button>
 
             {/* Pro */}
-            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-orange-500 transition-all relative">
+            <div className="rounded-2xl p-6 bg-slate-800 border border-slate-700 hover:border-orange-500 hover:scale-[1.02] transition-all relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
                 LIFETIME DEAL
               </div>

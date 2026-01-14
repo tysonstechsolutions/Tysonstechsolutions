@@ -16,13 +16,16 @@ const FOUNDING_COUPONS = {
 
 const MAX_SPOTS_PER_DEAL = 10;
 
-// Map plan names to price env vars
-const PLAN_PRICE_MAP: Record<string, string | undefined> = {
-  starter: process.env.STRIPE_PRICE_STARTER,
-  growth: process.env.STRIPE_PRICE_GROWTH,
-  pro: process.env.STRIPE_PRICE_PRO,
-  lifetime: process.env.STRIPE_PRICE_LIFETIME,
-};
+// Get price ID for plan (evaluated at runtime)
+function getPriceIdForPlan(plan: string): string | undefined {
+  const priceMap: Record<string, string | undefined> = {
+    starter: process.env.STRIPE_PRICE_STARTER,
+    growth: process.env.STRIPE_PRICE_GROWTH,
+    pro: process.env.STRIPE_PRICE_PRO,
+    lifetime: process.env.STRIPE_PRICE_LIFETIME,
+  };
+  return priceMap[plan];
+}
 
 // Validate priceId against known Stripe price IDs
 function isValidPriceId(priceId: string): boolean {
@@ -100,9 +103,10 @@ export async function POST(request: NextRequest) {
 
     // NEW FLOW: Direct checkout without account (plan name provided)
     if (plan && !contractorId) {
-      const planPriceId = PLAN_PRICE_MAP[plan];
+      const planPriceId = getPriceIdForPlan(plan);
       if (!planPriceId) {
-        return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+        console.error(`Missing price ID for plan: ${plan}`);
+        return NextResponse.json({ error: `Price not configured for ${plan} plan. Please contact support.` }, { status: 400 });
       }
 
       const isLifetime = plan === "lifetime";
