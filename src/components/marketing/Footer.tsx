@@ -24,6 +24,10 @@ const footerLinks = {
     { name: "Sign Up", href: "/signup" },
     { name: "Log In", href: "/login" },
   ],
+  clients: [
+    { name: "Pinpoint Parking", href: "https://pinpointparking.net", external: true },
+    { name: "King City Disposal", href: "https://kingcitydisposal.com", external: true },
+  ],
 };
 
 export default function Footer() {
@@ -63,7 +67,7 @@ export default function Footer() {
 
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           <div className="col-span-2 md:col-span-1">
             <div className="text-xl font-bold mb-4">TysonsTechSolutions</div>
             <p className="text-slate-400 text-sm mb-4">
@@ -118,6 +122,18 @@ export default function Footer() {
                   <Link href={link.href} className="text-slate-400 hover:text-white text-sm">
                     {link.name}
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="font-semibold mb-4">Our Clients</div>
+            <ul className="space-y-2">
+              {footerLinks.clients.map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white text-sm">
+                    {link.name}
+                  </a>
                 </li>
               ))}
             </ul>
