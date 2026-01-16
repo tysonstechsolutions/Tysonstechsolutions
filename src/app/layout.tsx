@@ -86,6 +86,13 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   category: "technology",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 };
 
 const jsonLd = {

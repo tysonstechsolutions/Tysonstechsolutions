@@ -70,11 +70,14 @@ export default function Home() {
             <Link href="/industries" className="text-slate-600 hover:text-orange-500">
               Industries
             </Link>
+            <Link href="/portfolio" className="text-slate-600 hover:text-orange-500">
+              Portfolio
+            </Link>
             <Link href="/pricing" className="text-slate-600 hover:text-orange-500">
               Pricing
             </Link>
-            <Link href="/blog" className="text-slate-600 hover:text-orange-500">
-              Blog
+            <Link href="/about" className="text-slate-600 hover:text-orange-500">
+              About
             </Link>
             <Link href="/demo" className="text-orange-500 font-medium">
               Demos
@@ -346,6 +349,109 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Portfolio Showcase */}
+      <section className="py-16 px-6 bg-slate-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              See Our Work
+            </h2>
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto">
+              Real websites we've built for real businesses. Click to visit them live.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Pinpoint Parking */}
+            <a
+              href="https://pinpointparking.net"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block bg-slate-800 rounded-2xl overflow-hidden hover:ring-2 hover:ring-orange-500 transition-all"
+            >
+              <div className="bg-gradient-to-br from-yellow-500 to-amber-600 p-6 text-center">
+                <div className="text-6xl mb-2">🛣️</div>
+                <h3 className="text-xl font-bold text-white">Pinpoint Parking</h3>
+                <p className="text-yellow-100 text-sm">Asphalt & Paving</p>
+              </div>
+              <div className="p-6">
+                <ul className="space-y-2 text-slate-300 text-sm mb-4">
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Full website with 20+ pages
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Location-based SEO
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Service pages & blog
+                  </li>
+                </ul>
+                <span className="text-orange-400 text-sm font-medium group-hover:text-orange-300">
+                  Visit live site →
+                </span>
+              </div>
+            </a>
+
+            {/* King City Disposal */}
+            <a
+              href="https://kingcitydisposal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block bg-slate-800 rounded-2xl overflow-hidden hover:ring-2 hover:ring-orange-500 transition-all"
+            >
+              <div className="bg-gradient-to-br from-emerald-500 to-green-600 p-6 text-center">
+                <div className="text-6xl mb-2">🗑️</div>
+                <h3 className="text-xl font-bold text-white">King City Disposal</h3>
+                <p className="text-green-100 text-sm">Dumpster Rental</p>
+              </div>
+              <div className="p-6">
+                <ul className="space-y-2 text-slate-300 text-sm mb-4">
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Lead generation website
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Transparent pricing display
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Google Reviews integration
+                  </li>
+                </ul>
+                <span className="text-orange-400 text-sm font-medium group-hover:text-orange-300">
+                  Visit live site →
+                </span>
+              </div>
+            </a>
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              href="/portfolio"
+              className="inline-block bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            >
+              View Full Portfolio
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
@@ -532,10 +638,10 @@ export default function Home() {
             <div>
               <div className="font-semibold mb-4">Company</div>
               <ul className="space-y-2 text-slate-400">
-                <li><Link href="/industries" className="hover:text-white">Industries</Link></li>
+                <li><Link href="/about" className="hover:text-white">About Us</Link></li>
+                <li><Link href="/portfolio" className="hover:text-white">Portfolio</Link></li>
                 <li><Link href="/pricing" className="hover:text-white">Pricing</Link></li>
                 <li><Link href="/blog" className="hover:text-white">Blog</Link></li>
-                <li><Link href="/locations" className="hover:text-white">Locations</Link></li>
               </ul>
             </div>
             <div>

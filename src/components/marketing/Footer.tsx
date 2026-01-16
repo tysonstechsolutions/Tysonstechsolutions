@@ -20,6 +20,8 @@ const footerLinks = {
     { name: "All Locations", href: "/locations" },
   ],
   company: [
+    { name: "About Us", href: "/about" },
+    { name: "Portfolio", href: "/portfolio" },
     { name: "Blog", href: "/blog" },
     { name: "Sign Up", href: "/signup" },
     { name: "Log In", href: "/login" },

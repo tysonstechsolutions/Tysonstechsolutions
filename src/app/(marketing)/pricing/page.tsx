@@ -481,6 +481,84 @@ export default function PricingPage() {
         </div>
       </section>
 
+      {/* Why We're Affordable - Trust Section */}
+      <section className="py-16 px-6 bg-slate-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              &ldquo;This Seems Too Good to Be True&rdquo;
+            </h2>
+            <p className="text-xl text-slate-600">
+              Here&apos;s why our pricing is honest, not &ldquo;cheap.&rdquo;
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">No Agency Bloat</h3>
+              <p className="text-slate-600">
+                Big agencies charge $5,000-$15,000 for websites because they have account managers, project managers, and expensive offices. You&apos;re paying for their overhead, not your website. We&apos;re a small team - you work directly with the people building your project.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Recurring Revenue Model</h3>
+              <p className="text-slate-600">
+                Instead of charging $10,000 upfront (which many businesses can&apos;t afford), we spread the cost over monthly payments. At $249/mo, we make the same revenue over 40 months - but YOU get to start making money immediately with a fraction of the upfront cost.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Modern Technology</h3>
+              <p className="text-slate-600">
+                We use the latest tools (React, Next.js, AI APIs) that let us build in days what used to take weeks. Older agencies still use outdated methods that take longer and cost more. Better tools = faster delivery = lower cost for you.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">We Want to Grow With You</h3>
+              <p className="text-slate-600">
+                Our business model is simple: help you succeed so you stay a customer for years. We&apos;d rather have 100 happy customers paying $249/mo for 5 years than 10 customers who pay $5,000 once and never come back.
+              </p>
+            </div>
+          </div>
+
+          {/* Proof Section */}
+          <div className="bg-orange-500 rounded-2xl p-8 text-white text-center">
+            <h3 className="text-2xl font-bold mb-4">Don&apos;t Take Our Word For It</h3>
+            <p className="text-orange-100 mb-6">
+              See real websites we&apos;ve built for real businesses. Visit them, click around, judge for yourself.
+            </p>
+            <Link
+              href="/portfolio"
+              className="inline-block bg-white text-orange-500 px-6 py-3 rounded-lg font-bold hover:bg-orange-50"
+            >
+              View Our Portfolio →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
