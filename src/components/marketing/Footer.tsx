@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const footerLinks = {
   product: [
-    { name: "Try Demo", href: "/demo" },
+    { name: "Free Demo (No Sign Up)", href: "/demo" },
     { name: "Features", href: "/features" },
     { name: "Pricing", href: "/pricing" },
     { name: "Industries", href: "/industries" },
@@ -51,7 +51,7 @@ export default function Footer() {
                 href="/demo"
                 className="bg-white text-orange-500 px-6 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors"
               >
-                See It In Action
+                Try Free Demo - No Sign Up
               </Link>
               <Link
                 href="/signup"

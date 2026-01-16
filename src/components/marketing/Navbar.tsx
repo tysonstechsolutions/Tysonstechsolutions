@@ -9,7 +9,6 @@ const navigation = [
   { name: "Portfolio", href: "/portfolio" },
   { name: "Pricing", href: "/pricing" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -35,7 +34,13 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <Link
+              href="/demo"
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+            >
+              Free Demo
+            </Link>
             <Link href="/login" className="text-slate-600 hover:text-orange-500">
               Log In
             </Link>
@@ -71,10 +76,18 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-3 border-t border-slate-200 space-y-3">
-            <Link href="/login" className="block text-slate-600">Log In</Link>
+            <Link
+              href="/demo"
+              className="block bg-green-500 text-white text-center py-2 rounded-lg font-medium"
+              onClick={() => setMobileOpen(false)}
+            >
+              Try Free Demo
+            </Link>
+            <Link href="/login" className="block text-slate-600" onClick={() => setMobileOpen(false)}>Log In</Link>
             <Link
               href="/signup"
               className="block bg-orange-500 text-white text-center py-2 rounded-lg font-medium"
+              onClick={() => setMobileOpen(false)}
             >
               Get Started
             </Link>

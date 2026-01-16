@@ -1,9 +1,26 @@
 import Link from 'next/link'
 import { demoServices } from '@/data/chatbot-configs'
 
-export const metadata = {
-  title: 'AI Chatbot Demos | TysonsTechSolutions',
-  description: 'Try our AI-powered lead generation chatbots for service contractors. See how they work for paving, lawn care, roofing, and 15+ other industries.',
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Free AI Chatbot Demo - Try It Now, No Sign Up Required',
+  description: 'Try our AI chatbot demos FREE - no email, no sign up, no credit card. See how contractors capture leads 24/7. Works for paving, lawn care, roofing & 15+ industries.',
+  keywords: [
+    'free AI chatbot demo',
+    'chatbot demo no sign up',
+    'try AI chatbot free',
+    'contractor chatbot demo',
+    'lead generation chatbot demo',
+    'service business chatbot',
+    'AI chatbot for contractors',
+    'free chatbot trial',
+  ],
+  openGraph: {
+    title: 'Free AI Chatbot Demo - No Sign Up Required | TysonsTechSolutions',
+    description: 'Try our AI chatbot demos FREE. No email required. See how service contractors capture leads 24/7 with instant quotes.',
+    type: 'website',
+  },
 }
 
 export default function DemoPage() {
@@ -50,20 +67,23 @@ export default function DemoPage() {
       {/* Hero */}
       <section className="pt-40 pb-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-block px-4 py-2 bg-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
-            Capture leads 24/7 - even at 2am
+          <div className="inline-flex items-center gap-3 bg-green-500/20 text-green-400 px-5 py-2.5 rounded-full text-sm font-medium mb-6">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            100% Free - No Sign Up Required
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Watch These AI Chatbots
+            Try Our AI Chatbots Right Now
             <br />
-            <span className="text-orange-500">Turn Visitors Into Customers</span>
+            <span className="text-orange-500">No Email. No Credit Card. Just Click.</span>
           </h1>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-4">
-            Try a live demo below. This is exactly what your customers would see on YOUR website.
+            Pick any demo below and start chatting. This is exactly what your customers would see on YOUR website.
             Every conversation = a qualified lead with name, phone, address, and project details.
           </p>
           <p className="text-lg text-orange-400 font-medium mb-8">
-            One booking pays for months of service. Do the math.
+            See it work in 30 seconds. One booking pays for months of service.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
             <span className="flex items-center gap-2 bg-slate-800 px-3 py-2 rounded-full">

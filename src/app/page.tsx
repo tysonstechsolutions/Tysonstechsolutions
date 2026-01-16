@@ -79,8 +79,8 @@ export default function Home() {
             <Link href="/about" className="text-slate-600 hover:text-orange-500">
               About
             </Link>
-            <Link href="/demo" className="text-orange-500 font-medium">
-              Demos
+            <Link href="/demo" className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg font-medium text-sm">
+              Free Demo
             </Link>
             <Link href="/login" className="text-slate-600 hover:text-orange-500">
               Log In
@@ -268,6 +268,37 @@ export default function Home() {
               className="text-orange-400 hover:text-orange-300 font-medium"
             >
               View Full Pricing Details & ROI Calculator →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Try Demo Banner */}
+      <section className="py-8 px-6 bg-gradient-to-r from-green-600 to-emerald-600">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-green-100 text-sm mb-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                No sign up required
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">
+                See It Before You Buy It
+              </h3>
+              <p className="text-green-100">
+                Try our AI chatbot demos free. No email, no credit card - just click and chat.
+              </p>
+            </div>
+            <Link
+              href="/demo"
+              className="bg-white text-green-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-50 shadow-lg whitespace-nowrap flex items-center gap-2"
+            >
+              Try Free Demo
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </Link>
           </div>
         </div>
