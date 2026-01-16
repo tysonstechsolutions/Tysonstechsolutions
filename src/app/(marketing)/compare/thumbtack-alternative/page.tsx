@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Best Thumbtack Alternative 2024 - No More Bidding for Leads",
+  title: "Best Thumbtack Alternative 2026 - No More Bidding for Leads",
   description: "Stop competing for Thumbtack leads. Get exclusive leads from your website. AI sends instant quotes automatically. No per-lead fees.",
   keywords: ["Thumbtack alternative", "stop bidding for leads", "exclusive contractor leads", "no lead fees"],
 };

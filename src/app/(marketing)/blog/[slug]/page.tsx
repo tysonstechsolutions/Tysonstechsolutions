@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { blogPosts } from "@/data/blog-posts";
+import { blogContent } from "@/data/blog-content";
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
@@ -87,63 +88,60 @@ export default async function BlogPostPage({
           <p className="text-xl text-slate-600">{post.excerpt}</p>
         </header>
 
-        {/* Article Content Placeholder */}
-        <div className="prose prose-lg prose-slate max-w-none">
-          <p className="text-slate-600 mb-6">
-            This article provides comprehensive insights into {post.title.toLowerCase()}.
-            Whether you are a business owner, developer, or marketer, you will find
-            actionable tips and strategies to improve your results.
-          </p>
-
-          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">
-            Key Takeaways
-          </h2>
-          <ul className="space-y-2 text-slate-600 mb-6">
-            <li className="flex items-start gap-2">
-              <span className="text-orange-500 mt-1">•</span>
-              Understanding the fundamentals is crucial for success
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-orange-500 mt-1">•</span>
-              Implementation requires careful planning and execution
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-orange-500 mt-1">•</span>
-              Continuous optimization leads to better results over time
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-orange-500 mt-1">•</span>
-              Working with experts can accelerate your progress
-            </li>
-          </ul>
-
-          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">
-            Getting Started
-          </h2>
-          <p className="text-slate-600 mb-6">
-            The first step is to assess your current situation and identify areas
-            for improvement. This involves analyzing your existing processes,
-            understanding your target audience, and setting clear goals.
-          </p>
-
-          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">
-            Best Practices
-          </h2>
-          <p className="text-slate-600 mb-6">
-            Following industry best practices ensures you are building on a solid
-            foundation. This includes using modern tools and technologies, staying
-            up-to-date with trends, and continuously learning from experts in the
-            field.
-          </p>
-
-          <h2 className="text-2xl font-bold text-slate-900 mt-8 mb-4">
-            Conclusion
-          </h2>
-          <p className="text-slate-600 mb-6">
-            Success in this area requires dedication, continuous learning, and the
-            right approach. By following the strategies outlined in this article,
-            you will be well on your way to achieving your goals.
-          </p>
+        {/* Article Content */}
+        <div className="prose prose-lg prose-slate max-w-none prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-p:text-slate-600 prose-p:mb-4 prose-li:text-slate-600 prose-strong:text-slate-800 prose-ul:my-4 prose-ol:my-4">
+          {blogContent[post.slug] ? (
+            <div dangerouslySetInnerHTML={{
+              __html: blogContent[post.slug]
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^- (.*$)/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/^(?!<[hulo])/gm, '<p>')
+                .replace(/(?<![>])$/gm, '</p>')
+                .replace(/<p><\/p>/g, '')
+                .replace(/<p><h/g, '<h')
+                .replace(/<\/h([23])><\/p>/g, '</h$1>')
+                .replace(/<p><ul>/g, '<ul>')
+                .replace(/<\/ul><\/p>/g, '</ul>')
+            }} />
+          ) : (
+            <>
+              <p>
+                This article provides comprehensive insights into {post.title.toLowerCase()}.
+                Whether you are a business owner, developer, or marketer, you will find
+                actionable tips and strategies to improve your results.
+              </p>
+              <h2>Key Takeaways</h2>
+              <ul>
+                <li>Understanding the fundamentals is crucial for success</li>
+                <li>Implementation requires careful planning and execution</li>
+                <li>Continuous optimization leads to better results over time</li>
+                <li>Working with experts can accelerate your progress</li>
+              </ul>
+              <h2>Getting Started</h2>
+              <p>
+                The first step is to assess your current situation and identify areas
+                for improvement. This involves analyzing your existing processes,
+                understanding your target audience, and setting clear goals.
+              </p>
+              <h2>Best Practices</h2>
+              <p>
+                Following industry best practices ensures you are building on a solid
+                foundation. This includes using modern tools and technologies, staying
+                up-to-date with trends, and continuously learning from experts in the
+                field.
+              </p>
+              <h2>Conclusion</h2>
+              <p>
+                Success in this area requires dedication, continuous learning, and the
+                right approach. By following the strategies outlined in this article,
+                you will be well on your way to achieving your goals.
+              </p>
+            </>
+          )}
         </div>
 
         {/* CTA */}

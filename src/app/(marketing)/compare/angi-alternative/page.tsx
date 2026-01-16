@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Best Angi Alternative 2024 - Exclusive Leads for Contractors",
+  title: "Best Angi Alternative 2026 - Exclusive Leads for Contractors",
   description: "Stop paying for shared Angi leads. Get exclusive leads from your website with AI chatbot. No bidding, no competition. 50%+ cheaper than Angi.",
   keywords: ["Angi alternative", "Angies List alternative", "exclusive contractor leads", "no shared leads"],
 };
