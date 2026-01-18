@@ -9,9 +9,10 @@ function getStripe() {
 }
 
 // Coupon IDs for founding member deals (must match Stripe coupon IDs exactly)
+// Set via environment variables for flexibility
 const FOUNDING_COUPONS = {
-  growth: "UPsPj9mn",  // FOUNDING_GROWTH_FREE_MONTH
-  pro: "REPLACE_WITH_PRO_COUPON_ID",  // FOUNDING_PRO_FREE_MONTH - get ID from Stripe
+  growth: process.env.STRIPE_COUPON_GROWTH || "UPsPj9mn",
+  pro: process.env.STRIPE_COUPON_PRO || "",  // Set STRIPE_COUPON_PRO in env vars
 };
 
 const MAX_SPOTS_PER_DEAL = 10;
