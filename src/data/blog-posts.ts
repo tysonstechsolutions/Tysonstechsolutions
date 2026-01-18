@@ -256,6 +256,14 @@ export const blogPosts = [
     readTime: "9 min read",
   },
   {
+    slug: "respond-to-leads-faster",
+    title: "How to Respond to Leads Faster and Win More Jobs",
+    excerpt: "Speed-to-lead is critical for contractors. Learn how to respond to inquiries instantly and convert more leads into paying customers.",
+    category: "Industry Guides",
+    date: "2026-01-17",
+    readTime: "7 min read",
+  },
+  {
     slug: "how-to-price-sealcoating-jobs",
     title: "How to Price Sealcoating Jobs: Complete Pricing Guide",
     excerpt: "Learn how to accurately price sealcoating projects, calculate costs, and maximize your profit margins.",
