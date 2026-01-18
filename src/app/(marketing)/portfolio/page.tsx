@@ -63,13 +63,109 @@ const portfolioProjects = [
     screenshot: "/images/portfolio/king-city-disposal.jpg",
     color: "from-emerald-500 to-green-600",
   },
+  {
+    id: "milio",
+    name: "Milio",
+    url: "https://github.com/tysonstechsolutions/Milio",
+    industry: "AI & Mobile",
+    location: "Personal Project",
+    description: "AI-powered Android voice assistant built with Claude API. Features wake word detection, hands-free device control, and personalized life management for users with ADHD.",
+    services: ["Android Development", "AI Integration", "Voice Recognition", "Accessibility"],
+    features: [
+      "Wake word activation ('Hey Milio')",
+      "Claude AI integration for natural conversation",
+      "ElevenLabs text-to-speech",
+      "50+ local voice commands",
+      "Accessibility service for device automation",
+      "ADHD-focused task management",
+    ],
+    results: [
+      "Hands-free Android control",
+      "Personalized AI assistant",
+      "Production-ready v0.8.2",
+    ],
+    screenshot: "/images/portfolio/milio.jpg",
+    color: "from-purple-500 to-indigo-600",
+  },
+  {
+    id: "swing-solutions",
+    name: "Swing Solutions",
+    url: "https://github.com/tysonstechsolutions/swing-solutions",
+    industry: "AI & Sports Tech",
+    location: "Personal Project",
+    description: "AI-powered golf swing analysis toolkit for Twitch streamers. Features 'Chad' - an AI co-host that analyzes swings with witty commentary, video markup, and OBS integration.",
+    services: ["Python Development", "Computer Vision", "AI Integration", "Streaming Tools"],
+    features: [
+      "Claude Vision API for swing analysis",
+      "MediaPipe pose estimation overlays",
+      "Real-time OBS integration",
+      "Voice-activated AI co-host",
+      "Automatic swing detection from video",
+      "Professional streaming overlays",
+    ],
+    results: [
+      "Full streaming toolkit",
+      "AI-powered analysis",
+      "Cross-platform desktop app",
+    ],
+    screenshot: "/images/portfolio/swing-solutions.jpg",
+    color: "from-green-500 to-teal-600",
+  },
+  {
+    id: "ai-tweet-generator",
+    name: "AI Tweet Generator",
+    url: "https://github.com/tysonstechsolutions/ai-tweet-generator",
+    industry: "AI & SaaS",
+    location: "Personal Project",
+    description: "Chrome extension and SaaS platform that uses Claude AI to help Twitter/X creators write engaging tweets. Features voice training to match your writing style.",
+    services: ["Chrome Extension", "React", "AI Integration", "SaaS Development"],
+    features: [
+      "Injects directly into Twitter compose box",
+      "Voice profile training from past tweets",
+      "150+ viral hook templates",
+      "Thread generation (5-10 tweets)",
+      "Stripe subscription integration",
+      "Freemium model (10 free/month)",
+    ],
+    results: [
+      "Production-ready SaaS",
+      "Chrome extension + API",
+      "Full payment integration",
+    ],
+    screenshot: "/images/portfolio/ai-tweet-generator.jpg",
+    color: "from-blue-500 to-cyan-600",
+  },
+  {
+    id: "viral-clip-generator",
+    name: "Viral Clip Generator",
+    url: "https://github.com/tysonstechsolutions/viral-clip-generator",
+    industry: "AI & Video",
+    location: "Personal Project",
+    description: "Full-stack app that automatically extracts viral-worthy short clips from longer videos using AI. Transforms videos into TikTok/Reels/Shorts format.",
+    services: ["Python/Flask", "React", "AI Integration", "Video Processing"],
+    features: [
+      "OpenAI Whisper transcription",
+      "Claude AI viral moment detection",
+      "Automatic vertical reframing (9:16)",
+      "Viral scoring system (1-100)",
+      "YouTube URL or file upload",
+      "Real-time progress via WebSocket",
+    ],
+    results: [
+      "End-to-end video pipeline",
+      "AI-powered clip selection",
+      "Multiple export formats",
+    ],
+    screenshot: "/images/portfolio/viral-clip-generator.jpg",
+    color: "from-pink-500 to-rose-600",
+  },
 ];
 
 const stats = [
   { number: "2", label: "Live Client Websites" },
-  { number: "25+", label: "Pages Built" },
-  { number: "100%", label: "Client Satisfaction" },
-  { number: "24/7", label: "Support Available" },
+  { number: "4", label: "AI-Powered Apps" },
+  { number: "7", label: "Total Projects" },
+  { number: "10+", label: "Technologies" },
 ];
 
 export default function PortfolioPage() {
@@ -138,11 +234,11 @@ export default function PortfolioPage() {
                         {/* Screenshot Placeholder */}
                         <div className="aspect-[16/10] bg-slate-700 flex items-center justify-center">
                           <div className="text-center p-8">
-                            <div className="text-6xl mb-4">
-                              {project.industry === "Asphalt & Paving" ? "🛣️" : "🗑️"}
+                            <div className={`w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center`}>
+                              <span className="text-3xl text-white font-bold">{project.name.charAt(0)}</span>
                             </div>
                             <div className="text-white font-bold text-xl mb-2">{project.name}</div>
-                            <div className="text-slate-400 text-sm">Click to visit live site →</div>
+                            <div className="text-slate-400 text-sm">Click to view project →</div>
                           </div>
                         </div>
                       </div>
