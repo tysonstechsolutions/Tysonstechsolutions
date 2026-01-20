@@ -226,10 +226,51 @@ export default async function ServicePage({
             description: service.longDescription,
             provider: {
               "@type": "Organization",
+              "@id": "https://tysonstechsolutions.com/#organization",
               name: "TysonsTechSolutions",
               url: "https://tysonstechsolutions.com",
             },
             serviceType: service.name,
+            areaServed: {
+              "@type": "Country",
+              name: "United States",
+            },
+            offers: {
+              "@type": "Offer",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              description: "Starting at $99/month. Contact us for a custom quote.",
+            },
+          }),
+        }}
+      />
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://tysonstechsolutions.com",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Services",
+                item: "https://tysonstechsolutions.com/services",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: service.name,
+                item: `https://tysonstechsolutions.com/services/${service.slug}`,
+              },
+            ],
           }),
         }}
       />

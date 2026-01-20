@@ -10,6 +10,50 @@ export const metadata: Metadata = {
     "technology company",
     "software developers",
   ],
+  alternates: {
+    canonical: "https://tysonstechsolutions.com/about",
+  },
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Tyson",
+  jobTitle: "Founder & Lead Developer",
+  description: "Full-stack developer specializing in modern web applications, AI integrations, and business automation. Passionate about building technology that helps small businesses compete with the big guys.",
+  worksFor: {
+    "@type": "Organization",
+    "@id": "https://tysonstechsolutions.com/#organization",
+    name: "TysonsTechSolutions",
+  },
+  knowsAbout: [
+    "React",
+    "Next.js",
+    "AI/ML",
+    "Node.js",
+    "Web Development",
+    "Custom Software",
+    "Business Automation",
+  ],
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://tysonstechsolutions.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "About",
+      item: "https://tysonstechsolutions.com/about",
+    },
+  ],
 };
 
 const values = [
@@ -54,6 +98,16 @@ const values = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* Schema.org markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       {/* Hero */}
       <section className="pt-24 pb-16 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
         <div className="max-w-4xl mx-auto text-center">
