@@ -55,21 +55,20 @@ export const metadata: Metadata = {
     siteName: "TysonsTechSolutions",
     title: "Web Development, AI Chatbots & Custom Software | TysonsTechSolutions",
     description: "Custom web development, AI chatbots, and software solutions for businesses. We build technology that grows your business.",
-    // TODO: Create og-image.png (1200x630px) and add to public/ folder, then uncomment:
-    // images: [
-    //   {
-    //     url: "/og-image.png",
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "TysonsTechSolutions - Technology Solutions for Business",
-    //   },
-    // ],
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "TysonsTechSolutions - Web Development, AI Chatbots & Custom Software Solutions",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Web Development, AI Chatbots & Custom Software | TysonsTechSolutions",
     description: "Custom web development, AI chatbots, and software solutions for businesses.",
-    // TODO: Create og-image.png and uncomment: images: ["/og-image.png"],
+    images: ["/og-image.png"],
     creator: "@tysonstech",
   },
   robots: {
