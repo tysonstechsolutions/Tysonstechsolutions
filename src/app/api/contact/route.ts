@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/admin";
 import { sendEmail, emailTemplates } from "@/lib/email";
+import { checkRateLimit, getClientIP, rateLimitConfigs, rateLimitResponse } from "@/lib/rate-limit";
 
 // Sanitize user input to prevent XSS and injection attacks
 function sanitizeInput(input: string): string {
@@ -26,6 +27,13 @@ function sanitizeObject<T extends Record<string, unknown>>(obj: T): T {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = getClientIP(request);
+    const rateLimit = checkRateLimit(`contact:${clientIP}`, rateLimitConfigs.form);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit.resetIn);
+    }
+
     const rawData = await request.json();
     const data = sanitizeObject(rawData);
 

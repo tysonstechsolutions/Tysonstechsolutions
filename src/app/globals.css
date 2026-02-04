@@ -1,12 +1,22 @@
 @import "tailwindcss";
 
+/* Import premium fonts for editorial tech magazine aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
+  --primary: #f97316; /* Keep orange as brand color */
+  --primary-dark: #ea580c;
   --secondary: #0f172a;
-  --accent: #06b6d4;
+  --accent: #00FF88; /* Electric green for tech-forward accent */
+  --signal: #FF3366; /* Hot pink for attention */
+  --chrome: #C0C0C0;
+
+  /* Typography */
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-code: 'Fira Code', monospace;
 }
 
 @theme inline {
@@ -30,9 +40,155 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ============================================
+   EDITORIAL TECH MAGAZINE STYLES
+   ============================================ */
+
+/* Display headings with impact */
+.heading-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Code/tech elements */
+.font-code {
+  font-family: var(--font-code);
+}
+
+/* Electric green accent for tech-forward feel */
+.accent-green {
+  color: var(--accent);
+}
+
+.bg-accent-green {
+  background-color: var(--accent);
+}
+
+/* Gradient text effect */
+.gradient-text-tech {
+  background: linear-gradient(135deg, #f97316 0%, #00FF88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Premium card styles */
+.card-premium {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Animated grid background */
+.grid-background {
+  background-image:
+    linear-gradient(rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Staggered animation for page load */
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.6s ease forwards;
+  opacity: 0;
+}
+
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-400 { animation-delay: 0.4s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Tech badge style */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-code);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  background: rgba(0, 255, 136, 0.1);
+  color: #00FF88;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+/* Glow effect for CTAs */
+.glow-orange {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -96,13 +96,17 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - PRICING FIRST */}
-      <section className="pt-20 pb-12 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
+      <section className="pt-20 pb-12 px-6 bg-gradient-to-b from-slate-900 to-slate-800 grid-background">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              AI-Powered Business Tools <span className="text-orange-400">Starting at $99/mo</span>
+            <div className="tech-badge mb-4">
+              <span className="inline-block w-2 h-2 bg-[#00FF88] rounded-full animate-pulse"></span>
+              NOW LIVE
+            </div>
+            <h1 className="text-3xl md:text-5xl heading-display text-white mb-3">
+              AI-Powered Business Tools <span className="gradient-text-tech">Starting at $99/mo</span>
             </h1>
-            <p className="text-slate-300">
+            <p className="text-slate-300 text-lg">
               Chatbots, websites, CRM, invoicing - everything you need to grow.
             </p>
           </div>
@@ -332,7 +336,7 @@ export default function Home() {
       <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-4xl heading-display text-slate-900 mb-4">
               Everything You Need to Grow
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -384,11 +388,11 @@ export default function Home() {
       <section className="py-16 px-6 bg-slate-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl heading-display text-white mb-4">
               See Our Work
             </h2>
             <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-              Real websites we've built for real businesses. Click to visit them live.
+              Real websites we&apos;ve built for real businesses. Click to visit them live.
             </p>
           </div>
 
@@ -487,7 +491,7 @@ export default function Home() {
       <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-4xl heading-display text-slate-900 mb-4">
               Our Services
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -499,7 +503,7 @@ export default function Home() {
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className="group bg-white border border-slate-200 rounded-xl p-6 hover:border-orange-300 hover:shadow-lg transition-all"
+                className="group bg-white border border-slate-200 rounded-xl p-6 hover:border-orange-300 hover-lift transition-all"
               >
                 <div className="text-3xl mb-3">{service.icon}</div>
                 <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 mb-2">
@@ -525,7 +529,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
+              <h2 className="text-3xl md:text-4xl heading-display text-slate-900 mb-6">
                 Why Businesses Choose Us
               </h2>
               <p className="text-slate-600 text-lg mb-8">
@@ -588,7 +592,7 @@ export default function Home() {
       <section className="py-16 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-4xl heading-display text-slate-900 mb-4">
               Industries We Serve
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -623,7 +627,7 @@ export default function Home() {
       {/* Final CTA */}
       <section className="py-16 px-6 bg-gradient-to-r from-orange-500 to-amber-500">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl heading-display text-white mb-4">
             Ready to Transform Your Business?
           </h2>
           <p className="text-orange-100 text-lg mb-8">
